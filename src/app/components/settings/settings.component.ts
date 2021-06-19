@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 
 @Component({
   selector: 'app-settings',
@@ -7,7 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SettingsComponent implements OnInit {
 
-  constructor() { }
+  constructor(ngZone: NgZone) {
+    window['onSignIn'] = (user) => ngZone.run(() => this.onSignIn(user));
+  }
+
+  onSignIn(googleUser) {
+    //now it gets called
+    console.log(googleUser)
+  }
 
   ngOnInit(): void {
   }
