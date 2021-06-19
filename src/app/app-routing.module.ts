@@ -1,11 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CheckComponent } from './components/check/check.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { SettingsComponent } from './components/settings/settings.component';
 import { SigninComponent } from './components/signin/signin.component';
 
 const routes: Routes = [
   {
+    path: 'settings',
+    component: SettingsComponent
+  },
+  {
+    path: '',
+    component: CheckComponent
+  },
+  {
     path: '**',
-    component: SigninComponent
+    component: NotFoundComponent
   }
 ];
 
