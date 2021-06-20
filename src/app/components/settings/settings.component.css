@@ -4,6 +4,14 @@
   padding: 2rem 0rem 0rem 2rem;
 }
 
+.preglednica {
+  margin-top: 1rem;
+}
+
 mat-form-field  {
   font-size: 1rem;
+}
+
+.save {
+  margin-bottom: 5rem;
 }

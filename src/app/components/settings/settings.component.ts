@@ -1,4 +1,5 @@
 import { Component, OnInit, NgZone } from '@angular/core';
+import { access } from 'fs';
 
 @Component({
   selector: 'app-settings',
@@ -16,7 +17,12 @@ export class SettingsComponent implements OnInit {
 
   onSignIn(googleUser) {
     //now it gets called
-    console.log(googleUser)
+
+    let profile = googleUser.getBasicProfile()
+    let access_token = googleUser.getAuthResponse().access_token
+
+    localStorage.setItem('profile', profile)
+    localStorage.setItem('access_token', access_token)
   }
 
   ngOnInit(): void {
