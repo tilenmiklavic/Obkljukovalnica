@@ -1,5 +1,15 @@
 <h1 class="naslov">Check</h1>
 
+<div class='spinner d-flex justify-content-center'>
+  <mat-progress-spinner
+          class="example-margin"
+          [color]="color"
+          [mode]="mode"
+          *ngIf="!loaded">
+  </mat-progress-spinner>
+</div>
+
+
 <div class="container udelezenci">
   <div *ngFor="let udelezenec of data" class="udelezenec row d-flex">
     <div class="ime col justify-content-center align-self-center">{{udelezenec.Ime}}</div>

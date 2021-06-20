@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ThemePalette } from '@angular/material/core';
+import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { SheetsService } from 'src/app/services/sheets.service';
 
 @Component({
@@ -14,10 +16,14 @@ export class CheckComponent implements OnInit {
 
   data = []
   header = []
+  loaded = false
   datum = '12.6.'
+  color: ThemePalette = 'primary';
+  mode: ProgressSpinnerMode = 'indeterminate';
 
   public present(id: Number, present: Boolean) {
 
+    console.log(this.data)
     this.data.forEach(element => {
       if (element.Id == id) {
         if (present) {
@@ -73,6 +79,7 @@ export class CheckComponent implements OnInit {
           this.data.push(foo)
         }
         console.log(this.data)
+        this.loaded = true
       })
 
     // set date for correct querying
