@@ -5,14 +5,14 @@
     <div class="ime col justify-content-center align-self-center">{{udelezenec.Ime}}</div>
     <div class="ikone col row d-flex">
       <div class="accept col align-self-center">
-        <button mat-icon-button color="accent" (click)="present(udelezenec.Id)">
+        <button mat-icon-button color="accent" (click)="present(udelezenec.Id, true)">
           <mat-icon class="material-icons-outlined color_blue">
             done
           </mat-icon>
         </button>
       </div>
       <div class="reject col align-self-center">
-        <button mat-icon-button color="accent" (click)="not_present(udelezenec.Id)">
+        <button mat-icon-button color="accent" (click)="present(udelezenec.Id, false)">
           <mat-icon class="material-icons-outlined color_blue">
             close
           </mat-icon>

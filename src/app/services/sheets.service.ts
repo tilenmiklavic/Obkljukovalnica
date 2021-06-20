@@ -31,7 +31,7 @@ export class SheetsService {
       .catch(SheetsService.obdelajNapako)
   }
 
-  public updateData() {
+  public updateData(data: any) {
     const apiKey = environment.apiKey
     const access_token = localStorage.getItem('access_token')
 
@@ -53,10 +53,8 @@ export class SheetsService {
 
     const body = {
       "majorDimension": "DIMENSION_UNSPECIFIED",
-      'range': 'List2',
-      'values': [
-        ['1', '2', '3', '4', '5']
-      ]
+      'range': 'List1',
+      'values': data
     }
 
     let options = { params: HttpParams, headers: httpLastnosti}
