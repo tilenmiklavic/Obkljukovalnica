@@ -11,6 +11,9 @@ export class SettingsComponent implements OnInit {
     window['onSignIn'] = (user) => ngZone.run(() => this.onSignIn(user));
   }
 
+  public tabela: String = ''
+  public sekcija = ''
+
   onSignIn(googleUser) {
     //now it gets called
     console.log(googleUser)
