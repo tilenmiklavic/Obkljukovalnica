@@ -16,6 +16,8 @@ import { CheckComponent } from './components/check/check.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OgrodjeComponent } from './components/ogrodje/ogrodje.component';
+import { HttpClient, HttpClientModule } from "@angular/common/http";
+
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import { OgrodjeComponent } from './components/ogrodje/ogrodje.component';
     BrowserAnimationsModule,
     MatIconModule,
     MatSliderModule,
-    MatButtonModule
+    MatButtonModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
