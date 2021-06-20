@@ -52,7 +52,7 @@ export class CheckComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("Here")
+    // get starting set of all people
     this.sheetService.getUdelezenci()
       .then(udelezenci => {
         console.log(udelezenci.values)
@@ -63,13 +63,39 @@ export class CheckComponent implements OnInit {
         for (let i = 1; i < response.length; i++) {
           let foo = {}
 
-          for (let j = 0; j < response[i].length; j++) {
-            foo[this.header[j]] = response[i][j]
+          for (let j = 0; j < this.header.length; j++) {
+            if (!response[i][j]) {
+              foo[this.header[j]] = ''
+            } else {
+              foo[this.header[j]] = response[i][j]
+            }
           }
           this.data.push(foo)
         }
         console.log(this.data)
       })
+
+    // set date for correct querying
+    let date = new Date()
+    let month = date.getMonth() + 1
+    this.datum = `${date.getDate()}.${month}.`
+
+    // check is today date doens't exist yet
+    // make it
+    let today = false
+    this.header.forEach(element => {
+      if (element == this.datum) {
+        today = true
+      }
+    })
+
+    if (!today) {
+      this.header.push(this.datum)
+
+      this.data.forEach(element => {
+        element[this.datum] = ''
+      })
+    }
   }
 
 }
