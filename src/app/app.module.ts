@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import { MatSliderModule } from '@angular/material/slider';
+import {MatButtonModule} from '@angular/material/button';
+
 
 
 
@@ -30,7 +32,8 @@ import { OgrodjeComponent } from './components/ogrodje/ogrodje.component';
     MatToolbarModule,
     BrowserAnimationsModule,
     MatIconModule,
-    MatSliderModule
+    MatSliderModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
