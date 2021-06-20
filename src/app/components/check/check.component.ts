@@ -14,6 +14,21 @@ export class CheckComponent implements OnInit {
 
   data = []
 
+  public present(id: Number) {
+
+  }
+
+  public not_present(id: Number) {
+    console.log("Here")
+    this.sheetService.updateData()
+      .then(odgovor => {
+        console.log(odgovor)
+      })
+      .catch(napaka => {
+        console.error(napaka)
+      })
+  }
+
   ngOnInit(): void {
     console.log("Here")
     this.sheetService.getUdelezenci()

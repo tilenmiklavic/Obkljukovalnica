@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { SHRAMBA_BRSKALNIKA } from '../classes/shramba';
@@ -9,23 +9,66 @@ import { SHRAMBA_BRSKALNIKA } from '../classes/shramba';
 export class SheetsService {
   constructor(@Inject(SHRAMBA_BRSKALNIKA) private shramba: Storage, private http: HttpClient) { }
   private url = environment.url;
+  private edit_url = environment.update_url
 
   public getUdelezenci(): Promise<any[]> {
     const apiKey = environment.apiKey
 
     // const httpLastnosti = {
     //   headers: new HttpHeaders({
-    //     'key': apiKey
+    //     key: apiKey
     //   })
     // }
 
-    const new_url = this.url + '?key=' + apiKey
+    const HttpParams = {
+      key: apiKey
+    }
 
     return this.http
-      .get(new_url)
+      .get(this.url, {params: HttpParams})
       .toPromise()
       .then(udelezenci => udelezenci as any[])
       .catch(SheetsService.obdelajNapako)
+  }
+
+  public updateData() {
+    const apiKey = environment.apiKey
+    const access_token = localStorage.getItem('access_token')
+
+    console.log(access_token)
+
+    const HttpParams = {
+      key: apiKey,
+      valueInputOption: 'RAW'
+    }
+
+    const httpLastnosti = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${access_token}`,
+        'Content-Type': 'application/json'
+      })
+    }
+
+    let new_url = this.edit_url + '?valueInputOption=RAW&key=' + apiKey
+
+    const body = {
+      "majorDimension": "DIMENSION_UNSPECIFIED",
+      'range': 'List2',
+      'values': [
+        ['1', '2', '3', '4', '5']
+      ]
+    }
+
+    let options = { params: HttpParams, headers: httpLastnosti}
+
+    return this.http
+      .put(new_url, body, httpLastnosti)
+      .toPromise()
+      .then(odgovor => odgovor as any)
+      .catch(napaka => {
+        console.log(napaka)
+        SheetsService.obdelajNapako(napaka)
+      })
   }
 
   // public objaviOglas(oglas: any): Promise<any[]> {
