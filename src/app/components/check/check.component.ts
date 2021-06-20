@@ -9,6 +9,12 @@ export class CheckComponent implements OnInit {
 
   constructor() { }
 
+  udelezenci = [
+    {
+      ime: "Janez Novak"
+    }
+  ]
+
   ngOnInit(): void {
   }
 

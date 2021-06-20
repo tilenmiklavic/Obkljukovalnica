@@ -1,0 +1,15 @@
+.naslov {
+  font-weight: 700;
+  padding: 2rem;
+}
+
+.udelezenec {
+  background-color: lightblue;
+  height: 5rem;
+  border-radius: 15px;
+}
+
+.ime {
+  font-size: large;
+  font-weight: 600;
+}
