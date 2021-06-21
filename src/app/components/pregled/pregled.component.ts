@@ -13,6 +13,8 @@ export class PregledComponent implements OnInit {
   ) { }
 
   datum = '12.6.'
+  skupine = []
+
 
 
 
@@ -21,6 +23,20 @@ export class PregledComponent implements OnInit {
     let date = new Date()
     let month = date.getMonth() + 1
     this.datum = `${date.getDate()}.${month}.`
+
+    // retrieve all groups
+    this.sheetsService.getSkupine()
+      .then(odgovor => {
+        console.log(odgovor)
+        odgovor.sheets.forEach(element => {
+          let foo = {"id": element.properties.sheetId, "ime": element.properties.title}
+          this.skupine.push(foo)
+        })
+
+      })
+      .catch(napaka => {
+        console.error(napaka)
+      })
   }
 
 }
