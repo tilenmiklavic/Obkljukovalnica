@@ -40,8 +40,11 @@ export class SheetsService {
       key: apiKey
     }
 
+    const skupina = localStorage.getItem('skupina')
+    const new_url = this.url + skupina
+
     return this.http
-      .get(this.url, {params: HttpParams})
+      .get(new_url, {params: HttpParams})
       .toPromise()
       .then(udelezenci => udelezenci as any[])
       .catch(SheetsService.obdelajNapako)
