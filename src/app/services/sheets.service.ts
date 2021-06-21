@@ -9,7 +9,23 @@ import { SHRAMBA_BRSKALNIKA } from '../classes/shramba';
 export class SheetsService {
   constructor(@Inject(SHRAMBA_BRSKALNIKA) private shramba: Storage, private http: HttpClient) { }
   private url = environment.url;
-  private edit_url = environment.update_url
+  private edit_url = environment.update_url;
+  private sheets_url = environment.sheets_url;
+
+
+  public getSkupine(): Promise<any> {
+    const apiKey = environment.apiKey
+
+    const HttpParams = {
+      key: apiKey
+    }
+
+    return this.http
+    .get(this.sheets_url, {params: HttpParams})
+    .toPromise()
+    .then(data => data as any)
+    .catch(SheetsService.obdelajNapako)
+  }
 
   public getUdelezenci(): Promise<any[]> {
     const apiKey = environment.apiKey
