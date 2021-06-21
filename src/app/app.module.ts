@@ -20,6 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OgrodjeComponent } from './components/ogrodje/ogrodje.component';
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { FormsModule } from '@angular/forms';
+import { PregledComponent } from './components/pregled/pregled.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { FormsModule } from '@angular/forms';
     SettingsComponent,
     CheckComponent,
     NotFoundComponent,
-    OgrodjeComponent
+    OgrodjeComponent,
+    PregledComponent
   ],
   imports: [
     BrowserModule,
