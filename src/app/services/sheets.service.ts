@@ -68,11 +68,11 @@ export class SheetsService {
       })
     }
 
-    let new_url = this.edit_url + '?valueInputOption=RAW&key=' + apiKey
+    let new_url = this.edit_url + localStorage.getItem('skupina') + '?valueInputOption=RAW&key=' + apiKey
 
     const body = {
       "majorDimension": "DIMENSION_UNSPECIFIED",
-      'range': 'List1',
+      'range': localStorage.getItem('skupina'),
       'values': data
     }
 

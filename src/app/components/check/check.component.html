@@ -11,18 +11,18 @@
 
 
 <div class="container udelezenci">
-  <div *ngFor="let udelezenec of data" class="udelezenec row d-flex">
+  <div *ngFor="let udelezenec of data" class="udelezenec row d-flex" [ngStyle]="{'background-color': (udelezenec[datum]=='x') ? '#4CAF50' : ((udelezenec[datum]=='/') ? '#9E9E9E' : '#ffffff')}">
     <div class="ime col justify-content-center align-self-center">{{udelezenec.Ime}}</div>
     <div class="ikone col row d-flex">
       <div class="accept col align-self-center">
-        <button mat-icon-button color="accent" (click)="present(udelezenec.Id, true)">
+        <button mat-fab color="accent" (click)="present(udelezenec.Id, true)">
           <mat-icon class="material-icons-outlined color_blue">
             done
           </mat-icon>
         </button>
       </div>
       <div class="reject col align-self-center">
-        <button mat-icon-button color="accent" (click)="present(udelezenec.Id, false)">
+        <button mat-fab color="accent" (click)="present(udelezenec.Id, false)">
           <mat-icon class="material-icons-outlined color_blue">
             close
           </mat-icon>
