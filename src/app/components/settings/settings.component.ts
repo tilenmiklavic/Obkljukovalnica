@@ -1,5 +1,6 @@
 import { Component, OnInit, NgZone, AfterViewInit } from '@angular/core';
 import { SheetsService } from 'src/app/services/sheets.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-settings',
@@ -16,10 +17,10 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     window['onSignIn'] = (user) => ngZone.run(() => this.onSignIn(user));
   }
 
-  public tabela: string = ''
+  public tabela: string = environment.url
   public sekcija: string = ''
   public skupine = []
-  public izbrana_skupina: string = ''
+  public izbrana_skupina: string = localStorage.getItem('skupina')
 
   onSignIn(googleUser) {
     //now it gets called
