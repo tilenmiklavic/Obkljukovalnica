@@ -1,4 +1,5 @@
 import { Component, OnInit, NgZone, AfterViewInit } from '@angular/core';
+import { SheetsService } from 'src/app/services/sheets.service';
 
 @Component({
   selector: 'app-settings',
@@ -8,12 +9,17 @@ import { Component, OnInit, NgZone, AfterViewInit } from '@angular/core';
 
 export class SettingsComponent implements OnInit, AfterViewInit {
 
-  constructor(private ngZone: NgZone) {
+  constructor(
+    private ngZone: NgZone,
+    private sheetsService: SheetsService
+  ) {
     window['onSignIn'] = (user) => ngZone.run(() => this.onSignIn(user));
   }
 
-  public tabela: String = ''
-  public sekcija = ''
+  public tabela: string = ''
+  public sekcija: string = ''
+  public skupine = []
+  public izbrana_skupina: string = ''
 
   onSignIn(googleUser) {
     //now it gets called
@@ -45,7 +51,24 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     console.log("Sign in unsuccesful")
   }
 
+  public save() {
+    localStorage.setItem('preglednica', this.tabela)
+    localStorage.setItem('skupina', this.izbrana_skupina)
+  }
+
   ngOnInit(): void {
+    this.sheetsService.getSkupine()
+      .then(odgovor => {
+        console.log(odgovor)
+        odgovor.sheets.forEach(element => {
+          let foo = {"id": element.properties.sheetId, "ime": element.properties.title}
+          this.skupine.push(foo)
+        })
+
+      })
+      .catch(napaka => {
+        console.error(napaka)
+      })
   }
 
   ngAfterViewInit(): void {
