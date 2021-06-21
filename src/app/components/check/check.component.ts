@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SheetsService } from 'src/app/services/sheets.service';
 
 @Component({
@@ -11,7 +12,8 @@ import { SheetsService } from 'src/app/services/sheets.service';
 export class CheckComponent implements OnInit {
 
   constructor(
-    private sheetService: SheetsService
+    private sheetService: SheetsService,
+    private _snackBar: MatSnackBar
   ) { }
 
   data = []
@@ -80,6 +82,10 @@ export class CheckComponent implements OnInit {
         }
         console.log(this.data)
         this.loaded = true
+
+        if (this.data.length == 0) {
+          this._snackBar.open("Za to skupino ni podatkov.", "Close")
+        }
       })
 
     // set date for correct querying
