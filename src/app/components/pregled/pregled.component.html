@@ -2,9 +2,33 @@
 
   <h1 class="naslov">Pregled</h1>
 
+  <div class='spinner d-flex justify-content-center'>
+    <mat-progress-spinner
+            class="example-margin"
+            [color]="color"
+            [mode]="mode"
+            *ngIf="!loaded">
+    </mat-progress-spinner>
+  </div>
+
   <div class="skupine">
-    <div *ngFor="let skupina of skupine">
-      {{skupina.ime}}
+    <div *ngFor="let skupina of data" class="container row skupina">
+      <div class="col-4"><b>{{skupina.ime}}</b></div>
+      <div class="col-7 align-self-center">
+        <mat-progress-bar mode="determinate" value="{{skupina.procent}}"></mat-progress-bar>
+      </div>
+      <div class="col-1">{{skupina.prisotni}}</div>
     </div>
   </div>
+</div>
+
+
+<div class="line">
+  <mat-divider></mat-divider>
+</div>
+
+<div class="summary container">
+  <div class="datum"><b>Datum: </b>{{datum}}</div>
+  <div class="prisotni"><b>Prisotni: </b>{{prisotni}}</div>
+  <div class="odsotni"><b>Odsotni: </b>{{odsotni}}</div>
 </div>

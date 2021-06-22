@@ -61,7 +61,7 @@ export class CheckComponent implements OnInit {
 
   ngOnInit(): void {
     // get starting set of all people
-    this.sheetService.getUdelezenci()
+    this.sheetService.getUdelezenci(localStorage.getItem('skupina'))
       .then(udelezenci => {
         console.log(udelezenci.values)
 

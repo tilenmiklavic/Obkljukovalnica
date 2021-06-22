@@ -27,7 +27,7 @@ export class SheetsService {
     .catch(SheetsService.obdelajNapako)
   }
 
-  public getUdelezenci(): Promise<any[]> {
+  public getUdelezenci(skupina): Promise<any[]> {
     const apiKey = environment.apiKey
 
     // const httpLastnosti = {
@@ -40,7 +40,7 @@ export class SheetsService {
       key: apiKey
     }
 
-    const skupina = localStorage.getItem('skupina')
+    // const skupina = localStorage.getItem('skupina')
     const new_url = this.url + skupina
 
     return this.http
