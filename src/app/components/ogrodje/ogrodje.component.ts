@@ -11,6 +11,7 @@ export class OgrodjeComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log("Ogrodje")
   }
 
 }

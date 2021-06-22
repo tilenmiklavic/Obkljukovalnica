@@ -20,6 +20,8 @@ export class CheckComponent implements OnInit {
   header = []
   loaded = false
   datum = '12.6.'
+  prisotni = 0
+  odsotni = 0
   color: ThemePalette = 'primary';
   mode: ProgressSpinnerMode = 'indeterminate';
 
@@ -57,6 +59,23 @@ export class CheckComponent implements OnInit {
       .catch(napaka => {
         console.error(napaka)
       })
+    this.prestej_prisotne()
+
+  }
+
+  public prestej_prisotne() {
+    console.log("Prestej prisotne")
+    this.prisotni = 0
+    this.odsotni = 0
+
+    this.data.forEach(element => {
+      if (element[this.datum] == 'x') { this.prisotni += 1 }
+      if (element[this.datum] == '/') { this.odsotni += 1 }
+    })
+
+    console.log(this.data.length)
+    console.log(this.prisotni)
+    console.log(this.odsotni)
   }
 
   ngOnInit(): void {
@@ -82,6 +101,7 @@ export class CheckComponent implements OnInit {
         }
         console.log(this.data)
         this.loaded = true
+        this.prestej_prisotne()
 
         if (this.data.length == 0) {
           this._snackBar.open("Za to skupino ni podatkov.", "Close")

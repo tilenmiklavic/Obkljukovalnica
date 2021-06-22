@@ -10,6 +10,8 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatDividerModule} from '@angular/material/divider';
+import {MatBadgeModule} from '@angular/material/badge';
+
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -50,7 +52,8 @@ import { PregledComponent } from './components/pregled/pregled.component';
     MatSelectModule,
     MatSnackBarModule,
     MatProgressBarModule,
-    MatDividerModule
+    MatDividerModule,
+    MatBadgeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
