@@ -25,6 +25,8 @@ import { OgrodjeComponent } from './components/ogrodje/ogrodje.component';
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { FormsModule } from '@angular/forms';
 import { PregledComponent } from './components/pregled/pregled.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 
 @NgModule({
@@ -53,7 +55,13 @@ import { PregledComponent } from './components/pregled/pregled.component';
     MatSnackBarModule,
     MatProgressBarModule,
     MatDividerModule,
-    MatBadgeModule
+    MatBadgeModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
