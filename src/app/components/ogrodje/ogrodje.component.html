@@ -1,19 +1,19 @@
 <mat-toolbar class="toolbarNav">
 
   <button mat-icon-button color="accent">
-    <mat-icon class="material-icons color_blue" routerLink="/">
+    <mat-icon class="material-icons color_blue" [style.transform]="scale1" routerLink="/" (click)="changeTab(0)">
         fact_check
     </mat-icon>
   </button>
 
   <button mat-icon-button color="accent">
-    <mat-icon class="material-icons-outlined color_blue" routerLink="pregled">
+    <mat-icon class="material-icons-outlined color_blue" [style.transform]="scale2" routerLink="pregled" (click)="changeTab(1)">
       person
     </mat-icon>
   </button>
 
   <button mat-icon-button color="accent">
-    <mat-icon class="material-icons-outlined color_blue" routerLink="settings">
+    <mat-icon class="material-icons-outlined color_blue" [style.transform]="scale3" routerLink="settings" (click)="changeTab(2)">
       settings
     </mat-icon>
   </button>
