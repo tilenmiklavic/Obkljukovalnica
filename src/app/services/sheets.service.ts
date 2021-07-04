@@ -30,6 +30,8 @@ export class SheetsService {
   public getUdelezenci(skupina): Promise<any[]> {
     const apiKey = environment.apiKey
 
+    console.log(skupina)
+
     // const httpLastnosti = {
     //   headers: new HttpHeaders({
     //     key: apiKey

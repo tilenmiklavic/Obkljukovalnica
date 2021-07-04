@@ -27,6 +27,11 @@ export class CheckComponent implements OnInit {
 
   public present(id: Number, present: Boolean) {
 
+    if (!localStorage.getItem('access_token') || localStorage.getItem('access_token') == 'undefined') {
+      this._snackBar.open("Najprej se moraš prijaviti!", "Close")
+      return
+    }
+
     console.log(this.data)
     this.data.forEach(element => {
       if (element.Id == id) {
@@ -105,6 +110,16 @@ export class CheckComponent implements OnInit {
 
         if (this.data.length == 0) {
           this._snackBar.open("Za to skupino ni podatkov.", "Close")
+        }
+      })
+      .catch(napaka => {
+        console.log("Napaka")
+        this.loaded = true
+
+        if (!localStorage.getItem('skupina') || localStorage.getItem('skupina') == 'undefined') {
+          this._snackBar.open("Izberi skupino!", "Close")
+        } else if (!localStorage.getItem('access_token') || localStorage.getItem('access_token') == 'undefined') {
+          this._snackBar.open("Najprej se moraš prijaviti!", "Close")
         }
       })
 
