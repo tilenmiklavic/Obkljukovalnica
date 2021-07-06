@@ -28,6 +28,7 @@ export class SheetsService {
   }
 
   public getUdelezenci(skupina): Promise<any[]> {
+    console.log(this.url)
     const apiKey = environment.apiKey
 
     console.log(skupina)
