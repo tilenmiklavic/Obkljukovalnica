@@ -42,10 +42,11 @@ Pogled **Pregled** se uporablja za pregled prisotnosti v istem dnevu med večimi
 ### Working with pull requests
 
 1. Fork the repo and create your branch from `master`.
-2. Follow coding guidelines.
-3. Document added code.
-4. Describe what you have changed. 
-5. Issue that pull request!
+2. Ask for .env files, code won't work without them.
+3. Follow coding guidelines.
+4. Document added code.
+5. Describe what you have changed. 
+6. Issue that pull request!
 
 ### Report bugs using [Github's issues](https://github.com/tilenmiklavic/Obkljukovalnica/issues)
 
