@@ -61,9 +61,11 @@ export class SettingsComponent implements OnInit, AfterViewInit {
 
     try {
       localStorage.setItem('preglednica', this.tabela)
-      localStorage.setItem('idTabele', this.idTabele)
       localStorage.setItem('skupina', this.izbrana_skupina)
       localStorage.setItem('stolpecImena', this.izbran_stolpec)
+
+      let idTabele_temp = this.idTabele.split("/")
+      localStorage.setItem('idTabele', idTabele_temp[5])
 
       this._snackBar.open("Nastavitve shranjene!", "Close")
     } catch (error) {
@@ -75,7 +77,6 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    console.log("On init settings")
     this.sheetsService.getSkupine()
       .then(odgovor => {
         console.log("Settings", odgovor)
