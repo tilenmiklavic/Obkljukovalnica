@@ -21,8 +21,11 @@ export class SheetsService {
       key: apiKey
     }
 
+    let url = this.url_skeleton + localStorage.getItem('idTabele')
+
     return this.http
-    .get(this.sheets_url, {params: HttpParams})
+    // .get(this.sheets_url, {params: HttpParams})
+    .get(this.url, {params: HttpParams})
     .toPromise()
     .then(data => data as any)
     .catch(SheetsService.obdelajNapako)
