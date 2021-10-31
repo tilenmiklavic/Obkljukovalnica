@@ -21,7 +21,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   }
 
   public tabela: string = environment.url
-  public idTabele: string = ""
+  public idTabele: string = localStorage.getItem('idTabele')
   public sekcija: string = ''
   public skupine = []
   public izbrana_skupina: string = localStorage.getItem('skupina')

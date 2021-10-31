@@ -103,8 +103,6 @@ export class CheckComponent implements OnInit {
               foo[this.header[j]] = response[i][j]
             }
           }
-
-          console.log(foo)
           this.data.push(foo)
         }
         console.log(this.data)
