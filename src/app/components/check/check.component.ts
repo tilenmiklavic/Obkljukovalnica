@@ -117,12 +117,12 @@ export class CheckComponent implements OnInit {
         console.log("Napaka")
         this.loaded = true
 
-        if (!localStorage.getItem('skupina') || localStorage.getItem('skupina') == 'undefined' || localStorage.getItem('skupina') == 'null') {
-          this._snackBar.open("Izberi skupino!", "Close")
-        } else if (!localStorage.getItem('access_token') || localStorage.getItem('access_token') == 'undefined' || localStorage.getItem('access_token') == 'null') {
+        if (!localStorage.getItem('access_token') || localStorage.getItem('access_token') == 'undefined' || localStorage.getItem('access_token') == 'null') {
           this._snackBar.open("Najprej se moraš prijaviti!", "Close")
         } else if (!localStorage.getItem('idTabele') || localStorage.getItem('idTabele') == 'undefined' || localStorage.getItem('idTabele') == 'null') {
           this._snackBar.open("Vpiši ID tabele!", "Close")
+        } else if (!localStorage.getItem('skupina') || localStorage.getItem('skupina') == 'undefined' || localStorage.getItem('skupina') == 'null') {
+          this._snackBar.open("Izberi skupino!", "Close")
         }
       })
 

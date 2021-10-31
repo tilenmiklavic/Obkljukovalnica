@@ -75,15 +75,17 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    console.log("On init settings")
     this.sheetsService.getSkupine()
       .then(odgovor => {
-        console.log(odgovor)
+        console.log("Settings", odgovor)
         odgovor.sheets.forEach(element => {
           let foo = {"id": element.properties.sheetId, "ime": element.properties.title}
           this.skupine.push(foo)
         })
       })
       .catch(napaka => {
+        console.log("Napaka pri pridobivanju skupin")
         console.error(napaka)
       })
   }
