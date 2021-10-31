@@ -11,6 +11,7 @@ export class SheetsService {
   private url = environment.url;
   private edit_url = environment.update_url;
   private sheets_url = environment.sheets_url;
+  private url_skeleton = environment.urlSkeleton;
 
 
   public getSkupine(): Promise<any> {
@@ -44,7 +45,10 @@ export class SheetsService {
     }
 
     // const skupina = localStorage.getItem('skupina')
-    const new_url = this.url + skupina
+    // const new_url = this.url + skupina
+
+    let new_url = this.url_skeleton + localStorage.getItem('idTabele') + '/values/' + skupina
+
 
     return this.http
       .get(new_url, {params: HttpParams})
@@ -71,7 +75,8 @@ export class SheetsService {
       })
     }
 
-    let new_url = this.edit_url + localStorage.getItem('skupina') + '?valueInputOption=RAW&key=' + apiKey
+    // let new_url = this.edit_url + localStorage.getItem('skupina') + '?valueInputOption=RAW&key=' + apiKey
+    let new_url = this.url_skeleton + localStorage.getItem('idTabele') + '/values/' + localStorage.getItem('skupina') + '?valueInputOption=RAW&key=' + apiKey
 
     const body = {
       "majorDimension": "DIMENSION_UNSPECIFIED",

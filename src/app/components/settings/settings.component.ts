@@ -1,6 +1,8 @@
 import { Component, OnInit, NgZone, AfterViewInit } from '@angular/core';
 import { SheetsService } from 'src/app/services/sheets.service';
 import { environment } from 'src/environments/environment';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-settings',
@@ -12,12 +14,14 @@ export class SettingsComponent implements OnInit, AfterViewInit {
 
   constructor(
     private ngZone: NgZone,
-    private sheetsService: SheetsService
+    private sheetsService: SheetsService,
+    private _snackBar: MatSnackBar
   ) {
     window['onSignIn'] = (user) => ngZone.run(() => this.onSignIn(user));
   }
 
   public tabela: string = environment.url
+  public idTabele: string = ""
   public sekcija: string = ''
   public skupine = []
   public izbrana_skupina: string = localStorage.getItem('skupina')
@@ -54,9 +58,20 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   }
 
   public save() {
-    localStorage.setItem('preglednica', this.tabela)
-    localStorage.setItem('skupina', this.izbrana_skupina)
-    localStorage.setItem('stolpecImena', this.izbran_stolpec)
+
+    try {
+      localStorage.setItem('preglednica', this.tabela)
+      localStorage.setItem('idTabele', this.idTabele)
+      localStorage.setItem('skupina', this.izbrana_skupina)
+      localStorage.setItem('stolpecImena', this.izbran_stolpec)
+
+      this._snackBar.open("Nastavitve shranjene!", "Close")
+    } catch (error) {
+
+      console.log("Napaka pri shranjevanju nastavitev")
+      this._snackBar.open("Ne morem shraniti nastavitev.", "Close")
+    }
+
   }
 
   ngOnInit(): void {

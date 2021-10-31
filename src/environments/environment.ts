@@ -15,7 +15,9 @@ export const environment = {
   url: 'https://sheets.googleapis.com/v4/spreadsheets/1crR7NUCd6npmSk-on1o9O6BxGuoZMog7OBaq2xTlsoI/values/',
   update_url: 'https://sheets.googleapis.com/v4/spreadsheets/1crR7NUCd6npmSk-on1o9O6BxGuoZMog7OBaq2xTlsoI/values/',
   sheets_url: 'https://sheets.googleapis.com/v4/spreadsheets/1crR7NUCd6npmSk-on1o9O6BxGuoZMog7OBaq2xTlsoI',
-  apiKey: 'AIzaSyCJh51H-Gvxt1M4-W-2ZaaPnUk3F3l4MjM'
+  apiKey: 'AIzaSyCJh51H-Gvxt1M4-W-2ZaaPnUk3F3l4MjM',
+
+  urlSkeleton: 'https://sheets.googleapis.com/v4/spreadsheets/'
 
 };
 
