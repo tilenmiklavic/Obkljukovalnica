@@ -13,6 +13,7 @@ Preglednico ustvarimo na spletni storitvi Google Drive oz Google Spreadsheets. K
 - Stolpce, kjer želimo da se zapisujejo prisotnosti pa označimo z ustreznim datumom. 
 
 V zavihku za deljenje preglednice omogočimo urejanje za vsakogar s povezavo do te datoteke, povezavo pa skopiramo, saj jo bomo potrebovali pri nastavljanju aplikacije.
+Polja označena z `#` predstavljajo prosta polja. Označujejo mesta, kjer lahko v preglednico dodamo poljubne vnose, brez da bi s tem omejevali pravilno delovanje aplikacije. 
 
 ### Priprava aplikacije 
 
