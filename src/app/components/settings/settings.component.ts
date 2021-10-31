@@ -21,6 +21,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   public sekcija: string = ''
   public skupine = []
   public izbrana_skupina: string = localStorage.getItem('skupina')
+  public izbran_stolpec: string = localStorage.getItem('stolpecImena')
 
   onSignIn(googleUser) {
     //now it gets called
@@ -55,6 +56,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   public save() {
     localStorage.setItem('preglednica', this.tabela)
     localStorage.setItem('skupina', this.izbrana_skupina)
+    localStorage.setItem('stolpecImena', this.izbran_stolpec)
   }
 
   ngOnInit(): void {
@@ -65,7 +67,6 @@ export class SettingsComponent implements OnInit, AfterViewInit {
           let foo = {"id": element.properties.sheetId, "ime": element.properties.title}
           this.skupine.push(foo)
         })
-
       })
       .catch(napaka => {
         console.error(napaka)

@@ -40,13 +40,24 @@
   </div>
 
   <div class="container sekcija">
-    <h2>Sekcija</h2>
+    <h2>Nastavitve</h2>
 
     <mat-form-field class="w-100" appearance="outline">
       <mat-label>Skupina</mat-label>
       <mat-select [(value)]="izbrana_skupina">
         <mat-option></mat-option>
         <mat-option *ngFor="let skupina of skupine" value="{{skupina.ime}}">{{skupina.ime}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Stolpec z imeni</mat-label>
+      <mat-select [(value)]="izbran_stolpec">
+        <mat-option></mat-option>
+        <mat-option value='1'>1</mat-option>
+        <mat-option value='2'>2</mat-option>
+        <mat-option value='3'>3</mat-option>
+        <!-- <mat-option *ngFor="let skupina of skupine" value="{{skupina.ime}}">{{skupina.ime}}</mat-option> -->
       </mat-select>
     </mat-form-field>
   </div>

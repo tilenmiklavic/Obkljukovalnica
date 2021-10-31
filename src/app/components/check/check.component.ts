@@ -32,7 +32,8 @@ export class CheckComponent implements OnInit {
       return
     }
 
-    console.log(this.data)
+    console.log("Current data", this.data)
+    console.log("Datum", this.datum)
     this.data.forEach(element => {
       if (element.Id == id) {
         if (present) {
@@ -55,11 +56,11 @@ export class CheckComponent implements OnInit {
     })
 
     updated_data.unshift(this.header)
-    console.log(updated_data)
+    console.log("Updated data", updated_data)
 
     this.sheetService.updateData(updated_data)
       .then(odgovor => {
-        console.log(odgovor)
+        console.log("Odgovor", odgovor)
       })
       .catch(napaka => {
         console.error(napaka)
@@ -102,6 +103,8 @@ export class CheckComponent implements OnInit {
               foo[this.header[j]] = response[i][j]
             }
           }
+
+          console.log(foo)
           this.data.push(foo)
         }
         console.log(this.data)
@@ -116,9 +119,9 @@ export class CheckComponent implements OnInit {
         console.log("Napaka")
         this.loaded = true
 
-        if (!localStorage.getItem('skupina') || localStorage.getItem('skupina') == 'undefined') {
+        if (!localStorage.getItem('skupina') || localStorage.getItem('skupina') == 'undefined' || localStorage.getItem('skupina') == 'null') {
           this._snackBar.open("Izberi skupino!", "Close")
-        } else if (!localStorage.getItem('access_token') || localStorage.getItem('access_token') == 'undefined') {
+        } else if (!localStorage.getItem('access_token') || localStorage.getItem('access_token') == 'undefined' || localStorage.getItem('access_token') == 'null') {
           this._snackBar.open("Najprej se moraš prijaviti!", "Close")
         }
       })

@@ -45,7 +45,7 @@ export class PregledComponent implements OnInit {
         // get all skupine and data
         this.skupine.forEach(skupina => {
 
-            // get starting set of all people
+          // get starting set of all people
           this.sheetsService.getUdelezenci(skupina.ime)
           .then(udelezenci => {
             console.log(udelezenci.values)

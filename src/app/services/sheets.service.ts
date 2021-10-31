@@ -86,7 +86,7 @@ export class SheetsService {
       .toPromise()
       .then(odgovor => odgovor as any)
       .catch(napaka => {
-        console.log(napaka)
+        console.log("Napaka", napaka)
         SheetsService.obdelajNapako(napaka)
       })
   }
