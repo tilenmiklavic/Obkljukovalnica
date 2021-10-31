@@ -25,7 +25,7 @@ export class CheckComponent implements OnInit {
   color: ThemePalette = 'primary';
   mode: ProgressSpinnerMode = 'indeterminate';
 
-  public present(id: Number, present: Boolean) {
+  public present(id: Number, present: number) {
 
     if (!localStorage.getItem('access_token') || localStorage.getItem('access_token') == 'undefined') {
       this._snackBar.open("Najprej se moraš prijaviti!", "Close")
@@ -35,13 +35,27 @@ export class CheckComponent implements OnInit {
     console.log("Current data", this.data)
     console.log("Datum", this.datum)
     this.data.forEach(element => {
+
       if (element.Id == id) {
-        if (present) {
-          element[this.datum] = 'x'
-        } else {
-          element[this.datum] = '/'
+        switch(present) {
+          case 0:
+            element[this.datum] = 'x'
+          break;
+          case 1:
+            element[this.datum] = 'o'
+          break;
+          case 2:
+            element[this.datum] = '/'
+          break;
         }
       }
+      // if (element.Id == id) {
+      //   if (present == 0) {
+      //     element[this.datum] = 'x'
+      //   } else if (present == 1) {
+      //     element[this.datum] = '/'
+      //   }
+      // }
     })
 
     let updated_data = []
