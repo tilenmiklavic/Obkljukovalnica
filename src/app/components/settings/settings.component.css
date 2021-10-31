@@ -13,5 +13,9 @@ mat-form-field  {
 }
 
 .save {
-  margin-bottom: 5rem;
+  margin-bottom: 7rem;
+}
+
+.get {
+  margin-bottom: 2rem;
 }
