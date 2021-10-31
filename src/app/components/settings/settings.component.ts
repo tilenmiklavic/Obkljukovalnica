@@ -21,7 +21,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   }
 
   public tabela: string = environment.url
-  public idTabele: string = localStorage.getItem('idTabele')
+  public povezava: string = localStorage.getItem('povezava')
   public sekcija: string = ''
   public skupine = []
   public izbrana_skupina: string = localStorage.getItem('skupina')
@@ -63,9 +63,11 @@ export class SettingsComponent implements OnInit, AfterViewInit {
       localStorage.setItem('preglednica', this.tabela)
       localStorage.setItem('skupina', this.izbrana_skupina)
       localStorage.setItem('stolpecImena', this.izbran_stolpec)
+      localStorage.setItem('povezava', this.povezava)
 
-      let idTabele_temp = this.idTabele.split("/")
-      localStorage.setItem('idTabele', idTabele_temp[5])
+      let idTabele = this.povezava.split('/')[5]
+      localStorage.setItem('idTabele', idTabele)
+
 
       this._snackBar.open("Nastavitve shranjene!", "Close")
     } catch (error) {
