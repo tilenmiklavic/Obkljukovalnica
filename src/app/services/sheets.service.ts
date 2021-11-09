@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpClientModule } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { SHRAMBA_BRSKALNIKA } from '../classes/shramba';

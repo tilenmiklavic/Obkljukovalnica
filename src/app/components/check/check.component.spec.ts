@@ -1,14 +1,21 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, async, inject, tick, fakeAsync } from '@angular/core/testing';
+
+import { DebugElement } from '@angular/core';
 
 import { CheckComponent } from './check.component';
+import { HttpClientModule } from '@angular/common/http';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('CheckComponent', () => {
   let component: CheckComponent;
   let fixture: ComponentFixture<CheckComponent>;
+  let de: DebugElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CheckComponent ]
+      imports: [HttpClientModule, MatSnackBarModule],
+      providers: [CheckComponent]
+      // declarations: [ CheckComponent ]
     })
     .compileComponents();
   });

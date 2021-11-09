@@ -15,9 +15,10 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   constructor(
     private ngZone: NgZone,
     private sheetsService: SheetsService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
   ) {
     window['onSignIn'] = (user) => ngZone.run(() => this.onSignIn(user));
+
   }
 
   public tabela: string = environment.url
@@ -109,6 +110,8 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    // var gapi: any
+
     this.ngZone.run(() => {
       // example to render login button
       gapi.signin2.render('my-signin2', {

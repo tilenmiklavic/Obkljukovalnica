@@ -20,7 +20,7 @@
       "es2018",
       "dom"
     ],
-    "types": ["gapi", "gapi.auth2"]
+    // "types": ["gapi", "gapi.auth2"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
