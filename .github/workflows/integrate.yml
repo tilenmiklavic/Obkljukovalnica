@@ -15,4 +15,4 @@ jobs:
       - name: Run E2E test
         uses: cypress-io/github-action@v1
         with:
-        config: baseUrl=https://seedxb.com
+          config: baseUrl=https://seedxb.com
