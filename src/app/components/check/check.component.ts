@@ -49,13 +49,6 @@ export class CheckComponent implements OnInit {
           break;
         }
       }
-      // if (element.Id == id) {
-      //   if (present == 0) {
-      //     element[this.datum] = 'x'
-      //   } else if (present == 1) {
-      //     element[this.datum] = '/'
-      //   }
-      // }
     })
 
     let updated_data = []
@@ -90,7 +83,7 @@ export class CheckComponent implements OnInit {
 
     this.data.forEach(element => {
       if (element[this.datum] == 'x') { this.prisotni += 1 }
-      if (element[this.datum] == '/') { this.odsotni += 1 }
+      if (element[this.datum] == '/' || element[this.datum] == 'o') { this.odsotni += 1 }
     })
 
     console.log(this.data.length)
@@ -119,7 +112,6 @@ export class CheckComponent implements OnInit {
           }
           this.data.push(foo)
         }
-        console.log(this.data)
         this.loaded = true
         this.prestej_prisotne()
 
@@ -128,7 +120,7 @@ export class CheckComponent implements OnInit {
         }
       })
       .catch(napaka => {
-        console.log("Napaka")
+        console.log("Napaka", napaka)
         this.loaded = true
 
         if (!localStorage.getItem('access_token') || localStorage.getItem('access_token') == 'undefined' || localStorage.getItem('access_token') == 'null') {
@@ -139,28 +131,28 @@ export class CheckComponent implements OnInit {
           this._snackBar.open("Izberi skupino!", "Close")
         }
       })
+      .finally(() => {
+        // set date for correct querying
+        let date = new Date()
+        let month = date.getMonth() + 1
+        this.datum = `${date.getDate()}.${month}.`
 
-    // set date for correct querying
-    let date = new Date()
-    let month = date.getMonth() + 1
-    this.datum = `${date.getDate()}.${month}.`
+        // check is today date doens't exist yet
+        // make it
+        let today = false
+        this.header.forEach(element => {
+          if (element == this.datum) {
+            today = true
+          }
+        })
 
-    // check is today date doens't exist yet
-    // make it
-    let today = false
-    this.header.forEach(element => {
-      if (element == this.datum) {
-        today = true
-      }
-    })
+        if (!today) {
+          this.header.push(this.datum)
 
-    if (!today) {
-      this.header.push(this.datum)
-
-      this.data.forEach(element => {
-        element[this.datum] = ''
+          this.data.forEach(element => {
+            element[this.datum] = ''
+          })
+        }
       })
-    }
   }
-
 }
