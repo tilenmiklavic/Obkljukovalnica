@@ -13,7 +13,6 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatBadgeModule} from '@angular/material/badge';
 
 
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SigninComponent } from './components/signin/signin.component';
@@ -27,7 +26,6 @@ import { FormsModule } from '@angular/forms';
 import { PregledComponent } from './components/pregled/pregled.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-
 
 
 @NgModule({
