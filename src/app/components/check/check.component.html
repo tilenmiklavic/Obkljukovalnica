@@ -14,6 +14,9 @@
 
 
 <div class="container udelezenci">
+  <div class="alert alert-warning" role="alert" [hidden]='today'>
+    Za današnji dan ni ustvarjenega datuma. Stolpec bo avtomatsko dodan!
+  </div>
   <div *ngFor="let udelezenec of data" class="udelezenec row d-flex" [ngStyle]="{'background-color': (udelezenec[datum]=='x') ? '#4CAF50' : ((udelezenec[datum]=='/') ? '#9E9E9E' : ((udelezenec[datum]=='o') ? '#9E9E9E' : '#ffffff'))}">
     <div class="ime col-6 justify-content-center align-self-center">{{udelezenec.Ime}}</div>
     <div class="ikone col-6 row d-flex">
