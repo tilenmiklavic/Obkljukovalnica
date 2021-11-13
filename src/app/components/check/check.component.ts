@@ -22,6 +22,7 @@ export class CheckComponent implements OnInit {
   datum = '12.6.'
   prisotni = 0
   odsotni = 0
+  today = false
   color: ThemePalette = 'primary';
   mode: ProgressSpinnerMode = 'indeterminate';
 
@@ -77,7 +78,6 @@ export class CheckComponent implements OnInit {
   }
 
   public prestej_prisotne() {
-    console.log("Prestej prisotne")
     this.prisotni = 0
     this.odsotni = 0
 
@@ -149,14 +149,13 @@ export class CheckComponent implements OnInit {
 
         // check is today date doens't exist yet
         // make it
-        let today = false
         this.header.forEach(element => {
           if (element == this.datum) {
-            today = true
+            this.today = true
           }
         })
 
-        if (!today) {
+        if (!this.today) {
           this.header.push(this.datum)
 
           this.data.forEach(element => {
