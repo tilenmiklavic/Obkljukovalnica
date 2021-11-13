@@ -85,24 +85,23 @@ export class CheckComponent implements OnInit {
       if (element[this.datum] == 'x') { this.prisotni += 1 }
       if (element[this.datum] == '/' || element[this.datum] == 'o') { this.odsotni += 1 }
     })
-
-    console.log(this.data.length)
-    console.log(this.prisotni)
-    console.log(this.odsotni)
   }
 
   ngOnInit(): void {
     // get starting set of all people
     this.sheetService.getUdelezenci(localStorage.getItem('skupina'))
       .then(udelezenci => {
-        console.log(udelezenci.values)
 
         let response = udelezenci.values
+
+        // header prestavlja imena stolpcev
+        // naprej uporabimo header za določanje imen v objektih
         this.header = response[0]
 
+        // vsako posamezno vrstico v tabeli spremenimo v objekt
+        // shranimo v spremenljivko data
         for (let i = 1; i < response.length; i++) {
           let foo = {}
-
           for (let j = 0; j < this.header.length; j++) {
             if (!response[i][j]) {
               foo[this.header[j]] = ''
@@ -115,6 +114,17 @@ export class CheckComponent implements OnInit {
         this.loaded = true
         this.prestej_prisotne()
 
+
+        // odstranimo vse vrstice, ki nimajo ID-ja
+        // torej niso predvidene osebe
+        for (var i = 0; i < this.data.length; i++) {
+          if (this.data[i].Id == undefined || isNaN(this.data[i].Id) || this.data[i].Id.length == 0) {
+            this.data.splice(i,1);
+            i--;
+          }
+        }
+
+        // dobimo kot odgovor prazno tabelo
         if (this.data.length == 0) {
           this._snackBar.open("Za to skupino ni podatkov.", "Close")
         }
