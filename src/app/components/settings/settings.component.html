@@ -55,16 +55,15 @@
   <div class="container sekcija">
     <h2>Nastavitve</h2>
 
-    <mat-form-field class="w-100" appearance="outline">
-      <mat-label>Stolpec z imeni</mat-label>
-      <mat-select [(value)]="izbran_stolpec" disabled>
-        <mat-option></mat-option>
-        <mat-option value='1'>1</mat-option>
-        <mat-option value='2'>2</mat-option>
-        <mat-option value='3'>3</mat-option>
-        <!-- <mat-option *ngFor="let skupina of skupine" value="{{skupina.ime}}">{{skupina.ime}}</mat-option> -->
-      </mat-select>
-    </mat-form-field>
+      <!-- <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Stolpec z imeni</mat-label>
+        <mat-select [(value)]="izbran_stolpec" disabled>
+          <mat-option></mat-option>
+          <mat-option value='1'>1</mat-option>
+          <mat-option value='2'>2</mat-option>
+          <mat-option value='3'>3</mat-option>
+        </mat-select>
+      </mat-form-field> -->
 
 
     <mat-form-field class="w-100" appearance="outline">
@@ -75,6 +74,27 @@
       </mat-select>
     </mat-form-field>
 
+    <mat-form-field class="example-form-field w-100" appearance="outline">
+      <mat-label>Znak za prisotnost</mat-label>
+      <input matInput type="text" [(ngModel)]="prisoten_symbol">
+      <button *ngIf="povezava" matSuffix mat-icon-button aria-label="Clear" (click)="prisoten_symbol=''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field class="example-form-field w-100" appearance="outline">
+      <mat-label>Znak za odsotnost</mat-label>
+      <input matInput type="text" [(ngModel)]="odsoten_symbol">
+      <button *ngIf="povezava" matSuffix mat-icon-button aria-label="Clear" (click)="odsoten_symbol=''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field class="example-form-field w-100" appearance="outline">
+      <mat-label>Znak za upravičeno odsotnost</mat-label>
+      <input matInput type="text" [(ngModel)]="upraviceno_odsoten_symbol">
+      <button *ngIf="povezava" matSuffix mat-icon-button aria-label="Clear" (click)="upraviceno_odsoten_symbol=''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
   </div>
 
   <div class="container save">
