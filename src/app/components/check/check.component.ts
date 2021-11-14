@@ -19,7 +19,7 @@ export class CheckComponent implements OnInit {
   data = []
   header = []
   loaded = false
-  datum = '12.6.'
+  datum = null
   prisotni = 0
   odsotni = 0
   today = true
@@ -153,6 +153,11 @@ export class CheckComponent implements OnInit {
           })
 
           if (!this.today) {
+            // set date for correct querying
+            let date = new Date()
+            let month = date.getMonth() + 1
+            this.datum = `${date.getDate()}.${month}.`
+
             this.header.push(this.datum)
 
             this.data.forEach(element => {
@@ -172,12 +177,6 @@ export class CheckComponent implements OnInit {
         } else if (!localStorage.getItem('skupina') || localStorage.getItem('skupina') == 'undefined' || localStorage.getItem('skupina') == 'null') {
           this._snackBar.open("Izberi skupino!", "Close")
         }
-      })
-      .finally(() => {
-        // set date for correct querying
-        let date = new Date()
-        let month = date.getMonth() + 1
-        this.datum = `${date.getDate()}.${month}.`
       })
   }
 }
