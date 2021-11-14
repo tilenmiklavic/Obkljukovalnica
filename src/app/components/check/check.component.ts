@@ -87,6 +87,11 @@ export class CheckComponent implements OnInit {
     })
   }
 
+  private invalidFormating() {
+    this._snackBar.open("Tabela prisotnosti ni pravilno formatirana. Poglej navodila.", "Close")
+    this.loaded = true
+  }
+
   ngOnInit(): void {
     // get starting set of all people
     this.sheetService.getUdelezenci(localStorage.getItem('skupina'))
@@ -97,6 +102,13 @@ export class CheckComponent implements OnInit {
         // header prestavlja imena stolpcev
         // naprej uporabimo header za določanje imen v objektih
         this.header = response[0]
+
+        console.log(this.header)
+        if (!this.header.includes("Id") || !this.header.includes("Ime") ) {
+          console.log("Yes")
+          this.invalidFormating()
+          return
+        }
 
         // vsako posamezno vrstico v tabeli spremenimo v objekt
         // shranimo v spremenljivko data
