@@ -14,6 +14,9 @@
 
 
 <div class="container udelezenci">
+  <div class="empty_state" *ngIf="loaded">
+    <img src="../../../assets/images/empty_state.png" alt="" style="width: 100%;">
+  </div>
   <div class="alert alert-warning" role="alert" [hidden]='today'>
     Za današnji dan ni ustvarjenega datuma. Stolpec bo avtomatsko dodan!
   </div>

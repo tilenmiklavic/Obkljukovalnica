@@ -43,3 +43,11 @@
   font-size: large;
   font-weight: 600;
 }
+
+.empty_state {
+  margin-top: 10rem;
+}
+
+.spinner {
+  z-index: 10;
+}

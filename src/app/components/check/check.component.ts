@@ -22,7 +22,7 @@ export class CheckComponent implements OnInit {
   datum = '12.6.'
   prisotni = 0
   odsotni = 0
-  today = false
+  today = true
   color: ThemePalette = 'primary';
   mode: ProgressSpinnerMode = 'indeterminate';
 
@@ -127,6 +127,23 @@ export class CheckComponent implements OnInit {
         // dobimo kot odgovor prazno tabelo
         if (this.data.length == 0) {
           this._snackBar.open("Za to skupino ni podatkov.", "Close")
+        } else {
+          // check is today date doens't exist yet
+          // make it
+          this.today = false
+          this.header.forEach(element => {
+            if (element == this.datum) {
+              this.today = true
+            }
+          })
+
+          if (!this.today) {
+            this.header.push(this.datum)
+
+            this.data.forEach(element => {
+              element[this.datum] = ''
+            })
+          }
         }
       })
       .catch(napaka => {
@@ -146,22 +163,6 @@ export class CheckComponent implements OnInit {
         let date = new Date()
         let month = date.getMonth() + 1
         this.datum = `${date.getDate()}.${month}.`
-
-        // check is today date doens't exist yet
-        // make it
-        this.header.forEach(element => {
-          if (element == this.datum) {
-            this.today = true
-          }
-        })
-
-        if (!this.today) {
-          this.header.push(this.datum)
-
-          this.data.forEach(element => {
-            element[this.datum] = ''
-          })
-        }
       })
   }
 }
