@@ -25,6 +25,9 @@ export class CheckComponent implements OnInit {
   today = true
   color: ThemePalette = 'primary';
   mode: ProgressSpinnerMode = 'indeterminate';
+  public prisoten_symbol = localStorage.getItem("prisoten_symbol") || 'x'
+  public odsoten_symbol = localStorage.getItem("odsoten_symbol") || '/'
+  public upraviceno_odsoten_symbol = localStorage.getItem("upraviceno_odsoten_symbol") || 'o'
 
   public present(id: Number, present: number) {
 
@@ -40,13 +43,13 @@ export class CheckComponent implements OnInit {
       if (element.Id == id) {
         switch(present) {
           case 0:
-            element[this.datum] = 'x'
+            element[this.datum] = this.prisoten_symbol
           break;
           case 1:
-            element[this.datum] = 'o'
+            element[this.datum] = this.upraviceno_odsoten_symbol
           break;
           case 2:
-            element[this.datum] = '/'
+            element[this.datum] = this.odsoten_symbol
           break;
         }
       }
