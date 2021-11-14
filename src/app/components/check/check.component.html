@@ -28,6 +28,24 @@
     </table>
   </div>
 
+  <!-- Izbira datuma -->
+  <div class='row date_picker'>
+    <div class='col' align='center'>
+      <a>
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </a>
+    </div>
+    <div class="col" align='center'>
+      <span>{{datum}}</span>
+    </div>
+    <div class="col" align='center'>
+      <a>
+        <mat-icon>keyboard_arrow_right</mat-icon>
+      </a>
+    </div>
+  </div>
+
+  <!-- Seznam udelezencev -->
   <div *ngFor="let udelezenec of data" class="udelezenec row d-flex" [ngStyle]="{'background-color': (udelezenec[datum]==prisoten_symbol) ? '#4CAF50' : ((udelezenec[datum]==odsoten_symbol) ? '#9E9E9E' : ((udelezenec[datum]==upraviceno_odsoten_symbol) ? '#9E9E9E' : '#ffffff'))}">
     <div class="ime col-6 justify-content-center align-self-center">{{udelezenec.Ime}}</div>
     <div class="ikone col-6 row d-flex">
