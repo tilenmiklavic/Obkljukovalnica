@@ -27,6 +27,9 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   public skupine = []
   public izbrana_skupina: string = localStorage.getItem('skupina')
   public izbran_stolpec: string = localStorage.getItem('stolpecImena')
+  public prisoten_symbol = localStorage.getItem('prisoten_symbol')
+  public odsoten_symbol = localStorage.getItem('odsoten_symbol')
+  public upraviceno_odsoten_symbol = localStorage.getItem('upraviceno_odsoten_symbol')
 
   onSignIn(googleUser) {
     //now it gets called
@@ -60,11 +63,19 @@ export class SettingsComponent implements OnInit, AfterViewInit {
 
   public save() {
 
+    if (!this.prisoten_symbol || !this.odsoten_symbol || !this.upraviceno_odsoten_symbol) {
+      this._snackBar.open("Simbol za označevanje mora biti izpolnjen.", "Close")
+      return
+    }
+
     try {
       localStorage.setItem('preglednica', this.tabela)
       localStorage.setItem('skupina', this.izbrana_skupina)
       localStorage.setItem('stolpecImena', this.izbran_stolpec)
       localStorage.setItem('povezava', this.povezava)
+      localStorage.setItem('prisoten_symbol', this.prisoten_symbol)
+      localStorage.setItem('odsoten_symbol', this.odsoten_symbol)
+      localStorage.setItem('upraviceno_odsoten_symbol', this.upraviceno_odsoten_symbol)
 
       let idTabele = this.povezava.split('/')[5]
       localStorage.setItem('idTabele', idTabele)

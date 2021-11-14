@@ -14,7 +14,39 @@
 
 
 <div class="container udelezenci">
-  <div *ngFor="let udelezenec of data" class="udelezenec row d-flex" [ngStyle]="{'background-color': (udelezenec[datum]=='x') ? '#4CAF50' : ((udelezenec[datum]=='/') ? '#9E9E9E' : ((udelezenec[datum]=='o') ? '#9E9E9E' : '#ffffff'))}">
+  <div class="empty_state" *ngIf="loaded && data.length == 0">
+    <img src="../../../assets/images/empty_state.png" alt="" style="width: 100%;">
+  </div>
+  <div class="alert alert-warning container" role="alert" [hidden]='today'>
+    <table>
+      <td>
+        Za današnji dan ni ustvarjenega datuma. Stolpec bo avtomatsko dodan!
+      </td>
+      <td>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </td>
+    </table>
+  </div>
+
+  <!-- Izbira datuma -->
+  <div class='row date_picker'>
+    <div class='col' align='center'>
+      <a (click)='changeDate(false)'>
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </a>
+    </div>
+    <div class="col" align='center'>
+      <span>{{datum}}</span>
+    </div>
+    <div class="col" align='center'>
+      <a (click)='changeDate(true)'>
+        <mat-icon>keyboard_arrow_right</mat-icon>
+      </a>
+    </div>
+  </div>
+
+  <!-- Seznam udelezencev -->
+  <div *ngFor="let udelezenec of data" class="udelezenec row d-flex" [ngStyle]="{'background-color': (udelezenec[datum]==prisoten_symbol) ? '#4CAF50' : ((udelezenec[datum]==odsoten_symbol) ? '#9E9E9E' : ((udelezenec[datum]==upraviceno_odsoten_symbol) ? '#9E9E9E' : '#ffffff'))}">
     <div class="ime col-6 justify-content-center align-self-center">{{udelezenec.Ime}}</div>
     <div class="ikone col-6 row d-flex">
       <div class="accept col-4 align-self-center">

@@ -19,11 +19,15 @@ export class CheckComponent implements OnInit {
   data = []
   header = []
   loaded = false
-  datum = '12.6.'
+  datum = null
   prisotni = 0
   odsotni = 0
+  today = true
   color: ThemePalette = 'primary';
   mode: ProgressSpinnerMode = 'indeterminate';
+  public prisoten_symbol = localStorage.getItem("prisoten_symbol") || 'x'
+  public odsoten_symbol = localStorage.getItem("odsoten_symbol") || '/'
+  public upraviceno_odsoten_symbol = localStorage.getItem("upraviceno_odsoten_symbol") || 'o'
 
   public present(id: Number, present: number) {
 
@@ -39,23 +43,16 @@ export class CheckComponent implements OnInit {
       if (element.Id == id) {
         switch(present) {
           case 0:
-            element[this.datum] = 'x'
+            element[this.datum] = this.prisoten_symbol
           break;
           case 1:
-            element[this.datum] = 'o'
+            element[this.datum] = this.upraviceno_odsoten_symbol
           break;
           case 2:
-            element[this.datum] = '/'
+            element[this.datum] = this.odsoten_symbol
           break;
         }
       }
-      // if (element.Id == id) {
-      //   if (present == 0) {
-      //     element[this.datum] = 'x'
-      //   } else if (present == 1) {
-      //     element[this.datum] = '/'
-      //   }
-      // }
     })
 
     let updated_data = []
@@ -84,32 +81,76 @@ export class CheckComponent implements OnInit {
   }
 
   public prestej_prisotne() {
-    console.log("Prestej prisotne")
     this.prisotni = 0
     this.odsotni = 0
 
     this.data.forEach(element => {
       if (element[this.datum] == 'x') { this.prisotni += 1 }
-      if (element[this.datum] == '/') { this.odsotni += 1 }
+      if (element[this.datum] == '/' || element[this.datum] == 'o') { this.odsotni += 1 }
+    })
+  }
+
+  private invalidFormating() {
+    this._snackBar.open("Tabela prisotnosti ni pravilno formatirana. Poglej navodila.", "Close")
+    this.loaded = true
+  }
+
+  public changeDate(future: boolean) {
+    let current_index = 0
+
+    this.header.forEach((element, index) => {
+      if (element == this.datum) {
+        current_index = index
+      }
     })
 
-    console.log(this.data.length)
-    console.log(this.prisotni)
-    console.log(this.odsotni)
+    console.log(current_index)
+
+    let new_index = current_index
+
+    if (future) new_index++
+    else new_index--
+
+    var re = new RegExp("([0-9][0-9]?.[0-9][0-9]?)")
+
+    if (re.test(this.header[new_index])) {
+      this.datum = this.header[new_index]
+    } else {
+      console.log("Konec vrstice z datumi")
+      if (future) {
+        this._snackBar.open("Ne morem it bolj v prihodnost.", "Close")
+      } else {
+        this._snackBar.open("Ne morem it bolj v preteklost.", "Close")
+      }
+    }
+
   }
 
   ngOnInit(): void {
+    let date = new Date()
+    let month = date.getMonth() + 1
+    this.datum = `${date.getDate()}.${month}.`
+
     // get starting set of all people
     this.sheetService.getUdelezenci(localStorage.getItem('skupina'))
       .then(udelezenci => {
-        console.log(udelezenci.values)
 
         let response = udelezenci.values
+
+        // header prestavlja imena stolpcev
+        // naprej uporabimo header za določanje imen v objektih
         this.header = response[0]
 
+        console.log(this.header)
+        if (!this.header.includes("Id") || !this.header.includes("Ime") ) {
+          this.invalidFormating()
+          return
+        }
+
+        // vsako posamezno vrstico v tabeli spremenimo v objekt
+        // shranimo v spremenljivko data
         for (let i = 1; i < response.length; i++) {
           let foo = {}
-
           for (let j = 0; j < this.header.length; j++) {
             if (!response[i][j]) {
               foo[this.header[j]] = ''
@@ -119,16 +160,45 @@ export class CheckComponent implements OnInit {
           }
           this.data.push(foo)
         }
-        console.log(this.data)
         this.loaded = true
         this.prestej_prisotne()
 
+
+        // odstranimo vse vrstice, ki nimajo ID-ja
+        // torej niso predvidene osebe
+        for (var i = 0; i < this.data.length; i++) {
+          if (this.data[i].Id == undefined || isNaN(this.data[i].Id) || this.data[i].Id.length == 0) {
+            this.data.splice(i,1);
+            i--;
+          }
+        }
+
+        // dobimo kot odgovor prazno tabelo
         if (this.data.length == 0) {
           this._snackBar.open("Za to skupino ni podatkov.", "Close")
+        } else {
+          // check is today date doens't exist yet
+          // make it
+          this.today = false
+          this.header.forEach(element => {
+            console.log(element)
+            if (element == this.datum) {
+              this.today = true
+            }
+          })
+
+          if (!this.today) {
+            // set date for correct querying
+            this.header.push(this.datum)
+
+            this.data.forEach(element => {
+              element[this.datum] = ''
+            })
+          }
         }
       })
       .catch(napaka => {
-        console.log("Napaka")
+        console.log("Napaka", napaka)
         this.loaded = true
 
         if (!localStorage.getItem('access_token') || localStorage.getItem('access_token') == 'undefined' || localStorage.getItem('access_token') == 'null') {
@@ -139,28 +209,5 @@ export class CheckComponent implements OnInit {
           this._snackBar.open("Izberi skupino!", "Close")
         }
       })
-
-    // set date for correct querying
-    let date = new Date()
-    let month = date.getMonth() + 1
-    this.datum = `${date.getDate()}.${month}.`
-
-    // check is today date doens't exist yet
-    // make it
-    let today = false
-    this.header.forEach(element => {
-      if (element == this.datum) {
-        today = true
-      }
-    })
-
-    if (!today) {
-      this.header.push(this.datum)
-
-      this.data.forEach(element => {
-        element[this.datum] = ''
-      })
-    }
   }
-
 }
