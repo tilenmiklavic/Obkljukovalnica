@@ -111,10 +111,26 @@ export class CheckComponent implements OnInit {
     if (future) new_index++
     else new_index--
 
-    this.datum = this.header[new_index]
+    var re = new RegExp("([0-9][0-9]?.[0-9][0-9]?)")
+
+    if (re.test(this.header[new_index])) {
+      this.datum = this.header[new_index]
+    } else {
+      console.log("Konec vrstice z datumi")
+      if (future) {
+        this._snackBar.open("Ne morem it bolj v prihodnost.", "Close")
+      } else {
+        this._snackBar.open("Ne morem it bolj v preteklost.", "Close")
+      }
+    }
+
   }
 
   ngOnInit(): void {
+    let date = new Date()
+    let month = date.getMonth() + 1
+    this.datum = `${date.getDate()}.${month}.`
+
     // get starting set of all people
     this.sheetService.getUdelezenci(localStorage.getItem('skupina'))
       .then(udelezenci => {
@@ -127,7 +143,6 @@ export class CheckComponent implements OnInit {
 
         console.log(this.header)
         if (!this.header.includes("Id") || !this.header.includes("Ime") ) {
-          console.log("Yes")
           this.invalidFormating()
           return
         }
@@ -166,6 +181,7 @@ export class CheckComponent implements OnInit {
           // make it
           this.today = false
           this.header.forEach(element => {
+            console.log(element)
             if (element == this.datum) {
               this.today = true
             }
@@ -173,10 +189,6 @@ export class CheckComponent implements OnInit {
 
           if (!this.today) {
             // set date for correct querying
-            let date = new Date()
-            let month = date.getMonth() + 1
-            this.datum = `${date.getDate()}.${month}.`
-
             this.header.push(this.datum)
 
             this.data.forEach(element => {
