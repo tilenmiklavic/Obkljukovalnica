@@ -31,7 +31,7 @@
   <!-- Izbira datuma -->
   <div class='row date_picker'>
     <div class='col' align='center'>
-      <a>
+      <a (click)='changeDate(false)'>
         <mat-icon>keyboard_arrow_left</mat-icon>
       </a>
     </div>
@@ -39,7 +39,7 @@
       <span>{{datum}}</span>
     </div>
     <div class="col" align='center'>
-      <a>
+      <a (click)='changeDate(true)'>
         <mat-icon>keyboard_arrow_right</mat-icon>
       </a>
     </div>

@@ -95,6 +95,25 @@ export class CheckComponent implements OnInit {
     this.loaded = true
   }
 
+  public changeDate(future: boolean) {
+    let current_index = 0
+
+    this.header.forEach((element, index) => {
+      if (element == this.datum) {
+        current_index = index
+      }
+    })
+
+    console.log(current_index)
+
+    let new_index = current_index
+
+    if (future) new_index++
+    else new_index--
+
+    this.datum = this.header[new_index]
+  }
+
   ngOnInit(): void {
     // get starting set of all people
     this.sheetService.getUdelezenci(localStorage.getItem('skupina'))
