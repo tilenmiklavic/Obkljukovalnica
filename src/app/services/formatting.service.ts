@@ -21,8 +21,18 @@ export class FormattingService {
   }
 
 
-  public prisotniNaDan(datum: string, data): number {
+  public vrniImena(data): Array<String> {
+    let imena = []
 
+    data.forEach(element => {
+      imena.push(element["Ime"])
+    });
+
+    return imena
+  }
+
+
+  public prisotniNaDan(datum: string, data): number {
     let prisotni = 0
 
     data.forEach(element => {
@@ -35,11 +45,7 @@ export class FormattingService {
 
 
   public pregledPrisotnih(data, header): Array<Number> {
-
-
     let prisotni = new Array(header.length).fill(0)
-
-    console.log(prisotni)
 
     header.forEach((datum, index) => {
       data.forEach(element => {
@@ -49,5 +55,23 @@ export class FormattingService {
       });
     });
     return prisotni
+  }
+
+
+  public prisotnostPoLjudeh(data, header): Array<Number> {
+    console.log(data)
+    let osebe = new Array(data.length).fill(0)
+
+    data.forEach((element, index) => {
+
+      header.forEach(datum => {
+        if (element[datum] == 'x') {
+          osebe[index]++
+        }
+      });
+    });
+
+    console.log(osebe)
+    return osebe
   }
 }

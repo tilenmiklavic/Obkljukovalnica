@@ -38,7 +38,8 @@ export class PregledComponent implements OnInit {
 
   private setupDayGraph() {
 
-    console.log(this.formattingService.pregledPrisotnih(this.data, this.dayGraphLabels))
+    this.dayGraphLabels = this.formattingService.vrniDatume(this.header)
+    this.dayGraphPodatki = this.formattingService.pregledPrisotnih(this.data, this.dayGraphLabels)
 
     this.dayGraphType = 'bar';
     this.dayGraphPodatki = {
@@ -46,7 +47,7 @@ export class PregledComponent implements OnInit {
       datasets: [
         {
           label: "Pregled po osebah",
-          data: this.formattingService.pregledPrisotnih(this.data, this.dayGraphLabels)
+          data: this.dayGraphPodatki
         }
       ]
     };
@@ -56,14 +57,19 @@ export class PregledComponent implements OnInit {
     };
   }
 
+
   private setupPeopleGraph() {
+    this.peopleGraphLabels = this.formattingService.vrniImena(this.data)
+    this.peopleGraphPodatki = this.formattingService.prisotnostPoLjudeh(this.data, this.dayGraphLabels)
+
+    this.formattingService.vrniImena(this.data)
     this.peopleGraphType = 'bar';
     this.peopleGraphPodatki = {
       labels: this.peopleGraphLabels,
       datasets: [
         {
           label: "Pregled po dnevih",
-          data: [65, 59, 80, 81, 56, 55, 40]
+          data: this.peopleGraphPodatki
         }
       ]
     };
@@ -73,10 +79,12 @@ export class PregledComponent implements OnInit {
     };
   }
 
+
   private invalidFormating() {
     // this._snackBar.open("Tabela prisotnosti ni pravilno formatirana. Poglej navodila.", "Close")
     this.loaded = true
   }
+
 
   ngOnInit(): void {
     // set date for correct querying
@@ -86,15 +94,12 @@ export class PregledComponent implements OnInit {
 
     this.sheetService.getUdelezenci(localStorage.getItem('skupina'))
     .then(udelezenci => {
-
       let response = udelezenci.values
 
       // header prestavlja imena stolpcev
       // naprej uporabimo header za določanje imen v objektih
       this.header = response[0]
-      this.dayGraphLabels = this.formattingService.vrniDatume(this.header)
 
-      console.log("Header", this.header)
       if (!this.header.includes("Id") || !this.header.includes("Ime") ) {
         this.invalidFormating()
         return
