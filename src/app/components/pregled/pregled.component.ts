@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
+import { FormattingService } from 'src/app/services/formatting.service';
 import { SheetsService } from 'src/app/services/sheets.service';
 
 @Component({
@@ -11,7 +12,8 @@ import { SheetsService } from 'src/app/services/sheets.service';
 export class PregledComponent implements OnInit {
 
   constructor(
-    private sheetsService: SheetsService
+    private sheetService: SheetsService,
+    private formattingService: FormattingService
   ) { }
 
   datum = '12.6.'
@@ -24,8 +26,57 @@ export class PregledComponent implements OnInit {
   color: ThemePalette = 'primary';
   mode: ProgressSpinnerMode = 'indeterminate';
 
+  dayGraphType = ''
+  dayGraphPodatki = {}
+  dayGraphOptions = {}
+  dayGraphLabels = []
 
+  peopleGraphType = ''
+  peopleGraphPodatki = {}
+  peopleGraphOptions = {}
+  peopleGraphLabels = []
 
+  private setupDayGraph() {
+
+    console.log(this.formattingService.pregledPrisotnih(this.data, this.dayGraphLabels))
+
+    this.dayGraphType = 'bar';
+    this.dayGraphPodatki = {
+      labels: this.dayGraphLabels,
+      datasets: [
+        {
+          label: "Pregled po osebah",
+          data: this.formattingService.pregledPrisotnih(this.data, this.dayGraphLabels)
+        }
+      ]
+    };
+    this.dayGraphOptions = {
+      responsive: true,
+      maintainAspectRatio: false
+    };
+  }
+
+  private setupPeopleGraph() {
+    this.peopleGraphType = 'bar';
+    this.peopleGraphPodatki = {
+      labels: this.peopleGraphLabels,
+      datasets: [
+        {
+          label: "Pregled po dnevih",
+          data: [65, 59, 80, 81, 56, 55, 40]
+        }
+      ]
+    };
+    this.peopleGraphOptions = {
+      responsive: true,
+      maintainAspectRatio: false
+    };
+  }
+
+  private invalidFormating() {
+    // this._snackBar.open("Tabela prisotnosti ni pravilno formatirana. Poglej navodila.", "Close")
+    this.loaded = true
+  }
 
   ngOnInit(): void {
     // set date for correct querying
@@ -33,67 +84,56 @@ export class PregledComponent implements OnInit {
     let month = date.getMonth() + 1
     this.datum = `${date.getDate()}.${month}.`
 
-    // retrieve all groups
-    this.sheetsService.getSkupine()
-      .then(odgovor => {
-        console.log(odgovor)
-        odgovor.sheets.forEach(element => {
-          let foo = {"id": element.properties.sheetId, "ime": element.properties.title}
-          this.skupine.push(foo)
-        })
+    this.sheetService.getUdelezenci(localStorage.getItem('skupina'))
+    .then(udelezenci => {
 
-        // get all skupine and data
-        this.skupine.forEach(skupina => {
+      let response = udelezenci.values
 
-          // get starting set of all people
-          this.sheetsService.getUdelezenci(skupina.ime)
-          .then(udelezenci => {
-            console.log(udelezenci.values)
+      // header prestavlja imena stolpcev
+      // naprej uporabimo header za določanje imen v objektih
+      this.header = response[0]
+      this.dayGraphLabels = this.formattingService.vrniDatume(this.header)
 
-            let response = udelezenci.values
-            this.header = response[0]
+      console.log("Header", this.header)
+      if (!this.header.includes("Id") || !this.header.includes("Ime") ) {
+        this.invalidFormating()
+        return
+      }
 
-            let vmesni = []
-
-            for (let i = 1; i < response.length; i++) {
-              let foo = {}
-
-              for (let j = 0; j < this.header.length; j++) {
-                if (!response[i][j]) {
-                  foo[this.header[j]] = ''
-                } else {
-                  foo[this.header[j]] = response[i][j]
-                }
-              }
-              vmesni.push(foo)
-
-            }
-
-            // setting completenes level for each group
-            let total = 0
-            let prisotni = 0
-            let odsotni = 0
-            vmesni.forEach(element => {
-              total += 1
-
-              if (element[this.datum] == 'x') { prisotni += 1; this.prisotni += 1 }
-              else if (element[this.datum] == '/') { odsotni += 1; this.odsotni += 1 }
-
-            })
-            let procent = ((prisotni + odsotni) * 100 / total).toFixed(0)
-
-            let bar = {"ime": skupina.ime, "values": vmesni, "total": total, "prisotni": prisotni, "odsotni": odsotni, "procent": procent}
-            this.data.push(bar)
-            console.log(bar)
+      // vsako posamezno vrstico v tabeli spremenimo v objekt
+      // shranimo v spremenljivko data
+      for (let i = 1; i < response.length; i++) {
+        let foo = {}
+        for (let j = 0; j < this.header.length; j++) {
+          if (!response[i][j]) {
+            foo[this.header[j]] = ''
+          } else {
+            foo[this.header[j]] = response[i][j]
+          }
+        }
+        this.data.push(foo)
+      }
+      this.loaded = true
+      // this.prestej_prisotne()
 
 
-            this.loaded = true
-          })
-        })
-      })
-      .catch(napaka => {
-        console.error(napaka)
-      })
+      // odstranimo vse vrstice, ki nimajo ID-ja
+      // torej niso predvidene osebe
+      for (var i = 0; i < this.data.length; i++) {
+        if (this.data[i].Id == undefined || isNaN(this.data[i].Id) || this.data[i].Id.length == 0) {
+          this.data.splice(i,1);
+          i--;
+        }
+      }
+
+      // dobimo kot odgovor prazno tabelo
+      if (this.data.length == 0) {
+        // this._snackBar.open("Za to skupino ni podatkov.", "Close")
+      }
+    })
+    .finally(() => {
+      this.setupDayGraph();
+      this.setupPeopleGraph();
+    })
   }
-
 }
