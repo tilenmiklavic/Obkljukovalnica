@@ -17,6 +17,7 @@ export class CheckComponent implements OnInit {
   ) { }
 
   data = []
+  valid_data = false
   header = []
   loaded = false
   datum = null
@@ -173,6 +174,7 @@ export class CheckComponent implements OnInit {
           // check is today date doens't exist yet
           // make it
           this.today = false
+          this.valid_data = true
           this.header.forEach(element => {
             if (element == this.datum) {
               this.today = true
