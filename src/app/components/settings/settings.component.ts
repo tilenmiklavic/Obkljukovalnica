@@ -27,9 +27,9 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   public skupine = []
   public izbrana_skupina: string = localStorage.getItem('skupina')
   public izbran_stolpec: string = localStorage.getItem('stolpecImena')
-  public prisoten_symbol = localStorage.getItem('prisoten_symbol')
-  public odsoten_symbol = localStorage.getItem('odsoten_symbol')
-  public upraviceno_odsoten_symbol = localStorage.getItem('upraviceno_odsoten_symbol')
+  public prisoten_symbol = localStorage.getItem('prisoten_symbol') || 'x'
+  public odsoten_symbol = localStorage.getItem('odsoten_symbol') || '/'
+  public upraviceno_odsoten_symbol = localStorage.getItem('upraviceno_odsoten_symbol') || 'o'
 
   onSignIn(googleUser) {
     //now it gets called

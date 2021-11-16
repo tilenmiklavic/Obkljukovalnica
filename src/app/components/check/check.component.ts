@@ -36,8 +36,6 @@ export class CheckComponent implements OnInit {
       return
     }
 
-    console.log("Current data", this.data)
-    console.log("Datum", this.datum)
     this.data.forEach(element => {
 
       if (element.Id == id) {
@@ -67,11 +65,10 @@ export class CheckComponent implements OnInit {
     })
 
     updated_data.unshift(this.header)
-    console.log("Updated data", updated_data)
 
     this.sheetService.updateData(updated_data)
       .then(odgovor => {
-        console.log("Odgovor", odgovor)
+        console.log("Podatki shranjeni")
       })
       .catch(napaka => {
         console.error(napaka)
@@ -104,8 +101,6 @@ export class CheckComponent implements OnInit {
       }
     })
 
-    console.log(current_index)
-
     let new_index = current_index
 
     if (future) new_index++
@@ -116,7 +111,6 @@ export class CheckComponent implements OnInit {
     if (re.test(this.header[new_index])) {
       this.datum = this.header[new_index]
     } else {
-      console.log("Konec vrstice z datumi")
       if (future) {
         this._snackBar.open("Ne morem it bolj v prihodnost.", "Close")
       } else {
@@ -141,7 +135,6 @@ export class CheckComponent implements OnInit {
         // naprej uporabimo header za določanje imen v objektih
         this.header = response[0]
 
-        console.log(this.header)
         if (!this.header.includes("Id") || !this.header.includes("Ime") ) {
           this.invalidFormating()
           return
@@ -181,7 +174,6 @@ export class CheckComponent implements OnInit {
           // make it
           this.today = false
           this.header.forEach(element => {
-            console.log(element)
             if (element == this.datum) {
               this.today = true
             }

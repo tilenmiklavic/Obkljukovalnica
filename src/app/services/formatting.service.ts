@@ -59,7 +59,6 @@ export class FormattingService {
 
 
   public prisotnostPoLjudeh(data, header): Array<Number> {
-    console.log(data)
     let osebe = new Array(data.length).fill(0)
 
     data.forEach((element, index) => {
@@ -71,7 +70,6 @@ export class FormattingService {
       });
     });
 
-    console.log(osebe)
     return osebe
   }
 }
