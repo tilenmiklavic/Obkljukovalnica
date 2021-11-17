@@ -107,7 +107,7 @@ export class CheckComponent implements OnInit {
     if (future) new_index++
     else new_index--
 
-    var re = new RegExp("([0-9][0-9]?.[0-9][0-9]?)")
+    var re = new RegExp("([0-9][0-9]?.[0-9][0-9]?.*)")
 
     if (re.test(this.header[new_index])) {
       this.datum = this.header[new_index]

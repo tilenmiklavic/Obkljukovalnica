@@ -10,7 +10,7 @@ export class FormattingService {
   public vrniDatume(header): Array<String> {
 
     let result = []
-    var re = new RegExp("([0-9][0-9]?.[0-9][0-9]?)")
+    var re = new RegExp("([0-9][0-9]?.[0-9][0-9]?.*)")
 
     header.forEach(element => {
       if (re.test(element)) {
