@@ -71,6 +71,7 @@ export class CheckComponent implements OnInit {
     this.sheetService.updateData(updated_data)
       .then(odgovor => {
         console.log("Podatki shranjeni")
+        this.today = true
       })
       .catch(napaka => {
         console.error(napaka)
