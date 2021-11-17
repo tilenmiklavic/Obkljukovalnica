@@ -29,7 +29,7 @@
   </div>
 
   <!-- Izbira datuma -->
-  <div class='row date_picker'>
+  <div class='row date_picker' *ngIf="valid_data">
     <div class='col' align='center'>
       <a (click)='changeDate(false)'>
         <mat-icon>keyboard_arrow_left</mat-icon>

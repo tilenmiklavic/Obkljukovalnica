@@ -26,6 +26,7 @@ import { FormsModule } from '@angular/forms';
 import { PregledComponent } from './components/pregled/pregled.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { ChartModule } from 'angular2-chartjs';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import { environment } from '../environments/environment';
     MatProgressBarModule,
     MatDividerModule,
     MatBadgeModule,
+    ChartModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable

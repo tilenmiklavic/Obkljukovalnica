@@ -17,12 +17,14 @@ export class CheckComponent implements OnInit {
   ) { }
 
   data = []
+  valid_data = false
   header = []
   loaded = false
   datum = null
   prisotni = 0
   odsotni = 0
   today = true
+  pending_date = null
   color: ThemePalette = 'primary';
   mode: ProgressSpinnerMode = 'indeterminate';
   public prisoten_symbol = localStorage.getItem("prisoten_symbol") || 'x'
@@ -32,12 +34,10 @@ export class CheckComponent implements OnInit {
   public present(id: Number, present: number) {
 
     if (!localStorage.getItem('access_token') || localStorage.getItem('access_token') == 'undefined') {
-      this._snackBar.open("Najprej se moraš prijaviti!", "Close")
+      this._snackBar.open("Najprej se moraš prijaviti!", "Zapri")
       return
     }
 
-    console.log("Current data", this.data)
-    console.log("Datum", this.datum)
     this.data.forEach(element => {
 
       if (element.Id == id) {
@@ -67,11 +67,11 @@ export class CheckComponent implements OnInit {
     })
 
     updated_data.unshift(this.header)
-    console.log("Updated data", updated_data)
 
     this.sheetService.updateData(updated_data)
       .then(odgovor => {
-        console.log("Odgovor", odgovor)
+        console.log("Podatki shranjeni")
+        this.today = true
       })
       .catch(napaka => {
         console.error(napaka)
@@ -96,6 +96,7 @@ export class CheckComponent implements OnInit {
   }
 
   public changeDate(future: boolean) {
+
     let current_index = 0
 
     this.header.forEach((element, index) => {
@@ -104,23 +105,28 @@ export class CheckComponent implements OnInit {
       }
     })
 
-    console.log(current_index)
-
     let new_index = current_index
 
     if (future) new_index++
     else new_index--
 
-    var re = new RegExp("([0-9][0-9]?.[0-9][0-9]?)")
+    var re = new RegExp("([0-9][0-9]?.[0-9][0-9]?.*)")
 
     if (re.test(this.header[new_index])) {
+      if (!this.today) {
+        this.today = true
+        this.pending_date = this.datum
+      } else if (this.header[new_index] == this.pending_date) {
+        this.today = false
+      }
+
       this.datum = this.header[new_index]
+
     } else {
-      console.log("Konec vrstice z datumi")
       if (future) {
-        this._snackBar.open("Ne morem it bolj v prihodnost.", "Close")
+        this._snackBar.open("Ne morem it bolj v prihodnost.", "Zapri")
       } else {
-        this._snackBar.open("Ne morem it bolj v preteklost.", "Close")
+        this._snackBar.open("Ne morem it bolj v preteklost.", "Zapri")
       }
     }
 
@@ -141,7 +147,6 @@ export class CheckComponent implements OnInit {
         // naprej uporabimo header za določanje imen v objektih
         this.header = response[0]
 
-        console.log(this.header)
         if (!this.header.includes("Id") || !this.header.includes("Ime") ) {
           this.invalidFormating()
           return
@@ -180,8 +185,8 @@ export class CheckComponent implements OnInit {
           // check is today date doens't exist yet
           // make it
           this.today = false
+          this.valid_data = true
           this.header.forEach(element => {
-            console.log(element)
             if (element == this.datum) {
               this.today = true
             }
@@ -202,11 +207,11 @@ export class CheckComponent implements OnInit {
         this.loaded = true
 
         if (!localStorage.getItem('access_token') || localStorage.getItem('access_token') == 'undefined' || localStorage.getItem('access_token') == 'null') {
-          this._snackBar.open("Najprej se moraš prijaviti!", "Close")
+          this._snackBar.open("Najprej se moraš prijaviti!", "Zapri")
         } else if (!localStorage.getItem('idTabele') || localStorage.getItem('idTabele') == 'undefined' || localStorage.getItem('idTabele') == 'null') {
-          this._snackBar.open("Vpiši ID tabele!", "Close")
+          this._snackBar.open("Vpiši ID tabele!", "Zapri")
         } else if (!localStorage.getItem('skupina') || localStorage.getItem('skupina') == 'undefined' || localStorage.getItem('skupina') == 'null') {
-          this._snackBar.open("Izberi skupino!", "Close")
+          this._snackBar.open("Izberi skupino!", "Zapri")
         }
       })
   }
