@@ -24,6 +24,7 @@ export class CheckComponent implements OnInit {
   prisotni = 0
   odsotni = 0
   today = true
+  pending_date = null
   color: ThemePalette = 'primary';
   mode: ProgressSpinnerMode = 'indeterminate';
   public prisoten_symbol = localStorage.getItem("prisoten_symbol") || 'x'
@@ -94,6 +95,7 @@ export class CheckComponent implements OnInit {
   }
 
   public changeDate(future: boolean) {
+
     let current_index = 0
 
     this.header.forEach((element, index) => {
@@ -110,7 +112,15 @@ export class CheckComponent implements OnInit {
     var re = new RegExp("([0-9][0-9]?.[0-9][0-9]?.*)")
 
     if (re.test(this.header[new_index])) {
+      if (!this.today) {
+        this.today = true
+        this.pending_date = this.datum
+      } else if (this.header[new_index] == this.pending_date) {
+        this.today = false
+      }
+
       this.datum = this.header[new_index]
+
     } else {
       if (future) {
         this._snackBar.open("Ne morem it bolj v prihodnost.", "Zapri")
