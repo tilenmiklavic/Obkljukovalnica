@@ -33,7 +33,7 @@ export class CheckComponent implements OnInit {
   public present(id: Number, present: number) {
 
     if (!localStorage.getItem('access_token') || localStorage.getItem('access_token') == 'undefined') {
-      this._snackBar.open("Najprej se moraš prijaviti!", "Close")
+      this._snackBar.open("Najprej se moraš prijaviti!", "Zapri")
       return
     }
 
@@ -113,9 +113,9 @@ export class CheckComponent implements OnInit {
       this.datum = this.header[new_index]
     } else {
       if (future) {
-        this._snackBar.open("Ne morem it bolj v prihodnost.", "Close")
+        this._snackBar.open("Ne morem it bolj v prihodnost.", "Zapri")
       } else {
-        this._snackBar.open("Ne morem it bolj v preteklost.", "Close")
+        this._snackBar.open("Ne morem it bolj v preteklost.", "Zapri")
       }
     }
 
@@ -196,11 +196,11 @@ export class CheckComponent implements OnInit {
         this.loaded = true
 
         if (!localStorage.getItem('access_token') || localStorage.getItem('access_token') == 'undefined' || localStorage.getItem('access_token') == 'null') {
-          this._snackBar.open("Najprej se moraš prijaviti!", "Close")
+          this._snackBar.open("Najprej se moraš prijaviti!", "Zapri")
         } else if (!localStorage.getItem('idTabele') || localStorage.getItem('idTabele') == 'undefined' || localStorage.getItem('idTabele') == 'null') {
-          this._snackBar.open("Vpiši ID tabele!", "Close")
+          this._snackBar.open("Vpiši ID tabele!", "Zapri")
         } else if (!localStorage.getItem('skupina') || localStorage.getItem('skupina') == 'undefined' || localStorage.getItem('skupina') == 'null') {
-          this._snackBar.open("Izberi skupino!", "Close")
+          this._snackBar.open("Izberi skupino!", "Zapri")
         }
       })
   }

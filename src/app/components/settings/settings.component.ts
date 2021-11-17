@@ -64,7 +64,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   public save() {
 
     if (!this.prisoten_symbol || !this.odsoten_symbol || !this.upraviceno_odsoten_symbol) {
-      this._snackBar.open("Simbol za označevanje mora biti izpolnjen.", "Close")
+      this._snackBar.open("Simbol za označevanje mora biti izpolnjen.", "Zapri")
       return
     }
 
