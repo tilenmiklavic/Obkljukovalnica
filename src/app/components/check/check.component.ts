@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AlertService } from 'src/app/services/alert.service';
 import { SheetsService } from 'src/app/services/sheets.service';
 
 @Component({
@@ -13,6 +14,7 @@ export class CheckComponent implements OnInit {
 
   constructor(
     private sheetService: SheetsService,
+    private alertService: AlertService,
     private _snackBar: MatSnackBar
   ) { }
 
@@ -34,7 +36,7 @@ export class CheckComponent implements OnInit {
   public present(id: Number, present: number) {
 
     if (!localStorage.getItem('access_token') || localStorage.getItem('access_token') == 'undefined') {
-      this._snackBar.open("Najprej se moraš prijaviti!", "Zapri")
+      this.alertService.openSnackBar("Najprej se moraš prijaviti!")
       return
     }
 
@@ -91,7 +93,7 @@ export class CheckComponent implements OnInit {
   }
 
   private invalidFormating() {
-    this._snackBar.open("Tabela prisotnosti ni pravilno formatirana. Poglej navodila.", "Close")
+    this.alertService.openSnackBar("Tabela prisotnosti ni pravilno formatirana. Poglej navodila.")
     this.loaded = true
   }
 
@@ -124,9 +126,9 @@ export class CheckComponent implements OnInit {
 
     } else {
       if (future) {
-        this._snackBar.open("Ne morem it bolj v prihodnost.", "Zapri")
+        this.alertService.openSnackBar("Ne morem it bolj v prihodnost.")
       } else {
-        this._snackBar.open("Ne morem it bolj v preteklost.", "Zapri")
+        this.alertService.openSnackBar("Ne morem it bolj v preteklost.")
       }
     }
 

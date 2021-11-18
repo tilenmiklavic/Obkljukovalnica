@@ -17,7 +17,18 @@
   margin: 2rem 0rem 0rem 1rem;
 }
 
-canvas {
-  width: 1000px;
-  height: 600px
+.example {
+  background-color: red;
+  width: 30rem;
+}
+
+.chart-container {
+  width: 2000px;
+  overflow-x: scroll;
+  white-space: nowrap;
+  position: relative;
+}
+
+.peopleChart {
+  display: inline-block;
 }

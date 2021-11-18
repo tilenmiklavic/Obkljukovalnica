@@ -53,7 +53,8 @@ export class PregledComponent implements OnInit {
     };
     this.dayGraphOptions = {
       responsive: true,
-      maintainAspectRatio: false
+      maintainAspectRatio: false,
+      aspectRatio: 1.2
     };
   }
 
@@ -75,7 +76,8 @@ export class PregledComponent implements OnInit {
     };
     this.peopleGraphOptions = {
       responsive: true,
-      maintainAspectRatio: false
+      maintainAspectRatio: false,
+      aspectRatio: 1.2
     };
   }
 

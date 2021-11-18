@@ -2,6 +2,7 @@ import { Component, OnInit, NgZone, AfterViewInit } from '@angular/core';
 import { SheetsService } from 'src/app/services/sheets.service';
 import { environment } from 'src/environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AlertService } from 'src/app/services/alert.service';
 
 
 @Component({
@@ -15,6 +16,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   constructor(
     private ngZone: NgZone,
     private sheetsService: SheetsService,
+    private alertService: AlertService,
     private _snackBar: MatSnackBar,
   ) {
     window['onSignIn'] = (user) => ngZone.run(() => this.onSignIn(user));
@@ -64,7 +66,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   public save() {
 
     if (!this.prisoten_symbol || !this.odsoten_symbol || !this.upraviceno_odsoten_symbol) {
-      this._snackBar.open("Simbol za označevanje mora biti izpolnjen.", "Zapri")
+      this.alertService.openSnackBar("Simbol za označevanje mora biti izpolnjen.")
       return
     }
 
@@ -79,13 +81,11 @@ export class SettingsComponent implements OnInit, AfterViewInit {
 
       let idTabele = this.povezava.split('/')[5]
       localStorage.setItem('idTabele', idTabele)
+      this.alertService.openSnackBar("Nastavitve shranjene!")
 
-
-      this._snackBar.open("Nastavitve shranjene!", "Close")
     } catch (error) {
-
       console.log("Napaka pri shranjevanju nastavitev")
-      this._snackBar.open("Ne morem shraniti nastavitev.", "Close")
+      this.alertService.openSnackBar("Ne morem shraniti nastavitev.")
     }
 
   }
