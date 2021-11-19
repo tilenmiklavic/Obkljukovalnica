@@ -12,25 +12,46 @@
   </div>
 
 <div class="container">
-  Pregled po dnevih
+  <h2>
+    Pregled po dnevih
+  </h2>
   <div>
     <chart [type]="dayGraphType" [data]="dayGraphPodatki" [options]="dayGraphOptions"></chart>
   </div>
 </div>
 
+<hr>
+
 <div class="container">
-  Pregled po osebah
+  <h2>
+    Pregled po osebah
+  </h2>
   <div>
-    <div class="row" *ngFor="let element of imena; let i = index">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Ime</th>
+          <th>Prisotnosti</th>
+          <th>Procent</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          [ngClass]="{'table-success': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= 70), 'table-warning': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= 50) && (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 < 70), 'table-danger': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= 0) && (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 < 50)}"
+          *ngFor="let element of imena; let i = index">
+
+          <td class="imePrisotnega col-6">{{imena[i]}} </td>
+          <td class="steviloPrisotnosti col-4">{{prisotnostPoLjudeh[i]}}</td>
+          <td class="col-2">{{prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 | number: '1.0-0'}}%</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- <div class="row" *ngFor="let element of imena; let i = index">
       <span class="imePrisotnega col-6">{{imena[i]}} </span>
       <span class="steviloPrisotnosti col-3">{{prisotnostPoLjudeh[i]}}</span>
       <span class="col-3">{{prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 | number: '1.0-0'}}%</span>
-    </div>
+    </div> -->
   </div>
-</div>
-
-<div class="container">
-  Pregled današnjega dne
 </div>
 
 <div class="document_end"></div>
