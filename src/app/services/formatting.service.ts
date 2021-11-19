@@ -1,3 +1,4 @@
+import { parseHostBindings } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { AlertService } from './alert.service';
 import { SheetsService } from './sheets.service';
@@ -100,5 +101,49 @@ export class FormattingService {
     updated_data.unshift(header)
 
     return this.sheetService.updateData(updated_data)
+  }
+
+
+  public changeDate(future: boolean, header, pending_date, datum, today): any {
+
+    let current_index = 0
+    console.log(pending_date)
+
+    header.forEach((element, index) => {
+      if (element == datum) {
+        current_index = index
+      }
+    })
+
+    let new_index = current_index
+
+    if (future) new_index++
+    else new_index--
+
+    var re = new RegExp("([0-9][0-9]?.[0-9][0-9]?.*)")
+
+    if (re.test(header[new_index])) {
+      if (!today) {
+
+        console.log("1")
+        return {today: true, pendingDate: datum, datum: header[new_index]}
+        // this.today = true
+        // this.pending_date = this.datum
+      } else if (header[new_index] == pending_date) {
+        console.log("2")
+        return {today: false, pendingDate: pending_date, datum: header[new_index]}
+        // this.today = false
+      }
+
+      return {today: today, pendingDate: pending_date, datum: header[new_index]}
+    } else {
+      console.log("4")
+      if (future) {
+        this.alertService.openSnackBar("Ne morem it bolj v prihodnost.")
+      } else {
+        this.alertService.openSnackBar("Ne morem it bolj v preteklost.")
+      }
+      return null
+    }
   }
 }

@@ -83,37 +83,12 @@ export class CheckComponent implements OnInit {
 
   public changeDate(future: boolean) {
 
-    let current_index = 0
+    let datumChanged = this.formatingService.changeDate(future, this.header, this.pending_date, this.datum, this.today)
 
-    this.header.forEach((element, index) => {
-      if (element == this.datum) {
-        current_index = index
-      }
-    })
-
-    let new_index = current_index
-
-    if (future) new_index++
-    else new_index--
-
-    var re = new RegExp("([0-9][0-9]?.[0-9][0-9]?.*)")
-
-    if (re.test(this.header[new_index])) {
-      if (!this.today) {
-        this.today = true
-        this.pending_date = this.datum
-      } else if (this.header[new_index] == this.pending_date) {
-        this.today = false
-      }
-
-      this.datum = this.header[new_index]
-
-    } else {
-      if (future) {
-        this.alertService.openSnackBar("Ne morem it bolj v prihodnost.")
-      } else {
-        this.alertService.openSnackBar("Ne morem it bolj v preteklost.")
-      }
+    if (datumChanged) {
+      this.today = datumChanged.today
+      this.pending_date = datumChanged.pendingDate
+      this.datum = datumChanged.datum
     }
 
   }
