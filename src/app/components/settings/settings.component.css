@@ -12,10 +12,11 @@ mat-form-field  {
   font-size: 1rem;
 }
 
-.save {
-  margin-bottom: 7rem;
-}
-
 .get {
   margin-bottom: 2rem;
+}
+
+.version {
+  margin-top: 1.5rem;
+  width: 100%;
 }

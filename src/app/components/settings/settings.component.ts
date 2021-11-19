@@ -32,6 +32,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   public prisoten_symbol = localStorage.getItem('prisoten_symbol') || 'x'
   public odsoten_symbol = localStorage.getItem('odsoten_symbol') || '/'
   public upraviceno_odsoten_symbol = localStorage.getItem('upraviceno_odsoten_symbol') || 'o'
+  public versionNumber = 'v0.1.1'
 
   onSignIn(googleUser) {
     //now it gets called
