@@ -3,6 +3,7 @@ import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertService } from 'src/app/services/alert.service';
+import { FormattingService } from 'src/app/services/formatting.service';
 import { SheetsService } from 'src/app/services/sheets.service';
 
 @Component({
@@ -15,6 +16,7 @@ export class CheckComponent implements OnInit {
   constructor(
     private sheetService: SheetsService,
     private alertService: AlertService,
+    private formatingService: FormattingService,
     private _snackBar: MatSnackBar
   ) { }
 
@@ -35,13 +37,7 @@ export class CheckComponent implements OnInit {
 
   public present(id: Number, present: number) {
 
-    if (!localStorage.getItem('access_token') || localStorage.getItem('access_token') == 'undefined') {
-      this.alertService.openSnackBar("Najprej se moraš prijaviti!")
-      return
-    }
-
     this.data.forEach(element => {
-
       if (element.Id == id) {
         switch(present) {
           case 0:
@@ -57,28 +53,16 @@ export class CheckComponent implements OnInit {
       }
     })
 
-    let updated_data = []
-
-    this.data.forEach(element => {
-      let foo = []
-      this.header.forEach(naslov => {
-        foo.push(element[naslov])
+    this.formatingService.nastaviPrisotnost(id, present, this.data, this.header)
+      .then((odgovor) => {
+        if (odgovor) this.today = true
       })
-
-      updated_data.push(foo)
-    })
-
-    updated_data.unshift(this.header)
-
-    this.sheetService.updateData(updated_data)
-      .then(odgovor => {
-        console.log("Podatki shranjeni")
-        this.today = true
+      .catch((napaka) => {
+        console.log("Napaka", napaka)
       })
-      .catch(napaka => {
-        console.error(napaka)
+      .finally(() => {
+        this.prestej_prisotne()
       })
-    this.prestej_prisotne()
 
   }
 

@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
+import { AlertService } from './alert.service';
+import { SheetsService } from './sheets.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FormattingService {
 
-  constructor() { }
+  constructor(
+    private alertService: AlertService,
+    private sheetService: SheetsService
+  ) { }
 
   public vrniDatume(header): Array<String> {
 
@@ -71,5 +76,29 @@ export class FormattingService {
     });
 
     return osebe
+  }
+
+
+  public nastaviPrisotnost(id: Number, present: Number, data: Array<any>, header): Promise<boolean> {
+
+    if (!localStorage.getItem('access_token') || localStorage.getItem('access_token') == 'undefined') {
+      this.alertService.openSnackBar("Najprej se moraš prijaviti!")
+      return null
+    }
+
+    let updated_data = []
+
+    data.forEach(element => {
+      let foo = []
+      header.forEach(naslov => {
+        foo.push(element[naslov])
+      })
+
+      updated_data.push(foo)
+    })
+
+    updated_data.unshift(header)
+
+    return this.sheetService.updateData(updated_data)
   }
 }
