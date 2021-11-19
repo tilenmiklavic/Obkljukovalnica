@@ -17,11 +17,6 @@
   margin: 2rem 0rem 0rem 1rem;
 }
 
-.example {
-  background-color: red;
-  width: 30rem;
-}
-
 .chart-container {
   width: 2000px;
   overflow-x: scroll;
@@ -31,4 +26,8 @@
 
 .peopleChart {
   display: inline-block;
+}
+
+.document_end {
+  margin-bottom: 7rem;
 }

@@ -11,21 +11,6 @@
     </mat-progress-spinner>
   </div>
 
-  <!-- <div class="skupine">
-    <div *ngFor="let skupina of data" class="container row skupina">
-      <div class="col-4"><b>{{skupina.ime}}</b></div>
-      <div class="col-7 align-self-center">
-        <mat-progress-bar mode="determinate" value="{{skupina.procent}}"></mat-progress-bar>
-      </div>
-      <div class="col-1">{{skupina.prisotni}}</div>
-    </div>
-  </div>
-</div> -->
-
-<div class='example'>
-  Hello
-</div>
-
 <div class="container">
   Pregled po dnevih
   <div>
@@ -33,24 +18,19 @@
   </div>
 </div>
 
-<div>
+<div class="container">
   Pregled po osebah
-  <div class="chart-container">
-    <chart class="peopleChart" [type]="peopleGraphType" [data]="peopleGraphPodatki" [options]="peopleGraphOptions"></chart>
+  <div>
+    <div class="row" *ngFor="let element of imena; let i = index">
+      <span class="imePrisotnega col-6">{{imena[i]}} </span>
+      <span class="steviloPrisotnosti col-3">{{prisotnostPoLjudeh[i]}}</span>
+      <span class="col-3">{{prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 | number: '1.0-0'}}%</span>
+    </div>
   </div>
 </div>
 
 <div class="container">
-  Pregled danasnjega dne
+  Pregled današnjega dne
 </div>
 
-
-<div class="line">
-  <mat-divider></mat-divider>
-</div>
-
-<div class="summary container">
-  <div class="datum"><b>Datum: </b>{{datum}}</div>
-  <div class="prisotni"><b>Prisotni: </b>{{prisotni}}</div>
-  <div class="odsotni"><b>Odsotni: </b>{{odsotni}}</div>
-</div>
+<div class="document_end"></div>

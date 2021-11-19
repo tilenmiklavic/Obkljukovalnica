@@ -21,6 +21,8 @@ export class CheckComponent implements OnInit {
   ) { }
 
   data = []
+  imena = []
+  foo = null
   valid_data = false
   header = []
   loaded = false
