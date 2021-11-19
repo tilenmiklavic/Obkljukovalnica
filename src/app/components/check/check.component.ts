@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AlertService } from 'src/app/services/alert.service';
+import { FormattingService } from 'src/app/services/formatting.service';
 import { SheetsService } from 'src/app/services/sheets.service';
 
 @Component({
@@ -13,10 +15,14 @@ export class CheckComponent implements OnInit {
 
   constructor(
     private sheetService: SheetsService,
+    private alertService: AlertService,
+    private formatingService: FormattingService,
     private _snackBar: MatSnackBar
   ) { }
 
   data = []
+  imena = []
+  foo = null
   valid_data = false
   header = []
   loaded = false
@@ -33,13 +39,7 @@ export class CheckComponent implements OnInit {
 
   public present(id: Number, present: number) {
 
-    if (!localStorage.getItem('access_token') || localStorage.getItem('access_token') == 'undefined') {
-      this._snackBar.open("Najprej se moraš prijaviti!", "Zapri")
-      return
-    }
-
     this.data.forEach(element => {
-
       if (element.Id == id) {
         switch(present) {
           case 0:
@@ -55,28 +55,16 @@ export class CheckComponent implements OnInit {
       }
     })
 
-    let updated_data = []
-
-    this.data.forEach(element => {
-      let foo = []
-      this.header.forEach(naslov => {
-        foo.push(element[naslov])
+    this.formatingService.nastaviPrisotnost(id, present, this.data, this.header)
+      .then((odgovor) => {
+        if (odgovor) this.today = true
       })
-
-      updated_data.push(foo)
-    })
-
-    updated_data.unshift(this.header)
-
-    this.sheetService.updateData(updated_data)
-      .then(odgovor => {
-        console.log("Podatki shranjeni")
-        this.today = true
+      .catch((napaka) => {
+        console.log("Napaka", napaka)
       })
-      .catch(napaka => {
-        console.error(napaka)
+      .finally(() => {
+        this.prestej_prisotne()
       })
-    this.prestej_prisotne()
 
   }
 
@@ -91,43 +79,18 @@ export class CheckComponent implements OnInit {
   }
 
   private invalidFormating() {
-    this._snackBar.open("Tabela prisotnosti ni pravilno formatirana. Poglej navodila.", "Close")
+    this.alertService.openSnackBar("Tabela prisotnosti ni pravilno formatirana. Poglej navodila.")
     this.loaded = true
   }
 
   public changeDate(future: boolean) {
 
-    let current_index = 0
+    let datumChanged = this.formatingService.changeDate(future, this.header, this.pending_date, this.datum, this.today)
 
-    this.header.forEach((element, index) => {
-      if (element == this.datum) {
-        current_index = index
-      }
-    })
-
-    let new_index = current_index
-
-    if (future) new_index++
-    else new_index--
-
-    var re = new RegExp("([0-9][0-9]?.[0-9][0-9]?.*)")
-
-    if (re.test(this.header[new_index])) {
-      if (!this.today) {
-        this.today = true
-        this.pending_date = this.datum
-      } else if (this.header[new_index] == this.pending_date) {
-        this.today = false
-      }
-
-      this.datum = this.header[new_index]
-
-    } else {
-      if (future) {
-        this._snackBar.open("Ne morem it bolj v prihodnost.", "Zapri")
-      } else {
-        this._snackBar.open("Ne morem it bolj v preteklost.", "Zapri")
-      }
+    if (datumChanged) {
+      this.today = datumChanged.today
+      this.pending_date = datumChanged.pendingDate
+      this.datum = datumChanged.datum
     }
 
   }

@@ -20,6 +20,9 @@ export class PregledComponent implements OnInit {
   header = ''
   loaded = false
   data = []
+  imena = []
+  prisotnostPoLjudeh = []
+  prisotnostPoLjudehMax = 1
   skupine = []
   prisotni = 0
   odsotni = 0
@@ -53,7 +56,8 @@ export class PregledComponent implements OnInit {
     };
     this.dayGraphOptions = {
       responsive: true,
-      maintainAspectRatio: false
+      maintainAspectRatio: false,
+      aspectRatio: 1.2
     };
   }
 
@@ -75,7 +79,8 @@ export class PregledComponent implements OnInit {
     };
     this.peopleGraphOptions = {
       responsive: true,
-      maintainAspectRatio: false
+      maintainAspectRatio: false,
+      aspectRatio: 1.2
     };
   }
 
@@ -139,6 +144,9 @@ export class PregledComponent implements OnInit {
     .finally(() => {
       this.setupDayGraph();
       this.setupPeopleGraph();
+      this.imena = this.formattingService.vrniImena(this.data)
+      this.prisotnostPoLjudeh = this.formattingService.prisotnostPoLjudeh(this.data, this.header)
+      this.prisotnostPoLjudehMax = Math.max(...this.prisotnostPoLjudeh)
     })
   }
 }

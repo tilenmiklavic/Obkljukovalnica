@@ -11,42 +11,47 @@
     </mat-progress-spinner>
   </div>
 
-  <!-- <div class="skupine">
-    <div *ngFor="let skupina of data" class="container row skupina">
-      <div class="col-4"><b>{{skupina.ime}}</b></div>
-      <div class="col-7 align-self-center">
-        <mat-progress-bar mode="determinate" value="{{skupina.procent}}"></mat-progress-bar>
-      </div>
-      <div class="col-1">{{skupina.prisotni}}</div>
-    </div>
-  </div>
-</div> -->
-
-<!-- <div class="container">
-  Pregled po dnevih
+<div class="container">
+  <h2>
+    Pregled po dnevih
+  </h2>
   <div>
     <chart [type]="dayGraphType" [data]="dayGraphPodatki" [options]="dayGraphOptions"></chart>
   </div>
 </div>
 
+<hr>
+
 <div class="container">
-  Pregled po osebah
+  <h2>
+    Pregled po osebah
+  </h2>
   <div>
-    <chart [type]="peopleGraphType" [data]="peopleGraphPodatki" [options]="peopleGraphOptions"></chart>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Ime</th>
+          <th>Prisotnosti</th>
+          <th>Procent</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          [ngClass]="{'table-success': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= 70), 'table-warning': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= 50) && (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 < 70), 'table-danger': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= 0) && (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 < 50)}"
+          *ngFor="let element of imena; let i = index">
+
+          <td class="imePrisotnega col-6">{{imena[i]}} </td>
+          <td class="steviloPrisotnosti col-4">{{prisotnostPoLjudeh[i]}}</td>
+          <td class="col-2">{{prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 | number: '1.0-0'}}%</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- <div class="row" *ngFor="let element of imena; let i = index">
+      <span class="imePrisotnega col-6">{{imena[i]}} </span>
+      <span class="steviloPrisotnosti col-3">{{prisotnostPoLjudeh[i]}}</span>
+      <span class="col-3">{{prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 | number: '1.0-0'}}%</span>
+    </div> -->
   </div>
 </div>
 
-<div class="container">
-  Pregled danasnjega dne
-</div> -->
-
-
-<div class="line">
-  <mat-divider></mat-divider>
-</div>
-
-<div class="summary container">
-  <div class="datum"><b>Datum: </b>{{datum}}</div>
-  <div class="prisotni"><b>Prisotni: </b>{{prisotni}}</div>
-  <div class="odsotni"><b>Odsotni: </b>{{odsotni}}</div>
-</div>
+<div class="document_end"></div>
