@@ -1,3 +1,4 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
@@ -157,7 +158,21 @@ export class CheckComponent implements OnInit {
 
           if (!this.today) {
             // set date for correct querying
-            this.header.push(this.datum)
+
+            let novDatumIndex = 0
+            let prviDatum = false
+            this.header.forEach((element, index) => {
+              if (this.formatingService.jeDatum(element)) {
+                novDatumIndex = index + 1
+                prviDatum = true
+              } else if (!prviDatum) novDatumIndex = index + 1
+            })
+
+            if (novDatumIndex > 0) {
+              this.header.splice(novDatumIndex, 0, this.datum)
+            } else {
+              this.header.push(this.datum)
+            }
 
             this.data.forEach(element => {
               element[this.datum] = ''

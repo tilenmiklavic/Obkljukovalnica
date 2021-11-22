@@ -16,14 +16,23 @@ export class FormattingService {
   public vrniDatume(header): Array<String> {
 
     let result = []
-    var re = new RegExp("([0-9][0-9]?.[0-9][0-9]?.*)")
 
     header.forEach(element => {
-      if (re.test(element)) {
+      if (this.jeDatum(element)) {
         result.push(element)
       }
     });
     return result
+  }
+
+
+  public jeDatum(datum: string): Boolean {
+    var re = new RegExp("([0-9][0-9]?.[0-9][0-9]?.*)")
+    if (re.test(datum)) {
+      return true
+    }
+
+    return false
   }
 
 
@@ -120,9 +129,7 @@ export class FormattingService {
     if (future) new_index++
     else new_index--
 
-    var re = new RegExp("([0-9][0-9]?.[0-9][0-9]?.*)")
-
-    if (re.test(header[new_index])) {
+    if (this.jeDatum(header[new_index])) {
       if (!today) {
 
         console.log("1")
