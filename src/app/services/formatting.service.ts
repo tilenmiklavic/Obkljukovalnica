@@ -89,6 +89,27 @@ export class FormattingService {
   }
 
 
+  public steviloIzvedenihSrecanj(data, header): number {
+
+    let steviloSrecanj = 0
+    let trenutnoStevilo = 0
+    let znaki = ["x", "/", "o"]
+
+    data.forEach(element => {
+      header.forEach(naslov => {
+        if (znaki.includes(element[naslov])) {
+          trenutnoStevilo++
+        }
+      })
+
+      steviloSrecanj = Math.max(steviloSrecanj, trenutnoStevilo)
+      trenutnoStevilo = 0
+    })
+
+    return steviloSrecanj
+  }
+
+
   public nastaviPrisotnost(id: Number, present: Number, data: Array<any>, header): Promise<boolean> {
 
     if (!localStorage.getItem('access_token') || localStorage.getItem('access_token') == 'undefined') {

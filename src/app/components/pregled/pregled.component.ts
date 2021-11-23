@@ -146,7 +146,7 @@ export class PregledComponent implements OnInit {
       this.setupPeopleGraph();
       this.imena = this.formattingService.vrniImena(this.data)
       this.prisotnostPoLjudeh = this.formattingService.prisotnostPoLjudeh(this.data, this.header)
-      this.prisotnostPoLjudehMax = Math.max(...this.prisotnostPoLjudeh)
+      this.prisotnostPoLjudehMax = this.formattingService.steviloIzvedenihSrecanj(this.data, this.header)
     })
   }
 }
