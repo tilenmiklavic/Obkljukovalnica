@@ -37,7 +37,7 @@
       </thead>
       <tbody>
         <tr
-          [ngClass]="{'table-success': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= 70), 'table-warning': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= 50) && (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 < 70), 'table-danger': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= 0) && (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 < 50)}"
+          [ngClass]="{'table-success': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= low_presence), 'table-warning': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= miniamal_presence) && (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 < low_presence), 'table-danger': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= 0) && (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 < miniamal_presence)}"
           *ngFor="let element of imena; let i = index">
 
           <td class="imePrisotnega col-6">{{imena[i]}} </td>

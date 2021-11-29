@@ -28,6 +28,8 @@ export class PregledComponent implements OnInit {
   odsotni = 0
   color: ThemePalette = 'primary';
   mode: ProgressSpinnerMode = 'indeterminate';
+  public miniamal_presence = parseInt(localStorage.getItem("minimal_presence")) || 50
+  public low_presence = parseInt(localStorage.getItem("low_presence")) || 70
 
   dayGraphType = ''
   dayGraphPodatki = {}

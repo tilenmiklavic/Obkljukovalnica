@@ -53,7 +53,7 @@
 
 
   <div class="container sekcija">
-    <h2>Nastavitve</h2>
+    <h2>Splošne nastavitve</h2>
 
       <!-- <mat-form-field class="w-100" appearance="outline">
         <mat-label>Stolpec z imeni</mat-label>
@@ -73,6 +73,8 @@
         <mat-option *ngFor="let skupina of skupine" value="{{skupina.ime}}">{{skupina.ime}}</mat-option>
       </mat-select>
     </mat-form-field>
+
+    <h2>Znaki v preglednici</h2>
 
     <mat-form-field class="example-form-field w-100" appearance="outline">
       <mat-label>Znak za prisotnost</mat-label>
@@ -95,6 +97,24 @@
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
+
+    <h2>Opozorila</h2>
+
+    <mat-form-field class="example-form-field w-100" appearance="outline">
+      <mat-label>Minimalna prisotnost (%)</mat-label>
+      <input matInput type="text" [(ngModel)]="minimal_presence">
+      <button *ngIf="povezava" matSuffix mat-icon-button aria-label="Clear" (click)="minimal_presence=''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field class="example-form-field w-100" appearance="outline">
+      <mat-label>Nizka prisotnost (%)</mat-label>
+      <input matInput type="text" [(ngModel)]="low_presence">
+      <button *ngIf="povezava" matSuffix mat-icon-button aria-label="Clear" (click)="low_presence=''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
   </div>
 
   <div class="container save">

@@ -32,7 +32,9 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   public prisoten_symbol = localStorage.getItem('prisoten_symbol') || 'x'
   public odsoten_symbol = localStorage.getItem('odsoten_symbol') || '/'
   public upraviceno_odsoten_symbol = localStorage.getItem('upraviceno_odsoten_symbol') || 'o'
-  public versionNumber = 'v0.1.1'
+  public minimal_presence = localStorage.getItem('minimal_presence') || '50'
+  public low_presence = localStorage.getItem('low_presence') || '70'
+  public versionNumber = 'v0.1.3'
 
   onSignIn(googleUser) {
     //now it gets called
@@ -70,6 +72,10 @@ export class SettingsComponent implements OnInit, AfterViewInit {
       this.alertService.openSnackBar("Simbol za označevanje mora biti izpolnjen.")
       return
     }
+    if (parseInt(this.minimal_presence) >= parseInt(this.low_presence)) {
+      this.alertService.openSnackBar("Minimalna prisotnost mora biti manjša od nizke prisotnosti.")
+      return
+    }
 
     try {
       localStorage.setItem('preglednica', this.tabela)
@@ -79,6 +85,8 @@ export class SettingsComponent implements OnInit, AfterViewInit {
       localStorage.setItem('prisoten_symbol', this.prisoten_symbol)
       localStorage.setItem('odsoten_symbol', this.odsoten_symbol)
       localStorage.setItem('upraviceno_odsoten_symbol', this.upraviceno_odsoten_symbol)
+      localStorage.setItem('minimal_presence', this.minimal_presence)
+      localStorage.setItem('low_presence', this.low_presence)
 
       let idTabele = this.povezava.split('/')[5]
       localStorage.setItem('idTabele', idTabele)
