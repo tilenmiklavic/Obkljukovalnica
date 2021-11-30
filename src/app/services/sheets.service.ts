@@ -24,6 +24,8 @@ export class SheetsService {
 
     let url = this.url_skeleton + localStorage.getItem('idTabele')
 
+    console.log("url", url)
+
     return this.http
     // .get(this.sheets_url, {params: HttpParams})
     .get(url, {params: HttpParams})

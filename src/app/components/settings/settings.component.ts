@@ -24,6 +24,8 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   }
 
   public tabela: string = environment.url
+  public ime_preglednice: string = ""
+  public shranjene_preglednice: Array<any> = JSON.parse(localStorage.getItem('shranjene_preglednice')) || []
   public povezava: string = localStorage.getItem('povezava')
   public sekcija: string = ''
   public skupine = []
@@ -76,9 +78,17 @@ export class SettingsComponent implements OnInit, AfterViewInit {
       this.alertService.openSnackBar("Minimalna prisotnost mora biti manjša od nizke prisotnosti.")
       return
     }
+    let nova_preglednica = true
+    this.shranjene_preglednice.forEach(preglednica => {
+      if (preglednica.ime == this.ime_preglednice || preglednica.pobezava == this.povezava) nova_preglednica = false
+    })
+    if (nova_preglednica) {
+      this.shranjene_preglednice.push({"ime": this.ime_preglednice, "povezava": this.povezava})
+    }
 
     try {
       localStorage.setItem('preglednica', this.tabela)
+      localStorage.setItem('shranjene_preglednice', JSON.stringify(this.shranjene_preglednice))
       localStorage.setItem('skupina', this.izbrana_skupina)
       localStorage.setItem('stolpecImena', this.izbran_stolpec)
       localStorage.setItem('povezava', this.povezava)
@@ -88,8 +98,6 @@ export class SettingsComponent implements OnInit, AfterViewInit {
       localStorage.setItem('minimal_presence', this.minimal_presence)
       localStorage.setItem('low_presence', this.low_presence)
 
-      let idTabele = this.povezava.split('/')[5]
-      localStorage.setItem('idTabele', idTabele)
       this.alertService.openSnackBar("Nastavitve shranjene!")
 
     } catch (error) {
@@ -100,13 +108,19 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   }
 
   public getSkupine() {
+    let idTabele = this.povezava.split('/')[5]
+    console.log(idTabele)
+    localStorage.setItem('idTabele', idTabele)
+
     this.sheetsService.getSkupine()
     .then(odgovor => {
-      console.log("Settings", odgovor)
+      this.ime_preglednice = odgovor.properties.title
       odgovor.sheets.forEach(element => {
-        let foo = {"id": element.properties.sheetId, "ime": element.properties.title}
+        let foo = {"id": element.properties.title, "ime": element.properties.title}
         this.skupine.push(foo)
       })
+      this.alertService.openSnackBar("Tabela pridobljena.")
+      this.save()
     })
     .catch(napaka => {
       console.log("Napaka pri pridobivanju skupin")
@@ -117,7 +131,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.sheetsService.getSkupine()
       .then(odgovor => {
-        console.log("Settings", odgovor)
+        console.log("Settings2", odgovor)
         odgovor.sheets.forEach(element => {
           let foo = {"id": element.properties.sheetId, "ime": element.properties.title}
           this.skupine.push(foo)
