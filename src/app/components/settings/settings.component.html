@@ -31,6 +31,8 @@
   <div class="container preglednica">
     <h2>Preglednica</h2>
 
+    <p class="navodila">Polje povezava do tabele sprejme povezavo ki jo kopiramo do preglednice na storitvi Google Sheets. Po pritisku na gumb Pridobi preglednice bo ta shranjena v izbirni meni in lahko do nje naslednjič hitreje dostopamo.</p>
+
     <mat-form-field class="example-form-field w-100" appearance="outline">
       <mat-label>Povezava do tabele</mat-label>
       <input matInput type="text" [(ngModel)]="povezava">
@@ -55,6 +57,8 @@
   <div class="container sekcija">
     <h2>Splošne nastavitve</h2>
 
+    <p class="navodila">Spodnja nastavitev je relevantna, če imamo v preglednici več listov. V tem primeru bo v meniju možnost preklapljanja med skupinami. V nasprotnem primeru vedno izberemo prvi možnost.</p>
+
     <mat-form-field class="w-100" appearance="outline">
       <mat-label>Skupina</mat-label>
       <mat-select [(value)]="izbrana_skupina">
@@ -64,6 +68,8 @@
     </mat-form-field>
 
     <h2>Znaki v preglednici</h2>
+
+    <p class="navodila">Spodnji znaki bodo uporabljeni pri zapisu udeležbe v preglednico. V vsakem polju je dovoljen samo po en znak.</p>
 
     <mat-form-field class="example-form-field w-100" appearance="outline">
       <mat-label>Znak za prisotnost</mat-label>
@@ -88,6 +94,8 @@
     </mat-form-field>
 
     <h2>Opozorila</h2>
+
+    <p class="navodila">Nastavitve za spodnjo mejo obvestil na pregledu. Udeležba pod minimalno prisotnostjo bo obarvana rdeče, pod nizko rumeno, vse ostalo bo v zeleni barvi.</p>
 
     <mat-form-field class="example-form-field w-100" appearance="outline">
       <mat-label>Minimalna prisotnost (%)</mat-label>

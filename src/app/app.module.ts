@@ -11,7 +11,7 @@ import {MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/materia
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatBadgeModule} from '@angular/material/badge';
-
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -45,6 +45,7 @@ import { ChartModule } from 'angular2-chartjs';
     MatToolbarModule,
     BrowserAnimationsModule,
     MatIconModule,
+    MatTooltipModule,
     MatSliderModule,
     MatButtonModule,
     HttpClientModule,

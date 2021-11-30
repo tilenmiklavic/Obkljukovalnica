@@ -20,3 +20,8 @@ mat-form-field  {
   margin-top: 1.5rem;
   width: 100%;
 }
+
+.navodila {
+  color: rgb(173, 173, 173);
+  font-size: small;
+}
