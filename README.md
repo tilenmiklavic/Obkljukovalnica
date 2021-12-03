@@ -13,18 +13,24 @@ Preglednico ustvarimo na spletni storitvi Google Drive oz Google Spreadsheets. K
 - Stolpce, kjer želimo da se zapisujejo prisotnosti pa označimo z ustreznim datumom. 
 
 V zavihku za deljenje preglednice omogočimo urejanje za vsakogar s povezavo do te datoteke, povezavo pa skopiramo, saj jo bomo potrebovali pri nastavljanju aplikacije.
-Polja označena z `#` predstavljajo prosta polja. Označujejo mesta, kjer lahko v preglednico dodamo poljubne vnose, brez da bi s tem omejevali pravilno delovanje aplikacije. 
+Polja označena z `#` predstavljajo prosta polja. Označujejo mesta, kjer lahko v preglednico dodamo poljubne vnose, brez da bi s tem omejevali pravilno delovanje aplikacije.
+
+Referenčna preglednica je dostopna na povezavi: https://docs.google.com/spreadsheets/d/1J-syYAHFtVvnre3OKZFRr4vnILgJO1trxHev-EuJqvU/edit?usp=sharing
 
 ### Priprava aplikacije 
 
-Obiščemo spletni naslov [Obkljukovalnica](https://obkljukovalnica.web.app/) na mobilnem telefonu, ter izberemo možnost za dodajanje aplikacije na začetni zaslon. 
+Obiščemo spletni naslov [Obkljukovalnica](https://obkljukovalnica.web.app/) na mobilnem telefonu, ter izberemo možnost za dodajanje aplikacije na začetni zaslon. Do te možnosti lahko dostopamo na Androidu: ![pwa_android](https://user-images.githubusercontent.com/47791739/144672300-ef2c7a03-0edc-470d-bdac-6560a127c37f.jpeg)
+in na iOS: ![pwa_ios](https://user-images.githubusercontent.com/47791739/144672545-cab1e7e8-f588-4206-8611-3ce6b2f658b5.JPG)
+
+Po prvotni namestitvi lahko do nje vedno dostopamo z namizja.
+
 Ko aplikacijo prvič zaženemo, najprej obiščemo zavihek Nastavitve
 
 - prijavimo se z Google računom
 - povezavo iz prejšnje točke kopiramo v polje ***povezava do tabele***
 - stisnemo gumb ***Pridobi preglednico!***
 - iz spustnega menija *Skupina* izberemo prvo možnost (več možnosti je relevantnih samo v primeru da imamo več zavihkov v tabeli)
-- stisnemo gumb ***Save***
+- stisnemo gumb ***Shrani***
 
 ### Uporaba aplikacije
 
