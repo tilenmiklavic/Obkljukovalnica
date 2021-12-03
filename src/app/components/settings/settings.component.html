@@ -2,7 +2,11 @@
 
   <h1 class="naslov">Nastavitve</h1>
 
+
   <div class="container google">
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" [style.width]="setup_progress + '%'" area-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{setup_progress}}%</div>
+    </div>
     <h2>Prijava z Googlom</h2>
     <div id="my-signin2"></div>
     <script>
@@ -30,13 +34,8 @@
 
   <div class="container preglednica">
     <h2>Preglednica</h2>
-    <!-- <mat-form-field class="example-form-field w-100" appearance="outline">
-      <mat-label>Povezava do tabele</mat-label>
-      <input matInput type="text" [(ngModel)]="tabela" disabled>
-      <button *ngIf="tabela" matSuffix mat-icon-button aria-label="Clear" (click)="tabela=''" disabled>
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field> -->
+
+    <p class="navodila">Polje povezava do tabele sprejme povezavo ki jo kopiramo do preglednice na storitvi Google Sheets. Po pritisku na gumb Pridobi preglednice bo ta shranjena v izbirni meni in lahko do nje naslednjič hitreje dostopamo.</p>
 
     <mat-form-field class="example-form-field w-100" appearance="outline">
       <mat-label>Povezava do tabele</mat-label>
@@ -46,25 +45,23 @@
       </button>
     </mat-form-field>
 
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Shranjene preglednice</mat-label>
+      <mat-select [(value)]="povezava">
+        <mat-option></mat-option>
+        <mat-option *ngFor="let preglednica of shranjene_preglednice" value="{{preglednica.povezava}}">{{preglednica.ime}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <div class="get">
-      <button mat-raised-button color="primary" (click)="save(); getSkupine()">Pridobi preglednico!</button>
+      <button mat-raised-button color="primary" (click)="getSkupine(); ">Pridobi preglednico!</button>
     </div>
   </div>
 
-
   <div class="container sekcija">
-    <h2>Nastavitve</h2>
+    <h2>Splošne nastavitve</h2>
 
-      <!-- <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Stolpec z imeni</mat-label>
-        <mat-select [(value)]="izbran_stolpec" disabled>
-          <mat-option></mat-option>
-          <mat-option value='1'>1</mat-option>
-          <mat-option value='2'>2</mat-option>
-          <mat-option value='3'>3</mat-option>
-        </mat-select>
-      </mat-form-field> -->
-
+    <p class="navodila">Spodnja nastavitev je relevantna, če imamo v preglednici več listov. V tem primeru bo v meniju možnost preklapljanja med skupinami. V nasprotnem primeru vedno izberemo prvi možnost.</p>
 
     <mat-form-field class="w-100" appearance="outline">
       <mat-label>Skupina</mat-label>
@@ -73,6 +70,10 @@
         <mat-option *ngFor="let skupina of skupine" value="{{skupina.ime}}">{{skupina.ime}}</mat-option>
       </mat-select>
     </mat-form-field>
+
+    <h2>Znaki v preglednici</h2>
+
+    <p class="navodila">Spodnji znaki bodo uporabljeni pri zapisu udeležbe v preglednico. V vsakem polju je dovoljen samo po en znak.</p>
 
     <mat-form-field class="example-form-field w-100" appearance="outline">
       <mat-label>Znak za prisotnost</mat-label>
@@ -95,6 +96,26 @@
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
+
+    <h2>Opozorila</h2>
+
+    <p class="navodila">Nastavitve za spodnjo mejo obvestil na pregledu. Udeležba pod minimalno prisotnostjo bo obarvana rdeče, pod nizko rumeno, vse ostalo bo v zeleni barvi.</p>
+
+    <mat-form-field class="example-form-field w-100" appearance="outline">
+      <mat-label>Minimalna prisotnost (%)</mat-label>
+      <input matInput type="text" [(ngModel)]="minimal_presence">
+      <button *ngIf="povezava" matSuffix mat-icon-button aria-label="Clear" (click)="minimal_presence=''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field class="example-form-field w-100" appearance="outline">
+      <mat-label>Nizka prisotnost (%)</mat-label>
+      <input matInput type="text" [(ngModel)]="low_presence">
+      <button *ngIf="povezava" matSuffix mat-icon-button aria-label="Clear" (click)="low_presence=''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
   </div>
 
   <div class="container save">

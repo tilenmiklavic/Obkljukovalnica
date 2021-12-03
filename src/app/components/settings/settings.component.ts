@@ -20,10 +20,12 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     private _snackBar: MatSnackBar,
   ) {
     window['onSignIn'] = (user) => ngZone.run(() => this.onSignIn(user));
-
   }
 
+  public profile = null
   public tabela: string = environment.url
+  public ime_preglednice: string = ""
+  public shranjene_preglednice: Array<any> = JSON.parse(localStorage.getItem('shranjene_preglednice')) || []
   public povezava: string = localStorage.getItem('povezava')
   public sekcija: string = ''
   public skupine = []
@@ -32,32 +34,31 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   public prisoten_symbol = localStorage.getItem('prisoten_symbol') || 'x'
   public odsoten_symbol = localStorage.getItem('odsoten_symbol') || '/'
   public upraviceno_odsoten_symbol = localStorage.getItem('upraviceno_odsoten_symbol') || 'o'
-  public versionNumber = 'v0.1.1'
+  public minimal_presence = localStorage.getItem('minimal_presence') || '50'
+  public low_presence = localStorage.getItem('low_presence') || '70'
+  public setup_progress = 0
+  public versionNumber = 'v0.3.0'
 
   onSignIn(googleUser) {
     //now it gets called
 
-    let profile = googleUser.getBasicProfile()
+    this.profile = googleUser.getBasicProfile()
     let access_token = googleUser.getAuthResponse().access_token
 
-    console.log(googleUser)
-    console.log(profile)
-
-    localStorage.setItem('profile', profile)
+    localStorage.setItem('profile', this.profile)
     localStorage.setItem('access_token', access_token)
+
+    this.posodobiSetupProgress()
   }
 
   public onSuccess(googleUser) {
-
     let profile = googleUser.getBasicProfile()
     let access_token = googleUser.getAuthResponse().access_token
-
-    console.log(googleUser)
-    console.log(profile)
 
     localStorage.setItem('profile', profile)
     localStorage.setItem('access_token', access_token)
 
+    this.posodobiSetupProgress();
   }
 
   public onFailure() {
@@ -66,50 +67,83 @@ export class SettingsComponent implements OnInit, AfterViewInit {
 
   public save() {
 
+    console.log("Skupina", this.izbrana_skupina)
+
     if (!this.prisoten_symbol || !this.odsoten_symbol || !this.upraviceno_odsoten_symbol) {
       this.alertService.openSnackBar("Simbol za označevanje mora biti izpolnjen.")
       return
     }
+    if (parseInt(this.minimal_presence) >= parseInt(this.low_presence)) {
+      this.alertService.openSnackBar("Minimalna prisotnost mora biti manjša od nizke prisotnosti.")
+      return
+    }
+    let nova_preglednica = true
+    this.shranjene_preglednice.forEach(preglednica => {
+      if (preglednica.ime == this.ime_preglednice || preglednica.pobezava == this.povezava) nova_preglednica = false
+    })
+    if (nova_preglednica) {
+      this.shranjene_preglednice.push({"ime": this.ime_preglednice, "povezava": this.povezava})
+    }
 
     try {
       localStorage.setItem('preglednica', this.tabela)
+      localStorage.setItem('shranjene_preglednice', JSON.stringify(this.shranjene_preglednice))
       localStorage.setItem('skupina', this.izbrana_skupina)
       localStorage.setItem('stolpecImena', this.izbran_stolpec)
       localStorage.setItem('povezava', this.povezava)
       localStorage.setItem('prisoten_symbol', this.prisoten_symbol)
       localStorage.setItem('odsoten_symbol', this.odsoten_symbol)
       localStorage.setItem('upraviceno_odsoten_symbol', this.upraviceno_odsoten_symbol)
+      localStorage.setItem('minimal_presence', this.minimal_presence)
+      localStorage.setItem('low_presence', this.low_presence)
 
-      let idTabele = this.povezava.split('/')[5]
-      localStorage.setItem('idTabele', idTabele)
       this.alertService.openSnackBar("Nastavitve shranjene!")
 
     } catch (error) {
       console.log("Napaka pri shranjevanju nastavitev")
       this.alertService.openSnackBar("Ne morem shraniti nastavitev.")
+    } finally {
+      this.posodobiSetupProgress()
     }
 
   }
 
   public getSkupine() {
+    let idTabele = this.povezava.split('/')[5]
+    localStorage.setItem('idTabele', idTabele)
+
     this.sheetsService.getSkupine()
     .then(odgovor => {
-      console.log("Settings", odgovor)
+      this.ime_preglednice = odgovor.properties.title
       odgovor.sheets.forEach(element => {
-        let foo = {"id": element.properties.sheetId, "ime": element.properties.title}
+        let foo = {"id": element.properties.title, "ime": element.properties.title}
         this.skupine.push(foo)
       })
+      this.alertService.openSnackBar("Tabela pridobljena.")
+      this.save()
     })
     .catch(napaka => {
       console.log("Napaka pri pridobivanju skupin")
       console.error(napaka)
     })
+    .finally(() => {
+      this.posodobiSetupProgress()
+    })
   }
+
+
+  public posodobiSetupProgress() {
+    console.log(localStorage.getItem('access_token'))
+    console.log(this.povezava)
+    console.log(this.izbrana_skupina)
+    console.log(this.izbrana_skupina == 'undefined')
+    this.setup_progress = ((localStorage.getItem('access_token') != null) ? 50 : 0) + ((this.povezava) ? 25 : 0) + ((this.izbrana_skupina != undefined) && (this.izbrana_skupina != null) && (this.izbrana_skupina != 'undefined') ? 25 : 0)
+  }
+
 
   ngOnInit(): void {
     this.sheetsService.getSkupine()
       .then(odgovor => {
-        console.log("Settings", odgovor)
         odgovor.sheets.forEach(element => {
           let foo = {"id": element.properties.sheetId, "ime": element.properties.title}
           this.skupine.push(foo)
@@ -136,5 +170,8 @@ export class SettingsComponent implements OnInit, AfterViewInit {
         'onfailure': this.onFailure
       })
     });
+
+    if (localStorage.getItem('access_token')) this.profile = true
+    this.posodobiSetupProgress()
   }
 }

@@ -28,6 +28,8 @@ export class PregledComponent implements OnInit {
   odsotni = 0
   color: ThemePalette = 'primary';
   mode: ProgressSpinnerMode = 'indeterminate';
+  public miniamal_presence = parseInt(localStorage.getItem("minimal_presence")) || 50
+  public low_presence = parseInt(localStorage.getItem("low_presence")) || 70
 
   dayGraphType = ''
   dayGraphPodatki = {}
@@ -146,7 +148,7 @@ export class PregledComponent implements OnInit {
       this.setupPeopleGraph();
       this.imena = this.formattingService.vrniImena(this.data)
       this.prisotnostPoLjudeh = this.formattingService.prisotnostPoLjudeh(this.data, this.header)
-      this.prisotnostPoLjudehMax = Math.max(...this.prisotnostPoLjudeh)
+      this.prisotnostPoLjudehMax = this.formattingService.steviloIzvedenihSrecanj(this.data, this.header)
     })
   }
 }

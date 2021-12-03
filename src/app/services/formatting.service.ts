@@ -16,14 +16,23 @@ export class FormattingService {
   public vrniDatume(header): Array<String> {
 
     let result = []
-    var re = new RegExp("([0-9][0-9]?.[0-9][0-9]?.*)")
 
     header.forEach(element => {
-      if (re.test(element)) {
+      if (this.jeDatum(element)) {
         result.push(element)
       }
     });
     return result
+  }
+
+
+  public jeDatum(datum: string): Boolean {
+    var re = new RegExp("([0-9][0-9]?.[0-9][0-9]?.*)")
+    if (re.test(datum)) {
+      return true
+    }
+
+    return false
   }
 
 
@@ -80,6 +89,27 @@ export class FormattingService {
   }
 
 
+  public steviloIzvedenihSrecanj(data, header): number {
+
+    let steviloSrecanj = 0
+    let trenutnoStevilo = 0
+    let znaki = ["x", "/", "o"]
+
+    data.forEach(element => {
+      header.forEach(naslov => {
+        if (znaki.includes(element[naslov])) {
+          trenutnoStevilo++
+        }
+      })
+
+      steviloSrecanj = Math.max(steviloSrecanj, trenutnoStevilo)
+      trenutnoStevilo = 0
+    })
+
+    return steviloSrecanj
+  }
+
+
   public nastaviPrisotnost(id: Number, present: Number, data: Array<any>, header): Promise<boolean> {
 
     if (!localStorage.getItem('access_token') || localStorage.getItem('access_token') == 'undefined') {
@@ -120,9 +150,7 @@ export class FormattingService {
     if (future) new_index++
     else new_index--
 
-    var re = new RegExp("([0-9][0-9]?.[0-9][0-9]?.*)")
-
-    if (re.test(header[new_index])) {
+    if (this.jeDatum(header[new_index])) {
       if (!today) {
 
         console.log("1")
