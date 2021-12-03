@@ -2,7 +2,11 @@
 
   <h1 class="naslov">Nastavitve</h1>
 
+
   <div class="container google">
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" [style.width]="setup_progress + '%'" area-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{setup_progress}}%</div>
+    </div>
     <h2>Prijava z Googlom</h2>
     <div id="my-signin2"></div>
     <script>

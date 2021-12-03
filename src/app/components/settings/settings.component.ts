@@ -20,9 +20,9 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     private _snackBar: MatSnackBar,
   ) {
     window['onSignIn'] = (user) => ngZone.run(() => this.onSignIn(user));
-
   }
 
+  public profile = null
   public tabela: string = environment.url
   public ime_preglednice: string = ""
   public shranjene_preglednice: Array<any> = JSON.parse(localStorage.getItem('shranjene_preglednice')) || []
@@ -36,32 +36,29 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   public upraviceno_odsoten_symbol = localStorage.getItem('upraviceno_odsoten_symbol') || 'o'
   public minimal_presence = localStorage.getItem('minimal_presence') || '50'
   public low_presence = localStorage.getItem('low_presence') || '70'
-  public versionNumber = 'v0.1.3'
+  public setup_progress = 0
+  public versionNumber = 'v0.3.0'
 
   onSignIn(googleUser) {
     //now it gets called
 
-    let profile = googleUser.getBasicProfile()
+    this.profile = googleUser.getBasicProfile()
     let access_token = googleUser.getAuthResponse().access_token
 
-    console.log(googleUser)
-    console.log(profile)
-
-    localStorage.setItem('profile', profile)
+    localStorage.setItem('profile', this.profile)
     localStorage.setItem('access_token', access_token)
+
+    this.posodobiSetupProgress()
   }
 
   public onSuccess(googleUser) {
-
     let profile = googleUser.getBasicProfile()
     let access_token = googleUser.getAuthResponse().access_token
-
-    console.log(googleUser)
-    console.log(profile)
 
     localStorage.setItem('profile', profile)
     localStorage.setItem('access_token', access_token)
 
+    this.posodobiSetupProgress();
   }
 
   public onFailure() {
@@ -69,6 +66,8 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   }
 
   public save() {
+
+    console.log("Skupina", this.izbrana_skupina)
 
     if (!this.prisoten_symbol || !this.odsoten_symbol || !this.upraviceno_odsoten_symbol) {
       this.alertService.openSnackBar("Simbol za označevanje mora biti izpolnjen.")
@@ -103,13 +102,14 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     } catch (error) {
       console.log("Napaka pri shranjevanju nastavitev")
       this.alertService.openSnackBar("Ne morem shraniti nastavitev.")
+    } finally {
+      this.posodobiSetupProgress()
     }
 
   }
 
   public getSkupine() {
     let idTabele = this.povezava.split('/')[5]
-    console.log(idTabele)
     localStorage.setItem('idTabele', idTabele)
 
     this.sheetsService.getSkupine()
@@ -126,12 +126,24 @@ export class SettingsComponent implements OnInit, AfterViewInit {
       console.log("Napaka pri pridobivanju skupin")
       console.error(napaka)
     })
+    .finally(() => {
+      this.posodobiSetupProgress()
+    })
   }
+
+
+  public posodobiSetupProgress() {
+    console.log(localStorage.getItem('access_token'))
+    console.log(this.povezava)
+    console.log(this.izbrana_skupina)
+    console.log(this.izbrana_skupina == 'undefined')
+    this.setup_progress = ((localStorage.getItem('access_token') != null) ? 50 : 0) + ((this.povezava) ? 25 : 0) + ((this.izbrana_skupina != undefined) && (this.izbrana_skupina != null) && (this.izbrana_skupina != 'undefined') ? 25 : 0)
+  }
+
 
   ngOnInit(): void {
     this.sheetsService.getSkupine()
       .then(odgovor => {
-        console.log("Settings2", odgovor)
         odgovor.sheets.forEach(element => {
           let foo = {"id": element.properties.sheetId, "ime": element.properties.title}
           this.skupine.push(foo)
@@ -158,5 +170,8 @@ export class SettingsComponent implements OnInit, AfterViewInit {
         'onfailure': this.onFailure
       })
     });
+
+    if (localStorage.getItem('access_token')) this.profile = true
+    this.posodobiSetupProgress()
   }
 }
