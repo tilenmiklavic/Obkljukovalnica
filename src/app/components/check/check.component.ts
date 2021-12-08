@@ -1,4 +1,3 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
@@ -6,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertService } from 'src/app/services/alert.service';
 import { FormattingService } from 'src/app/services/formatting.service';
 import { SheetsService } from 'src/app/services/sheets.service';
+import { Strings } from 'src/app/classes/strings';
 
 @Component({
   selector: 'app-check',
@@ -80,7 +80,7 @@ export class CheckComponent implements OnInit {
   }
 
   private invalidFormating() {
-    this.alertService.openSnackBar("Tabela prisotnosti ni pravilno formatirana. Poglej navodila.")
+    this.alertService.openSnackBar(Strings.tableFormattingErrorNotification)
     this.loaded = true
   }
 
@@ -144,7 +144,7 @@ export class CheckComponent implements OnInit {
 
         // dobimo kot odgovor prazno tabelo
         if (this.data.length == 0) {
-          this._snackBar.open("Za to skupino ni podatkov.", "Close")
+          this._snackBar.open(Strings.noDataErrorNotification, "Close")
         } else {
           // check is today date doens't exist yet
           // make it
@@ -185,11 +185,11 @@ export class CheckComponent implements OnInit {
         this.loaded = true
 
         if (!localStorage.getItem('access_token') || localStorage.getItem('access_token') == 'undefined' || localStorage.getItem('access_token') == 'null') {
-          this._snackBar.open("Najprej se moraš prijaviti!", "Zapri")
+          this._snackBar.open(Strings.groupSelectNoticiation, "Zapri")
         } else if (!localStorage.getItem('idTabele') || localStorage.getItem('idTabele') == 'undefined' || localStorage.getItem('idTabele') == 'null') {
-          this._snackBar.open("Vpiši ID tabele!", "Zapri")
+          this._snackBar.open(Strings.tableIdInputNotification, "Zapri")
         } else if (!localStorage.getItem('skupina') || localStorage.getItem('skupina') == 'undefined' || localStorage.getItem('skupina') == 'null') {
-          this._snackBar.open("Izberi skupino!", "Zapri")
+          this._snackBar.open(Strings.groupSelectNoticiation, "Zapri")
         }
       })
   }

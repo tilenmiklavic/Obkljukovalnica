@@ -3,6 +3,7 @@ import { SheetsService } from 'src/app/services/sheets.service';
 import { environment } from 'src/environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertService } from 'src/app/services/alert.service';
+import { Strings } from 'src/app/classes/strings';
 
 
 @Component({
@@ -37,7 +38,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   public minimal_presence = localStorage.getItem('minimal_presence') || '50'
   public low_presence = localStorage.getItem('low_presence') || '70'
   public setup_progress = 0
-  public versionNumber = 'v0.3.0'
+  public versionNumber = 'v0.3.1'
 
   onSignIn(googleUser) {
     //now it gets called
@@ -70,11 +71,11 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     console.log("Skupina", this.izbrana_skupina)
 
     if (!this.prisoten_symbol || !this.odsoten_symbol || !this.upraviceno_odsoten_symbol) {
-      this.alertService.openSnackBar("Simbol za označevanje mora biti izpolnjen.")
+      this.alertService.openSnackBar(Strings.markingSymbolEmptyErrorNotification)
       return
     }
     if (parseInt(this.minimal_presence) >= parseInt(this.low_presence)) {
-      this.alertService.openSnackBar("Minimalna prisotnost mora biti manjša od nizke prisotnosti.")
+      this.alertService.openSnackBar(Strings.minimalPresenceLowestErrorNotification)
       return
     }
     let nova_preglednica = true
@@ -101,7 +102,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
 
     } catch (error) {
       console.log("Napaka pri shranjevanju nastavitev")
-      this.alertService.openSnackBar("Ne morem shraniti nastavitev.")
+      this.alertService.openSnackBar(Strings.saveChangesErrorNotification)
     } finally {
       this.posodobiSetupProgress()
     }
@@ -119,7 +120,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
         let foo = {"id": element.properties.title, "ime": element.properties.title}
         this.skupine.push(foo)
       })
-      this.alertService.openSnackBar("Tabela pridobljena.")
+      this.alertService.openSnackBar(Strings.getTableSuccessNotification)
       this.save()
     })
     .catch(napaka => {
