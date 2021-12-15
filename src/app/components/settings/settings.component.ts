@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertService } from 'src/app/services/alert.service';
 import { Strings } from 'src/app/classes/strings';
+import {ThemePalette} from '@angular/material/core';
 
 
 @Component({
@@ -39,6 +40,12 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   public low_presence = localStorage.getItem('low_presence') || '70'
   public setup_progress = 0
   public versionNumber = 'v0.3.1'
+
+  // ***********
+  color: ThemePalette = 'accent';
+  public osebnoNapredovanjeToggle = JSON.parse(localStorage.getItem('osebnoNapredovanjeEnabled'))|| false;
+  disabled = false;
+  // ***********
 
   onSignIn(googleUser) {
     //now it gets called
@@ -132,7 +139,6 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     })
   }
 
-
   public posodobiSetupProgress() {
     console.log(localStorage.getItem('access_token'))
     console.log(this.povezava)
@@ -141,6 +147,10 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     this.setup_progress = ((localStorage.getItem('access_token') != null) ? 50 : 0) + ((this.povezava) ? 25 : 0) + ((this.izbrana_skupina != undefined) && (this.izbrana_skupina != null) && (this.izbrana_skupina != 'undefined') ? 25 : 0)
   }
 
+  public switchOsebnoNapredovanje() {
+    console.log(this.osebnoNapredovanjeToggle)
+    localStorage.setItem('osebnoNapredovanjeEnabled', JSON.stringify(this.osebnoNapredovanjeToggle))
+  }
 
   ngOnInit(): void {
     this.sheetsService.getSkupine()
