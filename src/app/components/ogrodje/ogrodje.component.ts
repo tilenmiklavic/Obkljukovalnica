@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { setClassMetadata } from '@angular/core/src/r3_symbols';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ogrodje',
@@ -9,35 +8,63 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 })
 export class OgrodjeComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   tab = 2
   scale1 = 'scale(1)'
   scale2 = 'scale(1)'
   scale3 = 'scale(1)'
 
-  public changeTab(index) {
-    this.tab = index
+  public osebnoNapredovanje = false
 
+  public navigate(index: number) {
+    this.tab = index
     this.scale1 = 'scale(1)'
     this.scale2 = 'scale(1)'
     this.scale3 = 'scale(1)'
+    this.refresh()
 
-    switch(index) {
-      case 0:
-        this.scale1 = 'scale(1.5)'
-        break;
-      case 1:
-        this.scale2 = 'scale(1.5)'
-        break;
-      case 2:
-        this.scale3 = 'scale(1.5)'
-        break;
+    if (this.osebnoNapredovanje) {
+      switch(index) {
+        case 0:
+          this.router.navigate(['osebno-napredovanje']);
+          this.scale1 = 'scale(1.5)'
+          break;
+        case 1:
+          this.router.navigate(['osebno-napredovanje/pregled']);
+          this.scale2 = 'scale(1.5)'
+          break;
+        case 2:
+          this.router.navigate(['settings']);
+          this.scale3 = 'scale(1.5)'
+          break;
+      }
+    } else {
+      switch(index) {
+        case 0:
+          this.router.navigate(['/']);
+          this.scale1 = 'scale(1.5)'
+          break;
+        case 1:
+          this.router.navigate(['pregled']);
+          this.scale2 = 'scale(1.5)'
+          break;
+        case 2:
+          this.router.navigate(['settings']);
+          this.scale3 = 'scale(1.5)'
+          break;
+      }
     }
+  }
 
+  public refresh() {
+    this.osebnoNapredovanje = JSON.parse(localStorage.getItem('osebnoNapredovanjeEnabled')) || false
   }
 
   ngOnInit(): void {
+    this.refresh()
     console.log("Ogrodje")
   }
 
