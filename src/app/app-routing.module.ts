@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CheckComponent } from './components/check/check.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { OsebnoNapredovanjeCheckComponent } from './components/osebno-napredovanje-check/osebno-napredovanje-check.component';
+import { OsebnoNapredovanjePregledComponent } from './components/osebno-napredovanje-pregled/osebno-napredovanje-pregled.component';
 import { PregledComponent } from './components/pregled/pregled.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { SigninComponent } from './components/signin/signin.component';
@@ -14,6 +16,16 @@ const routes: Routes = [
   {
     path: 'pregled',
     component: PregledComponent
+  },
+  {
+    path: 'osebno-napredovanje',
+    component: OsebnoNapredovanjeCheckComponent,
+    children: [
+      {
+        path: 'pregled',
+        component: OsebnoNapredovanjePregledComponent
+      }
+    ]
   },
   {
     path: '',
