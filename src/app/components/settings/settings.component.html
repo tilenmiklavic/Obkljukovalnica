@@ -122,6 +122,23 @@
     <button mat-raised-button color="primary" (click)="save()">Shrani</button>
   </div>
 
+  <div class="container sekcija">
+    <h2 class="mt-4">Osebno napredovanje</h2>
+
+    <p class="navodila">Omogočenje sekcije za osebno napredovanje bo spremeilo delovanje aplikacija iz preverjanja prisotnosti v sledenje in pregled napredka pri osebnem napredovanju za vnešene člane.</p>
+
+    <mat-slide-toggle
+          class="example-margin"
+          [color]="color"
+          [checked]="osebnoNapredovanjeToggle"
+          [disabled]="disabled"
+          [(ngModel)]="osebnoNapredovanjeToggle"
+          (change)="switchOsebnoNapredovanje()">
+
+          Omogoči osebno napredovanje!
+    </mat-slide-toggle>
+  </div>
+
   <div class="container version d-flex justify-content-center">
     <span class="badge rounded-pill bg-light text-dark">{{versionNumber}}</span>
   </div>
