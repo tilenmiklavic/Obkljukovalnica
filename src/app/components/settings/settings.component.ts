@@ -38,7 +38,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   public minimal_presence = localStorage.getItem('minimal_presence') || '50'
   public low_presence = localStorage.getItem('low_presence') || '70'
   public setup_progress = 0
-  public versionNumber = 'v0.3.1'
+  public versionNumber = 'v0.3.2'
 
   onSignIn(googleUser) {
     //now it gets called
