@@ -1,0 +1,29 @@
+.udelezenec {
+  background-color: rgb(247, 247, 247);
+  height: auto;
+  border-radius: 15px;
+  margin: 0rem 0rem 0.5rem 0rem;
+  padding: 0.5rem;
+  box-shadow: 0px 0px 5px -2px rgba(138,138,138,1);
+}
+
+.udelezenci {
+  margin-top: 1rem;
+}
+
+.ime {
+  font-size: large;
+  font-weight: 600;
+}
+
+.spinner {
+  z-index: 10;
+}
+
+.izziv {
+  margin: 0.5rem;
+}
+
+.check {
+  color: green;
+}

@@ -8,9 +8,6 @@ import { SHRAMBA_BRSKALNIKA } from '../classes/shramba';
 })
 export class SheetsService {
   constructor(@Inject(SHRAMBA_BRSKALNIKA) private shramba: Storage, private http: HttpClient) { }
-  private url = environment.url;
-  private edit_url = environment.update_url;
-  private sheets_url = environment.sheets_url;
   private url_skeleton = environment.urlSkeleton;
 
 
@@ -27,7 +24,6 @@ export class SheetsService {
     console.log("url", url)
 
     return this.http
-    // .get(this.sheets_url, {params: HttpParams})
     .get(url, {params: HttpParams})
     .toPromise()
     .then(data => data as any)
@@ -38,18 +34,9 @@ export class SheetsService {
 
     const apiKey = environment.apiKey
 
-    // const httpLastnosti = {
-    //   headers: new HttpHeaders({
-    //     key: apiKey
-    //   })
-    // }
-
     const HttpParams = {
       key: apiKey
     }
-
-    // const skupina = localStorage.getItem('skupina')
-    // const new_url = this.url + skupina
 
     let new_url = this.url_skeleton + localStorage.getItem('idTabele') + '/values/' + skupina
 
@@ -65,8 +52,6 @@ export class SheetsService {
     const apiKey = environment.apiKey
     const access_token = localStorage.getItem('access_token')
 
-    console.log(access_token)
-
     const HttpParams = {
       key: apiKey,
       valueInputOption: 'RAW'
@@ -79,7 +64,6 @@ export class SheetsService {
       })
     }
 
-    // let new_url = this.edit_url + localStorage.getItem('skupina') + '?valueInputOption=RAW&key=' + apiKey
     let new_url = this.url_skeleton + localStorage.getItem('idTabele') + '/values/' + localStorage.getItem('skupina') + '?valueInputOption=RAW&key=' + apiKey
 
     const body = {
