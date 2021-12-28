@@ -110,7 +110,6 @@ export class CheckComponent implements OnInit {
         if (this.data.length == 0) {
           this._snackBar.open(Strings.noDataErrorNotification, "Close")
         } else {
-
           let odgovor: any = this.sheetService.checkTodayDate(this.data)
           this.today = odgovor.today
 
