@@ -24,7 +24,6 @@ export class SheetsService {
     console.log("url", url)
 
     return this.http
-    // .get(this.sheets_url, {params: HttpParams})
     .get(url, {params: HttpParams})
     .toPromise()
     .then(data => data as any)

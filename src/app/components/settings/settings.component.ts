@@ -1,9 +1,10 @@
-import { Component, OnInit, NgZone, AfterViewInit } from '@angular/core';
+import { Component, OnInit, NgZone, AfterViewInit, ViewChild } from '@angular/core';
 import { SheetsService } from 'src/app/services/sheets.service';
 import { environment } from 'src/environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertService } from 'src/app/services/alert.service';
 import { Strings } from 'src/app/classes/strings';
+import {MatAccordion} from '@angular/material/expansion';
 import {ThemePalette} from '@angular/material/core';
 import { OsebnoNapredovanjeService } from 'src/app/services/osebno-napredovanje.service';
 
@@ -45,12 +46,12 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   public versionNumber = 'v0.3.1'
 
   // *********** OSEBNO NAPREDOVANJE ***********
-  color: ThemePalette = 'accent';
-  public osebnoNapredovanjeToggle = JSON.parse(localStorage.getItem('osebnoNapredovanjeEnabled'))|| false;
-  disabled = false;
-
   public ONPreglednicaUrl: string = localStorage.getItem('ONPreglednicaUrl')
   public ONShranjenePreglednice: Array<any> = JSON.parse(localStorage.getItem('ONShranjenePreglednice')) || []
+  public osebnoNapredovanjeToggle = JSON.parse(localStorage.getItem('osebnoNapredovanjeEnabled'))|| false;
+  color: ThemePalette = 'accent';
+  disabled = false;
+
   // *********** *********** *********** *******
 
   onSignIn(googleUser) {
@@ -183,6 +184,42 @@ export class SettingsComponent implements OnInit, AfterViewInit {
       console.error(napaka)
     })
   }
+
+  /**
+  * Pridobivanje podatkov
+  */
+  public getTabelaON() {
+    localStorage.setItem('ONPreglednicaUrl', this.ONPreglednicaUrl)
+
+    this.osebnoNapredovanjeService.getMetadata()
+    .then(odgovor => {
+      let skupina = odgovor.sheets[0].properties.title
+      let title = odgovor.properties.title
+
+      let nova_preglednica = true
+      this.ONShranjenePreglednice.forEach(preglednica => {
+        if (preglednica.ime == title || preglednica.povezava == this.povezava) nova_preglednica = false
+      })
+      if (nova_preglednica) {
+        this.ONShranjenePreglednice.push({"ime": title, "povezava": this.ONPreglednicaUrl, "skupina": skupina})
+      }
+
+      this.alertService.openSnackBar(Strings.getTableSuccessNotification)
+
+      localStorage.setItem('ONShranjenePreglednice', JSON.stringify(this.ONShranjenePreglednice))
+    })
+    .catch(napaka => {
+      console.log("Napaka pri pridobivanju skupin")
+      console.error(napaka)
+    })
+  }
+
+
+  public switchOsebnoNapredovanje() {
+    console.log(this.osebnoNapredovanjeToggle)
+    localStorage.setItem('osebnoNapredovanjeEnabled', JSON.stringify(this.osebnoNapredovanjeToggle))
+  }
+
 
   ngOnInit(): void {
     this.sheetsService.getSkupine()

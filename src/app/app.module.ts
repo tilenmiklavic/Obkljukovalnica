@@ -14,6 +14,7 @@ import {MatBadgeModule} from '@angular/material/badge';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -65,6 +66,7 @@ import { OsebnoNapredovanjePregledComponent } from './components/osebno-napredov
     MatBadgeModule,
     MatSlideToggleModule,
     MatExpansionModule,
+    MatSlideToggleModule,
     ChartModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
