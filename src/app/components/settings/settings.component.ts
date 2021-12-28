@@ -4,6 +4,8 @@ import { environment } from 'src/environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertService } from 'src/app/services/alert.service';
 import { Strings } from 'src/app/classes/strings';
+import {ThemePalette} from '@angular/material/core';
+import { OsebnoNapredovanjeService } from 'src/app/services/osebno-napredovanje.service';
 
 
 @Component({
@@ -18,6 +20,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     private ngZone: NgZone,
     private sheetsService: SheetsService,
     private alertService: AlertService,
+    private osebnoNapredovanjeService: OsebnoNapredovanjeService,
     private _snackBar: MatSnackBar,
   ) {
     window['onSignIn'] = (user) => ngZone.run(() => this.onSignIn(user));
@@ -40,6 +43,15 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   public setup_progress = 0
   public panelOpenState = false
   public versionNumber = 'v0.3.1'
+
+  // *********** OSEBNO NAPREDOVANJE ***********
+  color: ThemePalette = 'accent';
+  public osebnoNapredovanjeToggle = JSON.parse(localStorage.getItem('osebnoNapredovanjeEnabled'))|| false;
+  disabled = false;
+
+  public ONPreglednicaUrl: string = localStorage.getItem('ONPreglednicaUrl')
+  public ONShranjenePreglednice: Array<any> = JSON.parse(localStorage.getItem('ONShranjenePreglednice')) || []
+  // *********** *********** *********** *******
 
   onSignIn(googleUser) {
     //now it gets called
@@ -68,9 +80,6 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   }
 
   public save() {
-
-    console.log("Skupina", this.izbrana_skupina)
-
     if (!this.prisoten_symbol || !this.odsoten_symbol || !this.upraviceno_odsoten_symbol) {
       this.alertService.openSnackBar(Strings.markingSymbolEmptyErrorNotification)
       return
@@ -81,7 +90,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     }
     let nova_preglednica = true
     this.shranjene_preglednice.forEach(preglednica => {
-      if (preglednica.ime == this.ime_preglednice || preglednica.pobezava == this.povezava) nova_preglednica = false
+      if (preglednica.ime == this.ime_preglednice || preglednica.povezava == this.povezava) nova_preglednica = false
     })
     if (nova_preglednica) {
       this.shranjene_preglednice.push({"ime": this.ime_preglednice, "povezava": this.povezava})
@@ -133,7 +142,6 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     })
   }
 
-
   public posodobiSetupProgress() {
     console.log(localStorage.getItem('access_token'))
     console.log(this.povezava)
@@ -142,6 +150,39 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     this.setup_progress = ((localStorage.getItem('access_token') != null) ? 50 : 0) + ((this.povezava) ? 25 : 0) + ((this.izbrana_skupina != undefined) && (this.izbrana_skupina != null) && (this.izbrana_skupina != 'undefined') ? 25 : 0)
   }
 
+  public switchOsebnoNapredovanje() {
+    console.log(this.osebnoNapredovanjeToggle)
+    localStorage.setItem('osebnoNapredovanjeEnabled', JSON.stringify(this.osebnoNapredovanjeToggle))
+  }
+
+  /**
+   * Pridobivanje podatkov
+   */
+  public getTabelaON() {
+    localStorage.setItem('ONPreglednicaUrl', this.ONPreglednicaUrl)
+
+    this.osebnoNapredovanjeService.getMetadata()
+    .then(odgovor => {
+      let skupina = odgovor.sheets[0].properties.title
+      let title = odgovor.properties.title
+
+      let nova_preglednica = true
+      this.ONShranjenePreglednice.forEach(preglednica => {
+        if (preglednica.ime == title || preglednica.povezava == this.povezava) nova_preglednica = false
+      })
+      if (nova_preglednica) {
+        this.ONShranjenePreglednice.push({"ime": title, "povezava": this.ONPreglednicaUrl, "skupina": skupina})
+      }
+
+      this.alertService.openSnackBar(Strings.getTableSuccessNotification)
+
+      localStorage.setItem('ONShranjenePreglednice', JSON.stringify(this.ONShranjenePreglednice))
+    })
+    .catch(napaka => {
+      console.log("Napaka pri pridobivanju skupin")
+      console.error(napaka)
+    })
+  }
 
   ngOnInit(): void {
     this.sheetsService.getSkupine()

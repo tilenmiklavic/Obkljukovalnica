@@ -12,6 +12,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatExpansionModule} from '@angular/material/expansion';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -22,7 +23,7 @@ import { CheckComponent } from './components/check/check.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OgrodjeComponent } from './components/ogrodje/ogrodje.component';
-import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { HttpClientModule } from "@angular/common/http";
 import { FormsModule } from '@angular/forms';
 import { PregledComponent } from './components/pregled/pregled.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -62,6 +63,7 @@ import { OsebnoNapredovanjePregledComponent } from './components/osebno-napredov
     MatProgressBarModule,
     MatDividerModule,
     MatBadgeModule,
+    MatSlideToggleModule,
     MatExpansionModule,
     ChartModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
