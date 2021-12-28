@@ -1,3 +1,4 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -63,8 +64,13 @@ export class OgrodjeComponent implements OnInit {
     this.osebnoNapredovanje = JSON.parse(localStorage.getItem('osebnoNapredovanjeEnabled')) || false
   }
 
+  private checkCorrectRouting() {
+    if (this.osebnoNapredovanje) this.router.navigate(['osebno-napredovanje'])
+  }
+
   ngOnInit(): void {
     this.refresh()
+    this.checkCorrectRouting()
     console.log("Ogrodje")
   }
 
