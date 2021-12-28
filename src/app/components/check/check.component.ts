@@ -151,14 +151,14 @@ export class CheckComponent implements OnInit {
           this.today = false
           this.valid_data = true
           this.header.forEach(element => {
-            if (element == this.datum) {
+            if (element.includes( this.datum )) {
               this.today = true
+              this.datum = element
             }
           })
 
           if (!this.today) {
             // set date for correct querying
-
             let novDatumIndex = 0
             let prviDatum = false
             this.header.forEach((element, index) => {

@@ -4,9 +4,9 @@ import { environment } from 'src/environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertService } from 'src/app/services/alert.service';
 import { Strings } from 'src/app/classes/strings';
-import { OsebnoNapredovanjeService } from 'src/app/services/osebno-napredovanje-service.service';
-import {ThemePalette} from '@angular/material/core';
 import {MatAccordion} from '@angular/material/expansion';
+import {ThemePalette} from '@angular/material/core';
+import { OsebnoNapredovanjeService } from 'src/app/services/osebno-napredovanje.service';
 
 
 @Component({
@@ -48,9 +48,10 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   // *********** OSEBNO NAPREDOVANJE ***********
   public ONPreglednicaUrl: string = localStorage.getItem('ONPreglednicaUrl')
   public ONShranjenePreglednice: Array<any> = JSON.parse(localStorage.getItem('ONShranjenePreglednice')) || []
-  color: ThemePalette = 'accent';
   public osebnoNapredovanjeToggle = JSON.parse(localStorage.getItem('osebnoNapredovanjeEnabled'))|| false;
+  color: ThemePalette = 'accent';
   disabled = false;
+
   // *********** *********** *********** *******
 
   onSignIn(googleUser) {
@@ -142,7 +143,6 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     })
   }
 
-
   public posodobiSetupProgress() {
     console.log(localStorage.getItem('access_token'))
     console.log(this.povezava)
@@ -151,6 +151,39 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     this.setup_progress = ((localStorage.getItem('access_token') != null) ? 50 : 0) + ((this.povezava) ? 25 : 0) + ((this.izbrana_skupina != undefined) && (this.izbrana_skupina != null) && (this.izbrana_skupina != 'undefined') ? 25 : 0)
   }
 
+  public switchOsebnoNapredovanje() {
+    console.log(this.osebnoNapredovanjeToggle)
+    localStorage.setItem('osebnoNapredovanjeEnabled', JSON.stringify(this.osebnoNapredovanjeToggle))
+  }
+
+  /**
+   * Pridobivanje podatkov
+   */
+  public getTabelaON() {
+    localStorage.setItem('ONPreglednicaUrl', this.ONPreglednicaUrl)
+
+    this.osebnoNapredovanjeService.getMetadata()
+    .then(odgovor => {
+      let skupina = odgovor.sheets[0].properties.title
+      let title = odgovor.properties.title
+
+      let nova_preglednica = true
+      this.ONShranjenePreglednice.forEach(preglednica => {
+        if (preglednica.ime == title || preglednica.povezava == this.povezava) nova_preglednica = false
+      })
+      if (nova_preglednica) {
+        this.ONShranjenePreglednice.push({"ime": title, "povezava": this.ONPreglednicaUrl, "skupina": skupina})
+      }
+
+      this.alertService.openSnackBar(Strings.getTableSuccessNotification)
+
+      localStorage.setItem('ONShranjenePreglednice', JSON.stringify(this.ONShranjenePreglednice))
+    })
+    .catch(napaka => {
+      console.log("Napaka pri pridobivanju skupin")
+      console.error(napaka)
+    })
+  }
 
   /**
   * Pridobivanje podatkov

@@ -49,6 +49,7 @@ export class SheetsService {
   }
 
   public updateData(data: any) {
+    console.log(data)
     const apiKey = environment.apiKey
     const access_token = localStorage.getItem('access_token')
 

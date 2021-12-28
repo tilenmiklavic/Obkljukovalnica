@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { OsebnoNapredovanjeService } from 'src/app/services/osebno-napredovanje-service.service';
+import { OsebnoNapredovanjeService } from 'src/app/services/osebno-napredovanje.service';
 
 @Component({
   selector: 'app-osebno-napredovanje-check',
