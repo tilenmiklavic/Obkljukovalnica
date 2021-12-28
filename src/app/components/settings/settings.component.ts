@@ -185,41 +185,6 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     })
   }
 
-  /**
-  * Pridobivanje podatkov
-  */
-  public getTabelaON() {
-    localStorage.setItem('ONPreglednicaUrl', this.ONPreglednicaUrl)
-
-    this.osebnoNapredovanjeService.getMetadata()
-    .then(odgovor => {
-      let skupina = odgovor.sheets[0].properties.title
-      let title = odgovor.properties.title
-
-      let nova_preglednica = true
-      this.ONShranjenePreglednice.forEach(preglednica => {
-        if (preglednica.ime == title || preglednica.povezava == this.povezava) nova_preglednica = false
-      })
-      if (nova_preglednica) {
-        this.ONShranjenePreglednice.push({"ime": title, "povezava": this.ONPreglednicaUrl, "skupina": skupina})
-      }
-
-      this.alertService.openSnackBar(Strings.getTableSuccessNotification)
-
-      localStorage.setItem('ONShranjenePreglednice', JSON.stringify(this.ONShranjenePreglednice))
-    })
-    .catch(napaka => {
-      console.log("Napaka pri pridobivanju skupin")
-      console.error(napaka)
-    })
-  }
-
-
-  public switchOsebnoNapredovanje() {
-    console.log(this.osebnoNapredovanjeToggle)
-    localStorage.setItem('osebnoNapredovanjeEnabled', JSON.stringify(this.osebnoNapredovanjeToggle))
-  }
-
 
   ngOnInit(): void {
     this.sheetsService.getSkupine()
