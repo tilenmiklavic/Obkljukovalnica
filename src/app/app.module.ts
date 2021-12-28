@@ -12,6 +12,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -61,6 +62,7 @@ import { OsebnoNapredovanjePregledComponent } from './components/osebno-napredov
     MatProgressBarModule,
     MatDividerModule,
     MatBadgeModule,
+    MatExpansionModule,
     ChartModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,

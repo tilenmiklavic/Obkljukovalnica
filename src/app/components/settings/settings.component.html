@@ -1,129 +1,193 @@
 <div>
 
-  <h1 class="naslov">Nastavitve</h1>
-
-
-  <div class="container google">
-    <div class="progress">
-      <div class="progress-bar" role="progressbar" [style.width]="setup_progress + '%'" area-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{setup_progress}}%</div>
+  <div class="row">
+    <div class="col">
+      <h1 class="naslov">Nastavitve</h1>
     </div>
-    <h2>Prijava z Googlom</h2>
-    <div id="my-signin2"></div>
-    <script>
-      function onSuccess(googleUser) {
-        console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
-      }
-      function onFailure(error) {
-        console.log(error);
-      }
-      function renderButton() {
-        gapi.signin2.render('my-signin2', {
-          'scope': 'profile email',
-          'width': 240,
-          'height': 50,
-          'longtitle': true,
-          'theme': 'dark',
-          'onsuccess': onSuccess,
-          'onfailure': onFailure
-        });
-      }
-    </script>
-
-    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
-  </div>
-
-  <div class="container preglednica">
-    <h2>Preglednica</h2>
-
-    <p class="navodila">Polje povezava do tabele sprejme povezavo ki jo kopiramo do preglednice na storitvi Google Sheets. Po pritisku na gumb Pridobi preglednice bo ta shranjena v izbirni meni in lahko do nje naslednjič hitreje dostopamo.</p>
-
-    <mat-form-field class="example-form-field w-100" appearance="outline">
-      <mat-label>Povezava do tabele</mat-label>
-      <input matInput type="text" [(ngModel)]="povezava">
-      <button *ngIf="povezava" matSuffix mat-icon-button aria-label="Clear" (click)="povezava=''">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-
-    <mat-form-field class="w-100" appearance="outline">
-      <mat-label>Shranjene preglednice</mat-label>
-      <mat-select [(value)]="povezava">
-        <mat-option></mat-option>
-        <mat-option *ngFor="let preglednica of shranjene_preglednice" value="{{preglednica.povezava}}">{{preglednica.ime}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <div class="get">
-      <button mat-raised-button color="primary" (click)="getSkupine(); ">Pridobi preglednico!</button>
+    <div class="col">
+      <div class="container version d-flex justify-content-center">
+        <span class="badge rounded-pill bg-light text-dark">{{versionNumber}}</span>
+      </div>
     </div>
   </div>
 
-  <div class="container sekcija">
-    <h2>Splošne nastavitve</h2>
+  <!-- <div class="progress">
+    <div class="progress-bar" role="progressbar" [style.width]="setup_progress + '%'" area-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{setup_progress}}%</div>
+  </div> -->
 
-    <p class="navodila">Spodnja nastavitev je relevantna, če imamo v preglednici več listov. V tem primeru bo v meniju možnost preklapljanja med skupinami. V nasprotnem primeru vedno izberemo prvi možnost.</p>
+  <mat-accordion class="example-headers-align">
 
-    <mat-form-field class="w-100" appearance="outline">
-      <mat-label>Skupina</mat-label>
-      <mat-select [(value)]="izbrana_skupina">
-        <mat-option></mat-option>
-        <mat-option *ngFor="let skupina of skupine" value="{{skupina.ime}}">{{skupina.ime}}</mat-option>
-      </mat-select>
-    </mat-form-field>
+    <!-- Prijava -->
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Prijava
+        </mat-panel-title>
+        <mat-panel-description>
+          <p></p>
+          <mat-icon class="panel_icon">account_circle</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
 
-    <h2>Znaki v preglednici</h2>
+      <div class="container google">
+        <h2>Prijava z Googlom</h2>
+        <div id="my-signin2"></div>
+        <script>
+          function onSuccess(googleUser) {
+            console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+          }
+          function onFailure(error) {
+            console.log(error);
+          }
+          function renderButton() {
+            gapi.signin2.render('my-signin2', {
+              'scope': 'profile email',
+              'width': 240,
+              'height': 50,
+              'longtitle': true,
+              'theme': 'dark',
+              'onsuccess': onSuccess,
+              'onfailure': onFailure
+            });
+          }
+        </script>
 
-    <p class="navodila">Spodnji znaki bodo uporabljeni pri zapisu udeležbe v preglednico. V vsakem polju je dovoljen samo po en znak.</p>
+        <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+      </div>
 
-    <mat-form-field class="example-form-field w-100" appearance="outline">
-      <mat-label>Znak za prisotnost</mat-label>
-      <input matInput type="text" [(ngModel)]="prisoten_symbol">
-      <button *ngIf="povezava" matSuffix mat-icon-button aria-label="Clear" (click)="prisoten_symbol=''">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-    <mat-form-field class="example-form-field w-100" appearance="outline">
-      <mat-label>Znak za odsotnost</mat-label>
-      <input matInput type="text" [(ngModel)]="odsoten_symbol">
-      <button *ngIf="povezava" matSuffix mat-icon-button aria-label="Clear" (click)="odsoten_symbol=''">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-    <mat-form-field class="example-form-field w-100" appearance="outline">
-      <mat-label>Znak za upravičeno odsotnost</mat-label>
-      <input matInput type="text" [(ngModel)]="upraviceno_odsoten_symbol">
-      <button *ngIf="povezava" matSuffix mat-icon-button aria-label="Clear" (click)="upraviceno_odsoten_symbol=''">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
+    </mat-expansion-panel>
 
-    <h2>Opozorila</h2>
+    <!-- Preglednica -->
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Preglednica
+        </mat-panel-title>
+        <mat-panel-description>
+          <p></p>
+          <mat-icon>description</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
 
-    <p class="navodila">Nastavitve za spodnjo mejo obvestil na pregledu. Udeležba pod minimalno prisotnostjo bo obarvana rdeče, pod nizko rumeno, vse ostalo bo v zeleni barvi.</p>
+      <div class="container preglednica">
+        <h2>Preglednica</h2>
 
-    <mat-form-field class="example-form-field w-100" appearance="outline">
-      <mat-label>Minimalna prisotnost (%)</mat-label>
-      <input matInput type="text" [(ngModel)]="minimal_presence">
-      <button *ngIf="povezava" matSuffix mat-icon-button aria-label="Clear" (click)="minimal_presence=''">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-    <mat-form-field class="example-form-field w-100" appearance="outline">
-      <mat-label>Nizka prisotnost (%)</mat-label>
-      <input matInput type="text" [(ngModel)]="low_presence">
-      <button *ngIf="povezava" matSuffix mat-icon-button aria-label="Clear" (click)="low_presence=''">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
+        <p class="navodila">Polje povezava do tabele sprejme povezavo ki jo kopiramo do preglednice na storitvi Google Sheets. Po pritisku na gumb Pridobi preglednice bo ta shranjena v izbirni meni in lahko do nje naslednjič hitreje dostopamo.</p>
 
-  </div>
+        <mat-form-field class="example-form-field w-100" appearance="outline">
+          <mat-label>Povezava do tabele</mat-label>
+          <input matInput type="text" [(ngModel)]="povezava">
+          <button *ngIf="povezava" matSuffix mat-icon-button aria-label="Clear" (click)="povezava=''">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
 
-  <div class="container save">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Shranjene preglednice</mat-label>
+          <mat-select [(value)]="povezava">
+            <mat-option></mat-option>
+            <mat-option *ngFor="let preglednica of shranjene_preglednice" value="{{preglednica.povezava}}">{{preglednica.ime}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div class="get">
+          <button mat-raised-button color="primary" (click)="getSkupine(); ">Pridobi preglednico!</button>
+        </div>
+      </div>
+
+    </mat-expansion-panel>
+
+    <!-- Splosne nastavitve -->
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Splošne nastavitve
+        </mat-panel-title>
+        <mat-panel-description>
+          <p></p>
+          <mat-icon>settings</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div class="container sekcija">
+        <h2>Splošne nastavitve</h2>
+
+        <p class="navodila">Spodnja nastavitev je relevantna, če imamo v preglednici več listov. V tem primeru bo v meniju možnost preklapljanja med skupinami. V nasprotnem primeru vedno izberemo prvi možnost.</p>
+
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Skupina</mat-label>
+          <mat-select [(value)]="izbrana_skupina">
+            <mat-option></mat-option>
+            <mat-option *ngFor="let skupina of skupine" value="{{skupina.ime}}">{{skupina.ime}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <h2>Znaki v preglednici</h2>
+
+        <p class="navodila">Spodnji znaki bodo uporabljeni pri zapisu udeležbe v preglednico. V vsakem polju je dovoljen samo po en znak.</p>
+
+        <mat-form-field class="example-form-field w-100" appearance="outline">
+          <mat-label>Znak za prisotnost</mat-label>
+          <input matInput type="text" [(ngModel)]="prisoten_symbol">
+          <button *ngIf="povezava" matSuffix mat-icon-button aria-label="Clear" (click)="prisoten_symbol=''">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <mat-form-field class="example-form-field w-100" appearance="outline">
+          <mat-label>Znak za odsotnost</mat-label>
+          <input matInput type="text" [(ngModel)]="odsoten_symbol">
+          <button *ngIf="povezava" matSuffix mat-icon-button aria-label="Clear" (click)="odsoten_symbol=''">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <mat-form-field class="example-form-field w-100" appearance="outline">
+          <mat-label>Znak za upravičeno odsotnost</mat-label>
+          <input matInput type="text" [(ngModel)]="upraviceno_odsoten_symbol">
+          <button *ngIf="povezava" matSuffix mat-icon-button aria-label="Clear" (click)="upraviceno_odsoten_symbol=''">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <h2>Opozorila</h2>
+
+        <p class="navodila">Nastavitve za spodnjo mejo obvestil na pregledu. Udeležba pod minimalno prisotnostjo bo obarvana rdeče, pod nizko rumeno, vse ostalo bo v zeleni barvi.</p>
+
+        <mat-form-field class="example-form-field w-100" appearance="outline">
+          <mat-label>Minimalna prisotnost (%)</mat-label>
+          <input matInput type="text" [(ngModel)]="minimal_presence">
+          <button *ngIf="povezava" matSuffix mat-icon-button aria-label="Clear" (click)="minimal_presence=''">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <mat-form-field class="example-form-field w-100" appearance="outline">
+          <mat-label>Nizka prisotnost (%)</mat-label>
+          <input matInput type="text" [(ngModel)]="low_presence">
+          <button *ngIf="povezava" matSuffix mat-icon-button aria-label="Clear" (click)="low_presence=''">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+
+      </div>
+
+    </mat-expansion-panel>
+
+    <!-- Osebno napredovanje -->
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Osebno napredovanje
+        </mat-panel-title>
+        <mat-panel-description>
+          <p></p>
+          <mat-icon>self_improvement</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <p>I'm visible because I am open</p>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <div class="container save d-flex justify-content-center">
     <button mat-raised-button color="primary" (click)="save()">Shrani</button>
-  </div>
-
-  <div class="container version d-flex justify-content-center">
-    <span class="badge rounded-pill bg-light text-dark">{{versionNumber}}</span>
   </div>
 
   <div class="document_end"></div>
