@@ -13,6 +13,7 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -63,6 +64,7 @@ import { OsebnoNapredovanjePregledComponent } from './components/osebno-napredov
     MatDividerModule,
     MatBadgeModule,
     MatSlideToggleModule,
+    MatExpansionModule,
     ChartModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
