@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AlertService } from './alert.service';
-import { SheetsService } from './sheets.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +8,6 @@ export class FormattingService {
 
   constructor(
     private alertService: AlertService,
-    private sheetService: SheetsService
   ) { }
 
 
@@ -73,7 +71,6 @@ export class FormattingService {
 
     return false
   }
-
 
   public vrniImena(data): Array<String> {
     let imena = []
@@ -147,7 +144,6 @@ export class FormattingService {
 
     return steviloSrecanj
   }
-
 
   public nastaviPrisotnost(id: Number, present: Number, data: Array<any>, header): Promise<boolean> {
 
