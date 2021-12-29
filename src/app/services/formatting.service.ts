@@ -145,29 +145,6 @@ export class FormattingService {
     return steviloSrecanj
   }
 
-  public nastaviPrisotnost(id: Number, present: Number, data: Array<any>, header): Promise<boolean> {
-
-    if (!localStorage.getItem('access_token') || localStorage.getItem('access_token') == 'undefined') {
-      this.alertService.openSnackBar("Najprej se moraš prijaviti!")
-      return null
-    }
-
-    let updated_data = []
-
-    data.forEach(element => {
-      let foo = []
-      header.forEach(naslov => {
-        foo.push(element[naslov])
-      })
-
-      updated_data.push(foo)
-    })
-
-    updated_data.unshift(header)
-
-    return this.sheetService.updateData(updated_data)
-  }
-
 
   public changeDate(future: boolean, header, pending_date, datum, today): any {
 
