@@ -10,7 +10,7 @@
       </div>
     </div>
   </div>
-  
+
   <!-- <div class="progress">
     <div class="progress-bar" role="progressbar" [style.width]="setup_progress + '%'" area-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{setup_progress}}%</div>
   </div> -->
@@ -93,6 +93,20 @@
         <div class="get">
           <button mat-raised-button color="primary" (click)="getSkupine(); ">Pridobi preglednico!</button>
         </div>
+
+        <p class="navodila">Spodnja nastavitev je relevantna, če imamo v preglednici več listov. V tem primeru bo v meniju možnost preklapljanja med skupinami. V nasprotnem primeru vedno izberemo prvi možnost.</p>
+
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Skupina</mat-label>
+          <mat-select [(value)]="izbrana_skupina">
+            <mat-option></mat-option>
+            <mat-option *ngFor="let skupina of skupine" value="{{skupina.ime}}">{{skupina.ime}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div class="container save d-flex justify-content-center">
+          <button mat-raised-button color="primary" (click)="save()">Shrani</button>
+        </div>
       </div>
 
     </mat-expansion-panel>
@@ -111,16 +125,6 @@
 
       <div class="container sekcija">
         <h2>Splošne nastavitve</h2>
-
-        <p class="navodila">Spodnja nastavitev je relevantna, če imamo v preglednici več listov. V tem primeru bo v meniju možnost preklapljanja med skupinami. V nasprotnem primeru vedno izberemo prvi možnost.</p>
-
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Skupina</mat-label>
-          <mat-select [(value)]="izbrana_skupina">
-            <mat-option></mat-option>
-            <mat-option *ngFor="let skupina of skupine" value="{{skupina.ime}}">{{skupina.ime}}</mat-option>
-          </mat-select>
-        </mat-form-field>
 
         <h2>Znaki v preglednici</h2>
 
