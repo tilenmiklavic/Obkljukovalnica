@@ -39,33 +39,37 @@ export class CheckComponent implements OnInit {
 
   public present(id: Number, present: number) {
 
-    this.data.forEach(element => {
-      if (element.Id == id) {
+    let bar = this.data.map(el => {return {...el}})
+
+    for (let i = 0; i < bar.length; i++) {
+      if (bar[i].Id == id) {
         switch(present) {
           case 0:
-            element[this.datum] = this.prisoten_symbol
-          break;
+            bar[i][this.datum] = this.prisoten_symbol
+            break;
           case 1:
-            element[this.datum] = this.upraviceno_odsoten_symbol
-          break;
+            bar[i][this.datum] = this.upraviceno_odsoten_symbol
+            break;
           case 2:
-            element[this.datum] = this.odsoten_symbol
-          break;
+            bar[i][this.datum] = this.odsoten_symbol
+            break;
         }
       }
-    })
+    }
 
-    this.sheetService.nastaviPrisotnost(id, present, this.data, this.header)
+    this.sheetService.nastaviPrisotnost(bar)
       .then((odgovor) => {
-        if (odgovor) this.today = true
+        if (odgovor) {
+          this.today = true
+          this.data = bar
+        }
       })
       .catch((napaka) => {
-        console.log("Napaka", napaka)
+        this._snackBar.open(Strings.noInternetConnectionError, "Zapri")
       })
       .finally(() => {
         this.prestej_prisotne()
       })
-
   }
 
   public prestej_prisotne() {

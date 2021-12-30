@@ -19,4 +19,6 @@ export class Strings {
 
   public static get getTableSuccessNotification(): string { return "Tabela pridobljena!" };
 
+  public static get noInternetConnectionError(): string { return "Prišlo je do napake. Verjetno nimate povezave." }
+
 }
