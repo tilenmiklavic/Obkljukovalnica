@@ -12,6 +12,10 @@ mat-form-field  {
   font-size: 1rem;
 }
 
+mat-expansion-panel {
+  margin-bottom: 0.5rem;
+}
+
 .get {
   margin-bottom: 2rem;
 }
@@ -26,7 +30,7 @@ mat-form-field  {
 }
 
 .save {
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 }
 
 .example-headers-align .mat-expansion-panel-header-title,
