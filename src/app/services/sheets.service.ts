@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { SHRAMBA_BRSKALNIKA } from '../classes/shramba';
 import { AlertService } from './alert.service';
 import { FormattingService } from './formatting.service';
+import { Strings } from 'src/app/classes/strings';
 
 @Injectable({
   providedIn: 'root'
@@ -62,7 +63,6 @@ export class SheetsService {
   }
 
   public updateData(data: any) {
-    console.log(data)
     const apiKey = environment.apiKey
     const access_token = localStorage.getItem('access_token')
 
@@ -91,14 +91,17 @@ export class SheetsService {
     return this.http
       .put(new_url, body, httpLastnosti)
       .toPromise()
-      .then(odgovor => odgovor as any)
+      .then(odgovor => {
+        return odgovor
+      })
       .catch(napaka => {
-        console.log("Napaka", napaka)
+        this.alertService.openSnackBar(Strings.noInternetConnectionError)
         SheetsService.obdelajNapako(napaka)
+        return null
       })
   }
 
-  public nastaviPrisotnost(id: Number, present: Number, data: Array<any>, header): Promise<boolean> {
+  public nastaviPrisotnost(data: Array<any>): Promise<any> {
 
     if (!localStorage.getItem('access_token') || localStorage.getItem('access_token') == 'undefined') {
       this.alertService.openSnackBar("Najprej se moraš prijaviti!")
@@ -109,14 +112,13 @@ export class SheetsService {
 
     data.forEach(element => {
       let foo = []
-      header.forEach(naslov => {
+      this.header.forEach(naslov => {
         foo.push(element[naslov])
       })
-
       updated_data.push(foo)
     })
 
-    updated_data.unshift(header)
+    updated_data.unshift(this.header)
 
     return this.updateData(updated_data)
   }
@@ -160,7 +162,7 @@ export class SheetsService {
 
   private arrayToObject(data: any) {
     this.header = data[0]
-    //data.shift()
+    data.shift()
 
     let udelezenci = []
 
