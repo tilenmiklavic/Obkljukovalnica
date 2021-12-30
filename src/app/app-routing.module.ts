@@ -20,12 +20,10 @@ const routes: Routes = [
   {
     path: 'osebno-napredovanje',
     component: OsebnoNapredovanjeCheckComponent,
-    children: [
-      {
-        path: 'pregled',
-        component: OsebnoNapredovanjePregledComponent
-      }
-    ]
+  },
+  {
+    path: 'osebno-napredovanje/pregled',
+    component: OsebnoNapredovanjePregledComponent
   },
   {
     path: '',

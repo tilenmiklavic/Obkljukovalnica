@@ -12,16 +12,34 @@ mat-form-field  {
   font-size: 1rem;
 }
 
+mat-expansion-panel {
+  margin-bottom: 0.5rem;
+}
+
 .get {
   margin-bottom: 2rem;
 }
 
 .version {
-  margin-top: 1.5rem;
-  width: 100%;
+  padding: 2.5rem 0rem 0rem 2rem;
 }
 
 .navodila {
   color: rgb(173, 173, 173);
   font-size: small;
 }
+
+.save {
+  margin-top: 0.5rem;
+}
+
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+

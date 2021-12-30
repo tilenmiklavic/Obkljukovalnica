@@ -10,6 +10,46 @@ export class FormattingService {
     private alertService: AlertService,
   ) { }
 
+
+  public arrayToObject(data) {
+    console.log(data)
+
+    let foo = {"Id": null, "Ime": null, "stopnja": null}
+    let result = []
+    let header = data.values[0]
+
+    for (let i = 1; i < data.values.length; i++) {
+      let temp = {}
+
+      for (let j = 0; j < header.length; j++) {
+        foo[header[j]] = data.values[i][j]
+      }
+
+      temp["id"] = foo.Id
+      temp["ime"] = foo.Ime
+      temp["stopnja"] = foo.stopnja
+
+      delete foo.Id
+      delete foo.Ime
+      delete foo.stopnja
+
+      let seznam = []
+      let index = 0
+
+      for (const [key, value] of Object.entries(foo)) {
+        seznam.push({"idNaloge": index, "imeNaloge": key, "opravil": value})
+        index++
+      }
+
+      temp["naloge"] = seznam
+
+      result.push(temp)
+    }
+
+    return result
+  }
+
+
   public vrniDatume(header): Array<String> {
 
     let result = []
@@ -103,5 +143,42 @@ export class FormattingService {
     })
 
     return steviloSrecanj
+  }
+
+
+  public changeDate(future: boolean, header, pending_date, datum, today): any {
+
+    let current_index = 0
+    console.log(pending_date)
+
+    header.forEach((element, index) => {
+      if (element == datum) {
+        current_index = index
+      }
+    })
+
+    let new_index = current_index
+
+    if (future) new_index++
+    else new_index--
+
+    if (this.jeDatum(header[new_index])) {
+      if (!today) {
+
+        return {today: true, pendingDate: datum, datum: header[new_index]}
+      } else if (header[new_index] == pending_date) {
+        return {today: false, pendingDate: pending_date, datum: header[new_index]}
+      }
+
+      return {today: today, pendingDate: pending_date, datum: header[new_index]}
+    } else {
+
+      if (future) {
+        this.alertService.openSnackBar("Ne morem it bolj v prihodnost.")
+      } else {
+        this.alertService.openSnackBar("Ne morem it bolj v preteklost.")
+      }
+      return null
+    }
   }
 }

@@ -4,11 +4,13 @@ import { environment } from 'src/environments/environment';
 import { SHRAMBA_BRSKALNIKA } from '../classes/shramba';
 import { AlertService } from './alert.service';
 import { FormattingService } from './formatting.service';
+import { Strings } from 'src/app/classes/strings';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SheetsService {
+
   constructor(
     @Inject(SHRAMBA_BRSKALNIKA) private shramba: Storage,
     private http: HttpClient,
@@ -33,7 +35,6 @@ export class SheetsService {
     let url = this.url_skeleton + localStorage.getItem('idTabele')
 
     return this.http
-    // .get(this.sheets_url, {params: HttpParams})
     .get(url, {params: HttpParams})
     .toPromise()
     .then(data => data as any)
@@ -44,18 +45,9 @@ export class SheetsService {
 
     const apiKey = environment.apiKey
 
-    // const httpLastnosti = {
-    //   headers: new HttpHeaders({
-    //     key: apiKey
-    //   })
-    // }
-
     const HttpParams = {
       key: apiKey
     }
-
-    // const skupina = localStorage.getItem('skupina')
-    // const new_url = this.url + skupina
 
     let new_url = this.url_skeleton + localStorage.getItem('idTabele') + '/values/' + skupina
 
@@ -74,8 +66,6 @@ export class SheetsService {
     const apiKey = environment.apiKey
     const access_token = localStorage.getItem('access_token')
 
-    console.log(access_token)
-
     const HttpParams = {
       key: apiKey,
       valueInputOption: 'RAW'
@@ -88,7 +78,6 @@ export class SheetsService {
       })
     }
 
-    // let new_url = this.edit_url + localStorage.getItem('skupina') + '?valueInputOption=RAW&key=' + apiKey
     let new_url = this.url_skeleton + localStorage.getItem('idTabele') + '/values/' + localStorage.getItem('skupina') + '?valueInputOption=RAW&key=' + apiKey
 
     const body = {
@@ -102,14 +91,17 @@ export class SheetsService {
     return this.http
       .put(new_url, body, httpLastnosti)
       .toPromise()
-      .then(odgovor => odgovor as any)
+      .then(odgovor => {
+        return odgovor
+      })
       .catch(napaka => {
-        console.log("Napaka", napaka)
+        this.alertService.openSnackBar(Strings.noInternetConnectionError)
         SheetsService.obdelajNapako(napaka)
+        return null
       })
   }
 
-  public nastaviPrisotnost(id: Number, present: Number, data: Array<any>, header): Promise<boolean> {
+  public nastaviPrisotnost(data: Array<any>): Promise<any> {
 
     if (!localStorage.getItem('access_token') || localStorage.getItem('access_token') == 'undefined') {
       this.alertService.openSnackBar("Najprej se moraš prijaviti!")
@@ -120,14 +112,13 @@ export class SheetsService {
 
     data.forEach(element => {
       let foo = []
-      header.forEach(naslov => {
+      this.header.forEach(naslov => {
         foo.push(element[naslov])
       })
-
       updated_data.push(foo)
     })
 
-    updated_data.unshift(header)
+    updated_data.unshift(this.header)
 
     return this.updateData(updated_data)
   }
@@ -171,7 +162,7 @@ export class SheetsService {
 
   private arrayToObject(data: any) {
     this.header = data[0]
-    //data.shift()
+    data.shift()
 
     let udelezenci = []
 
