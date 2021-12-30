@@ -43,7 +43,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   public low_presence = localStorage.getItem('low_presence') || '70'
   public setup_progress = 0
   public panelOpenState = false
-  public versionNumber = 'v0.3.2'
+  public versionNumber = 'v0.4.0'
 
   // *********** OSEBNO NAPREDOVANJE ***********
   public ONPreglednicaUrl: string = localStorage.getItem('ONPreglednicaUrl')
