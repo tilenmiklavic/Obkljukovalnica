@@ -10,7 +10,7 @@
       </div>
     </div>
   </div>
-  
+
   <!-- <div class="progress">
     <div class="progress-bar" role="progressbar" [style.width]="setup_progress + '%'" area-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{setup_progress}}%</div>
   </div> -->
@@ -167,8 +167,10 @@
           </button>
         </mat-form-field>
 
+        <div class="container save">
+          <button mat-raised-button color="primary" (click)="save()">Shrani</button>
+        </div>
       </div>
-
     </mat-expansion-panel>
 
     <!-- Osebno napredovanje -->
@@ -217,10 +219,6 @@
     </div>
     </mat-expansion-panel>
   </mat-accordion>
-
-  <div class="container save d-flex justify-content-center">
-    <button mat-raised-button color="primary" (click)="save()">Shrani</button>
-  </div>
 
   <div class="document_end"></div>
 </div>
