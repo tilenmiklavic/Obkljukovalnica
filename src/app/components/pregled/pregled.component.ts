@@ -43,7 +43,7 @@ export class PregledComponent implements OnInit {
 
   private setupDayGraph() {
 
-    this.dayGraphLabels = this.formattingService.vrniDatume(this.header)
+    this.dayGraphLabels = this.formattingService.vrniDatume(this.sheetService.getHeader())
     this.dayGraphPodatki = this.formattingService.pregledPrisotnih(this.data, this.dayGraphLabels)
 
     this.dayGraphType = 'bar';
@@ -63,12 +63,10 @@ export class PregledComponent implements OnInit {
     };
   }
 
-
   private setupPeopleGraph() {
     this.peopleGraphLabels = this.formattingService.vrniImena(this.data)
     this.peopleGraphPodatki = this.formattingService.prisotnostPoLjudeh(this.data, this.dayGraphLabels)
 
-    this.formattingService.vrniImena(this.data)
     this.peopleGraphType = 'bar';
     this.peopleGraphPodatki = {
       labels: this.peopleGraphLabels,
@@ -86,13 +84,6 @@ export class PregledComponent implements OnInit {
     };
   }
 
-
-  private invalidFormating() {
-    // this._snackBar.open("Tabela prisotnosti ni pravilno formatirana. Poglej navodila.", "Close")
-    this.loaded = true
-  }
-
-
   ngOnInit(): void {
     // set date for correct querying
     let date = new Date()
@@ -101,54 +92,15 @@ export class PregledComponent implements OnInit {
 
     this.sheetService.getUdelezenci(localStorage.getItem('skupina'))
     .then(udelezenci => {
-      let response = udelezenci.values
-
-      // header prestavlja imena stolpcev
-      // naprej uporabimo header za določanje imen v objektih
-      this.header = response[0]
-
-      if (!this.header.includes("Id") || !this.header.includes("Ime") ) {
-        this.invalidFormating()
-        return
-      }
-
-      // vsako posamezno vrstico v tabeli spremenimo v objekt
-      // shranimo v spremenljivko data
-      for (let i = 1; i < response.length; i++) {
-        let foo = {}
-        for (let j = 0; j < this.header.length; j++) {
-          if (!response[i][j]) {
-            foo[this.header[j]] = ''
-          } else {
-            foo[this.header[j]] = response[i][j]
-          }
-        }
-        this.data.push(foo)
-      }
+      this.data = udelezenci
       this.loaded = true
-      // this.prestej_prisotne()
-
-
-      // odstranimo vse vrstice, ki nimajo ID-ja
-      // torej niso predvidene osebe
-      for (var i = 0; i < this.data.length; i++) {
-        if (this.data[i].Id == undefined || isNaN(this.data[i].Id) || this.data[i].Id.length == 0) {
-          this.data.splice(i,1);
-          i--;
-        }
-      }
-
-      // dobimo kot odgovor prazno tabelo
-      if (this.data.length == 0) {
-        // this._snackBar.open("Za to skupino ni podatkov.", "Close")
-      }
     })
     .finally(() => {
       this.setupDayGraph();
       this.setupPeopleGraph();
       this.imena = this.formattingService.vrniImena(this.data)
-      this.prisotnostPoLjudeh = this.formattingService.prisotnostPoLjudeh(this.data, this.header)
-      this.prisotnostPoLjudehMax = this.formattingService.steviloIzvedenihSrecanj(this.data, this.header)
+      this.prisotnostPoLjudeh = this.formattingService.prisotnostPoLjudeh(this.data, this.sheetService.getHeader())
+      this.prisotnostPoLjudehMax = this.formattingService.steviloIzvedenihSrecanj(this.data, this.sheetService.getHeader())
     })
   }
 }

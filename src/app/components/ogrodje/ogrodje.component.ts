@@ -71,7 +71,5 @@ export class OgrodjeComponent implements OnInit {
   ngOnInit(): void {
     this.refresh()
     this.checkCorrectRouting()
-    console.log("Ogrodje")
   }
-
 }

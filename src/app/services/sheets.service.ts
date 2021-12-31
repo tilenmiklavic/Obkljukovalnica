@@ -219,6 +219,10 @@ export class SheetsService {
     return {"today": today, "header": this.header}
   }
 
+  public getHeader() {
+    return this.header
+  }
+
   private static obdelajNapako(napaka: any): Promise<any> {
     console.error('Prišlo je do napake', napaka);
     return Promise.reject(napaka.message || napaka);
