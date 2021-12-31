@@ -82,7 +82,6 @@ export class FormattingService {
     return imena
   }
 
-
   public prisotniNaDan(datum: string, data): number {
     let prisotni = 0
 
@@ -93,7 +92,6 @@ export class FormattingService {
     });
     return prisotni;
   }
-
 
   public pregledPrisotnih(data, header): Array<Number> {
     let prisotni = new Array(header.length).fill(0)
