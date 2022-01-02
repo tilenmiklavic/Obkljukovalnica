@@ -48,3 +48,8 @@ mat-expansion-panel {
   display: inline-block;
   line-height: 24px;
 }
+
+.mat-expansion-panel-header {
+  background-color: rgba(236, 236, 236, 0.397);
+}
+
