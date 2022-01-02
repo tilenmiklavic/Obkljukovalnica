@@ -18,10 +18,12 @@
   <mat-accordion class="example-headers-align">
 
     <!-- Prijava -->
-    <mat-expansion-panel hideToggle>
+    <mat-expansion-panel (closed)="profileCheck()" hideToggle>
       <mat-expansion-panel-header>
         <mat-panel-title>
           Prijava
+          <mat-icon *ngIf="profile" class="panel_icon check-icon">check_circle</mat-icon>
+          <mat-icon *ngIf="!profile" class="panel_icon cancel-icon">cancel</mat-icon>
         </mat-panel-title>
         <mat-panel-description>
           <p></p>
@@ -32,26 +34,6 @@
       <div class="container google">
         <h2>Prijava z Googlom</h2>
         <div id="my-signin2"></div>
-        <script>
-          function onSuccess(googleUser) {
-            console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
-          }
-          function onFailure(error) {
-            console.log(error);
-          }
-          function renderButton() {
-            gapi.signin2.render('my-signin2', {
-              'scope': 'profile email',
-              'width': 240,
-              'height': 50,
-              'longtitle': true,
-              'theme': 'dark',
-              'onsuccess': onSuccess,
-              'onfailure': onFailure
-            });
-          }
-        </script>
-
         <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
       </div>
 
@@ -62,6 +44,8 @@
       <mat-expansion-panel-header>
         <mat-panel-title>
           Preglednica
+          <mat-icon *ngIf="povezava && izbrana_skupina" class="panel_icon check-icon">check_circle</mat-icon>
+          <mat-icon *ngIf="!povezava || !izbrana_skupina" class="panel_icon cancel-icon">cancel</mat-icon>
         </mat-panel-title>
         <mat-panel-description>
           <p></p>
