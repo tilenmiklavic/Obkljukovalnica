@@ -43,3 +43,8 @@ mat-expansion-panel {
   align-items: center;
 }
 
+.mat-slide-toggle-content {
+  vertical-align: top;
+  display: inline-block;
+  line-height: 24px;
+}

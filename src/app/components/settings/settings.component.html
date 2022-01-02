@@ -194,16 +194,22 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <mat-slide-toggle
-        class="example-margin"
-        [color]="color"
-        [checked]="osebnoNapredovanjeToggle"
-        [disabled]="disabled"
-        [(ngModel)]="osebnoNapredovanjeToggle"
-        (change)="switchOsebnoNapredovanje()">
-
-        Omogoči osebno napredovanje!
-      </mat-slide-toggle>
+      <div class="row">
+        <div class="col">
+          <label class="mat-slide-toggle-content" for="onToggle">Omogoči osebno napredovanje!</label>
+        </div>
+        <div class="col">
+          <mat-slide-toggle
+            id="onToggle"
+            class="example-margin"
+            [color]="color"
+            [checked]="osebnoNapredovanjeToggle"
+            [disabled]="disabled"
+            [(ngModel)]="osebnoNapredovanjeToggle"
+            (change)="switchOsebnoNapredovanje()">
+          </mat-slide-toggle>
+        </div>
+      </div>
 
       <h2 class="mt-3">Preglednica</h2>
 
