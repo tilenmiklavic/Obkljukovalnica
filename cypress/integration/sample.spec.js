@@ -4,9 +4,9 @@ require('cypress-xpath')
 
 describe('Check view', () => {
 
-  // beforeEach(() => {
-  //   cy.visit('http://localhost:4200')
-  // })
+  beforeEach(() => {
+    cy.visit('http://localhost:4200')
+  })
 
   it('Title is Obkljukovalnica', () => {
     cy.visit('http://localhost:4200')
@@ -15,7 +15,7 @@ describe('Check view', () => {
 
   it('login toast is shown', () => {
     cy.contains("Najprej se moraš prijaviti!")
-    cy.xpath('//button[span[. = "Close"]]').click()
+    cy.xpath('//button[span[. = "Zapri"]]').click()
   })
 
   it('navbar is visible', () => {
@@ -40,50 +40,55 @@ describe('Settings view', () => {
   })
 
   it('Settings title is visible', () => {
-    cy.contains('Settings')
+    cy.contains('Nastavitve')
   })
 
   it('Google Sign-in section', () => {
-    cy.contains('Google Sign-in')
-    cy.xpath('//div[@class="container google"]')
+    cy.xpath('//mat-expansion-panel[1]').click()
+    cy.contains('Prijava z Googlom')
+    cy.xpath('//div[contains(@class, "container google")]')
       .should('be.visible')
-    cy.xpath('//div[@class="container google"]/div[@id = "my-signin2"]')
+    cy.xpath('//div[contains(@class, "container google")]/div[@id = "my-signin2"]')
       .should('be.visible')
   })
 
   it('Preglednica section', () => {
+    cy.xpath('//mat-expansion-panel[2]').click()
     cy.contains('Preglednica')
-    cy.xpath('//div[@class="container preglednica"]')
+    cy.xpath('//div[contains(@class, "container preglednica")]')
       .should('be.visible')
-    cy.xpath('//div[@class="container preglednica"]/div/button[. = "Pridobi preglednico!"]')
+    cy.xpath('//div[contains(@class, "container preglednica")]/div/button[. = "Pridobi preglednico!"]')
       .should('be.visible')
   })
 
   it('Nastavitve section', () => {
+    cy.xpath('//mat-expansion-panel[3]').click()
     cy.contains('Nastavitve')
-    cy.xpath('//div[@class="container sekcija"]')
+    cy.xpath('//div[contains(@class, "container sekcija")]')
+      .should('be.visible')
+    cy.xpath('//div[contains(@class, "container sekcija")]//button[. = "Shrani"]')
       .should('be.visible')
   })
 
-  it('Nastavitve section', () => {
-    cy.xpath('//div[@class="container save"]/button[. = "Save"]')
-      .should('be.visible')
-  })
+  it('ON section', () => {
+    cy.xpath('//mat-expansion-panel[4]').click()
+    cy.contains('Osebno napredovanje')
+    cy.contains('Omogoči osebno napredovanje!')
+    cy.contains('Preglednica')
 
-
-
-  it('settings page', () => {
     cy.xpath('//span[text() = "Sign in with Google"]')
       .should('contain', 'Sign in with Google')
 
-    cy.contains('Google Sign-in')
     cy.contains('Preglednica')
     cy.contains('Nastavitve')
 
-    cy.xpath('//div[@class = "container preglednica"]/div/button/span')
-      .should('contain', 'Pridobi preglednico!')
-    cy.xpath('//div[@class = "container save"]/button/span')
-      .should('contain', 'Save')
 
+    cy.xpath('//button')
+      .should('contain', 'Pridobi preglednico!')
+    })
+
+  it('google login', () => {
+    cy.loginByGoogleApi()
+    console.log(window.localStorage.getItem('googleCypressAccessToken'))
   })
 })

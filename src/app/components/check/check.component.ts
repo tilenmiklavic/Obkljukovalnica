@@ -129,7 +129,7 @@ export class CheckComponent implements OnInit {
         this.loaded = true
 
         if (!localStorage.getItem('access_token') || localStorage.getItem('access_token') == 'undefined' || localStorage.getItem('access_token') == 'null') {
-          this._snackBar.open(Strings.groupSelectNoticiation, "Zapri")
+          this._snackBar.open(Strings.signUpNotification, "Zapri")
         } else if (!localStorage.getItem('idTabele') || localStorage.getItem('idTabele') == 'undefined' || localStorage.getItem('idTabele') == 'null') {
           this._snackBar.open(Strings.tableIdInputNotification, "Zapri")
         } else if (!localStorage.getItem('skupina') || localStorage.getItem('skupina') == 'undefined' || localStorage.getItem('skupina') == 'null') {
