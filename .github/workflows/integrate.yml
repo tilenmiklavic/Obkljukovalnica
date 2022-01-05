@@ -21,6 +21,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-verzija }}
-      - run: npm install # Namesti knjižnice.
-      - run: npm run build:prod
-      - run: npm run test # Poženi teste.
+        run: |
+          npm install
+          npm run build:prod
+          npm start
+          npx wait-on http://localhost:4200
+      - name: Run tests
+        run: |
+          npm run test
+
