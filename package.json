@@ -6,7 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "build:prod": "ng build --prod",
-    "test": "ng test",
+    "test": "./node_modules/.bin/cypress run --headless",
     "lint": "ng lint",
     "e2e": "cypress open",
     "mobile": "ng serve --host 0.0.0.0"

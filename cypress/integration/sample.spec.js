@@ -5,11 +5,11 @@ require('cypress-xpath')
 describe('Check view', () => {
 
   beforeEach(() => {
-    cy.visit('http://localhost:4200')
+    //cy.visit('http://localhost:4200')
   })
 
   it('Title is Obkljukovalnica', () => {
-    cy.visit('http://localhost:4200')
+    cy.visit('http://localhost:4200/')
     cy.contains("Obkljukovalnica")
   })
 

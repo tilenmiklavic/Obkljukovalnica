@@ -23,4 +23,4 @@ jobs:
           node-version: ${{ matrix.node-verzija }}
       - run: npm install # Namesti knjižnice.
       - run: npm run build:prod
-      - run: npx cypress run # Poženi teste.
+      - run: npm run test # Poženi teste.
