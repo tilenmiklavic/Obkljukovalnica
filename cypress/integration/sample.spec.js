@@ -61,6 +61,7 @@ describe('Settings view', () => {
       .should('be.visible')
   })
 
+
   it('Nastavitve section', () => {
     cy.xpath('//mat-expansion-panel[3]').click()
     cy.contains('Nastavitve')
