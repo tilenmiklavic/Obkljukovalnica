@@ -24,6 +24,5 @@ jobs:
       - name: Setup
         run: npm install
       - name: Run tests
-        run: |
-          npm run e2e
+        run: npm run e2e
 
