@@ -33,6 +33,16 @@ mat-expansion-panel {
   margin-top: 0.5rem;
 }
 
+.check-icon {
+  color: green;
+  margin-left: 1rem;
+}
+
+.cancel-icon {
+  color: rgb(211, 0, 0);
+  margin-left: 1rem;
+}
+
 .example-headers-align .mat-expansion-panel-header-title,
 .example-headers-align .mat-expansion-panel-header-description {
   flex-basis: 0;
@@ -41,5 +51,15 @@ mat-expansion-panel {
 .example-headers-align .mat-expansion-panel-header-description {
   justify-content: space-between;
   align-items: center;
+}
+
+.mat-slide-toggle-content {
+  vertical-align: top;
+  display: inline-block;
+  line-height: 24px;
+}
+
+.mat-expansion-panel-header {
+  background-color: rgba(236, 236, 236, 0.397);
 }
 

@@ -1,19 +1,25 @@
-name: Continuous Integration
+name: Continous integration
 
-on:
-  pull_request:
-    branches: [ develop ]
+on: # Kdaj se začne izvajanje delovnega toka?
+  push:
+    branches:
+      - test # Ob vsaki uveljavitvi na veji testno-okolje.
+    paths-ignore:
+      - "README.md" # Ignoriramo spremembe v dokumentaciji.
 
 jobs:
-  test_pull_request:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Setup npm packages
-        run: npm install
-      - name: Run E2E test
-        uses: cypress-io/github-action@v1
+  build:
+    runs-on: # Okolje, v katerem se testi izvedejo.
+      - ubuntu-latest
+    strategy:
+      matrix:
+        node-verzija:
+          - 15.x
+    steps: # Posamezni koraki testiranja.
+      - uses: actions/checkout@v2 # Pridobimo izvorno kodo repozitorija.
+      - name: Uporabi Node.js ${{ matrix.node-verzija }} # Nastavi Node.js okolje.
+        uses: actions/setup-node@v1
         with:
-          build: npm run cy:run
-          wait-on: http://localhost:4200
+          node-version: ${{ matrix.node-verzija }}
+      - run: npm install # Namesti knjižnice.
+      - run: npx cypress run # Poženi teste.

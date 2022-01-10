@@ -4,7 +4,6 @@ import { environment } from 'src/environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertService } from 'src/app/services/alert.service';
 import { Strings } from 'src/app/classes/strings';
-import {MatAccordion} from '@angular/material/expansion';
 import {ThemePalette} from '@angular/material/core';
 import { OsebnoNapredovanjeService } from 'src/app/services/osebno-napredovanje.service';
 
@@ -22,10 +21,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     private sheetsService: SheetsService,
     private alertService: AlertService,
     private osebnoNapredovanjeService: OsebnoNapredovanjeService,
-    private _snackBar: MatSnackBar,
-  ) {
-    window['onSignIn'] = (user) => ngZone.run(() => this.onSignIn(user));
-  }
+  ) { }
 
   public profile = null
   public tabela: string = environment.url
@@ -43,7 +39,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   public low_presence = localStorage.getItem('low_presence') || '70'
   public setup_progress = 0
   public panelOpenState = false
-  public versionNumber = 'v0.4.1'
+  public versionNumber = 'v0.4.2'
 
   // *********** OSEBNO NAPREDOVANJE ***********
   public ONPreglednicaUrl: string = localStorage.getItem('ONPreglednicaUrl')
@@ -51,29 +47,16 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   public osebnoNapredovanjeToggle = JSON.parse(localStorage.getItem('osebnoNapredovanjeEnabled'))|| false;
   color: ThemePalette = 'accent';
   disabled = false;
-
   // *********** *********** *********** *******
 
-  onSignIn(googleUser) {
-    //now it gets called
-
-    this.profile = googleUser.getBasicProfile()
-    let access_token = googleUser.getAuthResponse().access_token
-
-    localStorage.setItem('profile', this.profile)
-    localStorage.setItem('access_token', access_token)
-
-    this.posodobiSetupProgress()
-  }
 
   public onSuccess(googleUser) {
+
     let profile = googleUser.getBasicProfile()
     let access_token = googleUser.getAuthResponse().access_token
 
     localStorage.setItem('profile', profile)
     localStorage.setItem('access_token', access_token)
-
-    this.posodobiSetupProgress();
   }
 
   public onFailure() {
@@ -114,10 +97,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     } catch (error) {
       console.log("Napaka pri shranjevanju nastavitev")
       this.alertService.openSnackBar(Strings.saveChangesErrorNotification)
-    } finally {
-      this.posodobiSetupProgress()
     }
-
   }
 
   public getSkupine() {
@@ -138,17 +118,6 @@ export class SettingsComponent implements OnInit, AfterViewInit {
       console.log("Napaka pri pridobivanju skupin")
       console.error(napaka)
     })
-    .finally(() => {
-      this.posodobiSetupProgress()
-    })
-  }
-
-  public posodobiSetupProgress() {
-    console.log(localStorage.getItem('access_token'))
-    console.log(this.povezava)
-    console.log(this.izbrana_skupina)
-    console.log(this.izbrana_skupina == 'undefined')
-    this.setup_progress = ((localStorage.getItem('access_token') != null) ? 50 : 0) + ((this.povezava) ? 25 : 0) + ((this.izbrana_skupina != undefined) && (this.izbrana_skupina != null) && (this.izbrana_skupina != 'undefined') ? 25 : 0)
   }
 
   public switchOsebnoNapredovanje() {
@@ -156,9 +125,6 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     localStorage.setItem('osebnoNapredovanjeEnabled', JSON.stringify(this.osebnoNapredovanjeToggle))
   }
 
-  /**
-   * Pridobivanje podatkov
-   */
   public getTabelaON() {
     localStorage.setItem('ONPreglednicaUrl', this.ONPreglednicaUrl)
 
@@ -185,6 +151,11 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     })
   }
 
+  public profileCheck() {
+    if (!this.profile && localStorage.getItem('access_token')) {
+      this.profile = true
+    }
+  }
 
   ngOnInit(): void {
     this.sheetsService.getSkupine()
@@ -203,20 +174,29 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     // var gapi: any
 
-    this.ngZone.run(() => {
-      // example to render login button
-      gapi.signin2.render('my-signin2', {
-        'scope': 'profile email https://www.googleapis.com/auth/spreadsheets',
-        'width': 240,
-        'height': 50,
-        'longtitle': true,
-        'theme': 'dark',
-        'onsuccess': this.onSuccess,
-        'onfailure': this.onFailure
-      })
-    });
+    gapi.signin2.render('my-signin2', {
+      'scope': 'profile email https://www.googleapis.com/auth/spreadsheets',
+      'width': 240,
+      'height': 50,
+      'longtitle': true,
+      'theme': 'outline',
+      'onsuccess': this.onSuccess,
+      'onfailure': this.onFailure
+    })
 
-    if (localStorage.getItem('access_token')) this.profile = true
-    this.posodobiSetupProgress()
+    // this.ngZone.run(() => {
+    //   // example to render login button
+    //   gapi.signin2.render('my-signin2', {
+    //     'scope': 'profile email https://www.googleapis.com/auth/spreadsheets',
+    //     'width': 240,
+    //     'height': 50,
+    //     'longtitle': true,
+    //     'theme': 'outline',
+    //     'onsuccess': this.onSuccess,
+    //     'onfailure': this.onFailure
+    //   })
+    // });
+
+    this.profileCheck()
   }
 }
