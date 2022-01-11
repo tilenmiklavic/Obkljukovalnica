@@ -6,6 +6,8 @@ name: Deploy to Firebase Hosting on merge
   push:
     branches:
       - master
+    paths-ignore:
+      - "README.md"
 jobs:
   test:
     runs-on: # Okolje, v katerem se testi izvedejo.

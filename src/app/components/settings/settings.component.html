@@ -60,7 +60,7 @@
 
         <mat-form-field class="example-form-field w-100" appearance="outline">
           <mat-label>Povezava do tabele</mat-label>
-          <input matInput type="text" [(ngModel)]="povezava">
+          <input matInput id="povezavaTabela" type="text" [(ngModel)]="povezava">
           <button *ngIf="povezava" matSuffix mat-icon-button aria-label="Clear" (click)="povezava=''">
             <mat-icon>close</mat-icon>
           </button>
@@ -75,21 +75,21 @@
         </mat-form-field>
 
         <div class="get">
-          <button mat-raised-button color="primary" (click)="getSkupine(); ">Pridobi preglednico!</button>
+          <button id="pridobiPreglednico" mat-raised-button color="primary" (click)="getSkupine(); ">Pridobi preglednico!</button>
         </div>
 
         <p class="navodila">Spodnja nastavitev je relevantna, če imamo v preglednici več listov. V tem primeru bo v meniju možnost preklapljanja med skupinami. V nasprotnem primeru vedno izberemo prvi možnost.</p>
 
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Skupina</mat-label>
-          <mat-select [(value)]="izbrana_skupina">
+          <mat-select id="skupinaDropdown" [(value)]="izbrana_skupina">
             <mat-option></mat-option>
             <mat-option *ngFor="let skupina of skupine" value="{{skupina.ime}}">{{skupina.ime}}</mat-option>
           </mat-select>
         </mat-form-field>
 
         <div>
-          <button mat-raised-button color="primary" (click)="save()">Shrani</button>
+          <button id="shraniPreglednico" mat-raised-button color="primary" (click)="save()">Shrani</button>
         </div>
       </div>
 

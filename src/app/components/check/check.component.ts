@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AlertService } from 'src/app/services/alert.service';
-import { FormattingService } from 'src/app/services/formatting.service';
 import { SheetsService } from 'src/app/services/sheets.service';
 import { Strings } from 'src/app/classes/strings';
 
@@ -16,7 +14,6 @@ export class CheckComponent implements OnInit {
 
   constructor(
     private sheetService: SheetsService,
-    private formatingService: FormattingService,
     private _snackBar: MatSnackBar
   ) { }
 

@@ -31,8 +31,8 @@ Cypress.Commands.add('loginByGoogleApi', () => {
       }
 
       window.localStorage.setItem('googleCypress', JSON.stringify(userItem))
-      window.localStorage.setItem('googleCypressAccessToken', JSON.stringify(access_token))
-      cy.log(window.localStorage.getItem('googleCypressAccessToken'))
+      window.localStorage.setItem('access_token', JSON.stringify(access_token))
+      cy.log(window.localStorage.getItem('access_token'))
       // cy.visit('/')
     })
   })

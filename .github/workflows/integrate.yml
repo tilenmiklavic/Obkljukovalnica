@@ -8,7 +8,7 @@ on: # Kdaj se začne izvajanje delovnega toka?
       - "README.md" # Ignoriramo spremembe v dokumentaciji.
 
 jobs:
-  build:
+  build_and_test:
     runs-on: # Okolje, v katerem se testi izvedejo.
       - ubuntu-latest
     strategy:
