@@ -9,7 +9,7 @@ name: Deploy to Firebase Hosting on merge
     paths-ignore:
       - "README.md"
 jobs:
-  build_and_test:
+  test:
     runs-on: # Okolje, v katerem se testi izvedejo.
       - ubuntu-latest
     strategy:
@@ -22,12 +22,14 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-verzija }}
-      - run: npm install # Namesti knjižnice.
-      - run: npx cypress run # Poženi teste.
+      - name: Setup
+        run: npm install
+      - name: Run tests
+        run: npm run e2e
 
-  build_and_deploy:
+  deploy:
     runs-on: ubuntu-latest
-    needs: build_and_test
+    needs: test
     steps:
       - uses: actions/checkout@master
       - uses: actions/setup-node@master

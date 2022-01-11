@@ -21,5 +21,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-verzija }}
-      - run: npm install # Namesti knjižnice.
-      - run: npx cypress run # Poženi teste.
+      - name: Setup
+        run: npm install
+      - name: Run tests
+        run: npm run e2e

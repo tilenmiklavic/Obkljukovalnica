@@ -6,11 +6,11 @@ require('cypress-xpath')
 describe('Check view', () => {
 
   beforeEach(() => {
-    cy.visit('http://localhost:4200')
+    //cy.visit('http://localhost:4200')
   })
 
   it('Title is Obkljukovalnica', () => {
-    cy.visit('http://localhost:4200')
+    cy.visit('http://localhost:4200/')
     cy.contains("Obkljukovalnica")
   })
 
@@ -61,6 +61,7 @@ describe('Settings view', () => {
     cy.xpath('//div[contains(@class, "container preglednica")]/div/button[. = "Pridobi preglednico!"]')
       .should('be.visible')
   })
+
 
   it('Nastavitve section', () => {
     cy.xpath('//mat-expansion-panel[3]').click()
