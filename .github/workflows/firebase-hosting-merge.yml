@@ -6,7 +6,25 @@ name: Deploy to Firebase Hosting on merge
   push:
     branches:
       - master
+    paths-ignore:
+      - "README.md"
 jobs:
+  build_and_test:
+    runs-on: # Okolje, v katerem se testi izvedejo.
+      - ubuntu-latest
+    strategy:
+      matrix:
+        node-verzija:
+          - 15.x
+    steps: # Posamezni koraki testiranja.
+      - uses: actions/checkout@v2 # Pridobimo izvorno kodo repozitorija.
+      - name: Uporabi Node.js ${{ matrix.node-verzija }} # Nastavi Node.js okolje.
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-verzija }}
+      - run: npm install # Namesti knjižnice.
+      - run: npx cypress run # Poženi teste.
+
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:

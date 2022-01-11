@@ -2,6 +2,7 @@
 
 require('cypress-xpath')
 
+// signed out user
 describe('Check view', () => {
 
   beforeEach(() => {
@@ -89,6 +90,24 @@ describe('Settings view', () => {
 
   it('google login', () => {
     cy.loginByGoogleApi()
-    console.log(window.localStorage.getItem('googleCypressAccessToken'))
+    console.log(window.localStorage.getItem('access_token'))
+  })
+})
+
+// user logged in
+describe('Nastavi preglednico', () => {
+  it('Navigacija', () => {
+    cy.xpath('//mat-expansion-panel[2]').click()
+    cy.contains('Preglednica')
+    cy.xpath('//div[contains(@class, "container preglednica")]')
+      .should('be.visible')
+    cy.xpath('//div[contains(@class, "container preglednica")]/div/button[. = "Pridobi preglednico!"]')
+      .should('be.visible')
+
+    cy.xpath('//input[@id = "povezavaTabela"]').type('https://docs.google.com/spreadsheets/d/1crR7NUCd6npmSk-on1o9O6BxGuoZMog7OBaq2xTlsoI/edit#gid=0')
+    cy.xpath('//button[@id = "pridobiPreglednico"]').click()
+    cy.xpath("//mat-select[@id = 'skupinaDropdown']").click()
+    cy.xpath("//mat-option[2]").click()
+    cy.xpath("//button[@id = 'shraniPreglednico']").click()
   })
 })
