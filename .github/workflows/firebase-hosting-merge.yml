@@ -7,8 +7,27 @@ name: Deploy to Firebase Hosting on merge
     branches:
       - master
 jobs:
-  build_and_deploy:
+  test:
+    runs-on: # Okolje, v katerem se testi izvedejo.
+      - ubuntu-latest
+    strategy:
+      matrix:
+        node-verzija:
+          - 15.x
+    steps: # Posamezni koraki testiranja.
+      - uses: actions/checkout@v2 # Pridobimo izvorno kodo repozitorija.
+      - name: Uporabi Node.js ${{ matrix.node-verzija }} # Nastavi Node.js okolje.
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-verzija }}
+      - name: Setup
+        run: npm install
+      - name: Run tests
+        run: npm run e2e
+
+  deploy:
     runs-on: ubuntu-latest
+    needs: test
     steps:
       - uses: actions/checkout@master
       - uses: actions/setup-node@master
