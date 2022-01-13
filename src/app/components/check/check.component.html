@@ -52,21 +52,21 @@
     <div class="ime col-6 justify-content-center align-self-center">{{udelezenec.Ime}}</div>
     <div class="ikone col-6 row d-flex">
       <div class="accept col-4 align-self-center">
-        <button mat-mini-fab color="accent" (click)="present(udelezenec.Id, 0)">
+        <button mat-mini-fab id="buttonCheckPresent" color="accent" (click)="present(udelezenec.Id, 0)">
           <mat-icon class="material-icons-outlined color_blue">
             done
           </mat-icon>
         </button>
       </div>
       <div class="accept col-4 align-self-center">
-        <button mat-mini-fab color="accent" (click)="present(udelezenec.Id, 1)">
+        <button mat-mini-fab id="buttonCheckExcused" color="accent" (click)="present(udelezenec.Id, 1)">
           <mat-icon class="material-icons-outlined color_blue">
             radio_button_unchecked
           </mat-icon>
         </button>
       </div>
       <div class="reject col-4 align-self-center">
-        <button mat-mini-fab color="accent" (click)="present(udelezenec.Id, 2)">
+        <button mat-mini-fab id="buttonCheckAbsent" color="accent" (click)="present(udelezenec.Id, 2)">
           <mat-icon class="material-icons-outlined color_blue">
             close
           </mat-icon>
