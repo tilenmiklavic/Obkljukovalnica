@@ -98,6 +98,8 @@ describe('Settings view', () => {
 // user logged in
 describe('Nastavi preglednico', () => {
   it('Navigacija', () => {
+    cy.loginByGoogleApi()
+    cy.wait(2000)
     cy.xpath('//mat-expansion-panel[2]').click()
     cy.contains('Preglednica')
     cy.xpath('//div[contains(@class, "container preglednica")]')
@@ -105,10 +107,22 @@ describe('Nastavi preglednico', () => {
     cy.xpath('//div[contains(@class, "container preglednica")]/div/button[. = "Pridobi preglednico!"]')
       .should('be.visible')
 
-    cy.xpath('//input[@id = "povezavaTabela"]').type('https://docs.google.com/spreadsheets/d/1crR7NUCd6npmSk-on1o9O6BxGuoZMog7OBaq2xTlsoI/edit#gid=0')
+    // vpisi povezavo
+    cy.xpath('//input[@id = "povezavaTabela"]').type('https://docs.google.com/spreadsheets/d/1Z69v5yO4-irZC_Vybfj5ZqnQT80PAylDEjVdfGah9GM/edit#gid=0')
+    // klikni na pridobi preglednico
     cy.xpath('//button[@id = "pridobiPreglednico"]').click()
+    cy.wait(2000)
     cy.xpath("//mat-select[@id = 'skupinaDropdown']").click()
+    // klikni na novo dodano skupino
     cy.xpath("//mat-option[2]").click()
+    // shrani skupinp
     cy.xpath("//button[@id = 'shraniPreglednico']").click()
+    cy.wait(2000)
+
+    // check pogled
+    cy.navigateToCheck()
+    cy.xpath('//div[contains(@class, "udelezenec")][1]//button[@id = "buttonCheckPresent"]').click()
+    cy.xpath('//div[contains(@class, "udelezenec")][2]//button[@id = "buttonCheckExcused"]').click()
+    cy.xpath('//div[contains(@class, "udelezenec")][3]//button[@id = "buttonCheckAbsent"]').click()
   })
 })

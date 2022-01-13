@@ -3,7 +3,7 @@ Cypress.Commands.add('loginByGoogleApi', () => {
   cy.log('Logging in to Google')
   cy.request({
     method: 'POST',
-    url: 'https://www.googleapis.com/oauth2/v4/token',
+    url: 'https://www.googleapis.com/auth/spreadsheets',
     body: {
       grant_type: 'refresh_token',
       client_id: Cypress.env('googleClientId'),
@@ -33,7 +33,18 @@ Cypress.Commands.add('loginByGoogleApi', () => {
       window.localStorage.setItem('googleCypress', JSON.stringify(userItem))
       window.localStorage.setItem('access_token', JSON.stringify(access_token))
       cy.log(window.localStorage.getItem('access_token'))
-      // cy.visit('/')
     })
   })
+})
+
+Cypress.Commands.add('navigateToCheck', () => {
+  cy.xpath('//mat-toolbar/button[1]').click()
+})
+
+Cypress.Commands.add('navigateToPregled', () => {
+  cy.xpath('//mat-toolbar/button[2]').click()
+})
+
+Cypress.Commands.add('navigateToSettings', () => {
+  cy.xpath('//mat-toolbar/button[3]').click()
 })

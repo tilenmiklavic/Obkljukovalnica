@@ -100,6 +100,8 @@ export class SheetsService {
 
     let options = { params: HttpParams, headers: httpLastnosti };
 
+    console.log(new_url, body, httpLastnosti)
+
     return this.http
       .put(new_url, body, httpLastnosti)
       .toPromise()
