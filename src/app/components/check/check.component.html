@@ -31,19 +31,28 @@
   </div>
 
   <!-- Izbira datuma -->
-  <div class='row date_picker' *ngIf="valid_data">
+  <div class='row date_picker align-items-center' *ngIf="valid_data">
+    <div class="col-1" align='left' [hidden]=true>
+      left
+    </div>
     <div class='col' align='center'>
       <a (click)='changeDate(false)'>
-        <mat-icon>keyboard_arrow_left</mat-icon>
+        <mat-icon class="arrowIcon">keyboard_arrow_left</mat-icon>
       </a>
     </div>
-    <div class="col" align='center'>
+    <div class="col-3" align='center'>
       <span>{{datum}}</span>
     </div>
     <div class="col" align='center'>
       <a (click)='changeDate(true)'>
-        <mat-icon>keyboard_arrow_right</mat-icon>
+        <mat-icon class="arrowIcon">keyboard_arrow_right</mat-icon>
       </a>
+    </div>
+
+    <div class='col-auto m-0 p-0 align-middle' alight='right'>
+      <button (click)='clearInput()' type="button" class="btn btn-danger clearButton">
+        <i id="clearIcon" class="far fa-trash-alt"></i>
+      </button>
     </div>
   </div>
 
