@@ -51,6 +51,6 @@
   z-index: 10;
 }
 
-.date_picker {
-  margin: 0.5rem 0rem 1.5rem 2rem;
+.datum {
+  width: 7rem !important;
 }
