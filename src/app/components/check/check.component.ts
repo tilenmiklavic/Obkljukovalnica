@@ -93,6 +93,28 @@ export class CheckComponent implements OnInit {
 
   }
 
+  public clearInput() {
+    let bar = this.data.map(el => {return {...el}})
+
+    for (let i = 0; i < bar.length; i++) {
+      bar[i][this.datum] = "";
+    }
+
+    this.sheetService.nastaviPrisotnost(bar)
+      .then((odgovor) => {
+        if (odgovor) {
+          this.today = true
+          this.data = bar
+        }
+      })
+      .catch((napaka) => {
+        this._snackBar.open(Strings.noInternetConnectionError, "Zapri")
+      })
+      .finally(() => {
+        this.prestej_prisotne()
+      })
+  }
+
   ngOnInit(): void {
     let date = new Date()
     let month = date.getMonth() + 1
