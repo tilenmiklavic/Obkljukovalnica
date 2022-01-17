@@ -48,12 +48,6 @@
         <mat-icon class="arrowIcon">keyboard_arrow_right</mat-icon>
       </a>
     </div>
-
-    <div class='col-auto m-0 p-0 align-middle' alight='right'>
-      <button (click)='clearInput()' type="button" class="btn btn-danger clearButton">
-        <i id="clearIcon" class="far fa-trash-alt"></i>
-      </button>
-    </div>
   </div>
 
   <!-- Seznam udelezencev -->
@@ -82,6 +76,12 @@
         </button>
       </div>
     </div>
+  </div>
+
+  <div class="d-grid mt-3">
+    <button (click)='clearInput()' type="button" class="btn btn-danger clearButton">
+      <i id="clearIcon" class="far fa-trash-alt"></i>
+    </button>
   </div>
 
   <div class="document_end"></div>
