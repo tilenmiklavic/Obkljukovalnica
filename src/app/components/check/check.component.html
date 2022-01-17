@@ -31,19 +31,11 @@
   </div>
 
   <!-- Izbira datuma -->
-  <div class='row date_picker' *ngIf="valid_data">
-    <div class='col' align='center'>
-      <a (click)='changeDate(false)'>
-        <mat-icon>keyboard_arrow_left</mat-icon>
-      </a>
-    </div>
-    <div class="col" align='center'>
-      <span>{{datum}}</span>
-    </div>
-    <div class="col" align='center'>
-      <a (click)='changeDate(true)'>
-        <mat-icon>keyboard_arrow_right</mat-icon>
-      </a>
+  <div class='date_picker d-flex justify-content-center mb-4' *ngIf="valid_data">
+    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+      <button type="button" class="btn btn-secondary arrow" (click)='changeDate(false)'><mat-icon class="arrowIcon">keyboard_arrow_left</mat-icon></button>
+      <button type="button" class="btn btn-secondary datum" disabled>{{datum}}</button>
+      <button type="button" class="btn btn-secondary arrow" (click)='changeDate(true)'><mat-icon class="arrowIcon">keyboard_arrow_right</mat-icon></button>
     </div>
   </div>
 
