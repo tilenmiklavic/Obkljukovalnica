@@ -78,7 +78,7 @@
     </div>
   </div>
 
-  <div class="d-grid mt-3">
+  <div class="d-grid mt-3" *ngIf="loaded">
     <button (click)='clearInput()' type="button" class="btn btn-danger clearButton">
       <i id="clearIcon" class="far fa-trash-alt"></i>
     </button>
