@@ -20,7 +20,8 @@ export class PregledComponent implements OnInit {
   header = ''
   loaded = false
   data = []
-  imena = []
+  vodi = []
+  prisotnostPoVodih = []
   prisotnostPoLjudeh = []
   prisotnostPoLjudehMax = 1
   skupine = []
@@ -30,6 +31,7 @@ export class PregledComponent implements OnInit {
   mode: ProgressSpinnerMode = 'indeterminate';
   public miniamal_presence = parseInt(localStorage.getItem("minimal_presence")) || 50
   public low_presence = parseInt(localStorage.getItem("low_presence")) || 70
+  public sortiranjePoVodih = false
 
   dayGraphType = ''
   dayGraphPodatki = {}
@@ -64,7 +66,7 @@ export class PregledComponent implements OnInit {
   }
 
   private setupPeopleGraph() {
-    this.peopleGraphLabels = this.formattingService.vrniImena(this.data)
+    this.peopleGraphLabels = this.sheetService.vrniImena(this.data)
     this.peopleGraphPodatki = this.formattingService.prisotnostPoLjudeh(this.data, this.dayGraphLabels)
 
     this.peopleGraphType = 'bar';
@@ -98,8 +100,9 @@ export class PregledComponent implements OnInit {
     .finally(() => {
       this.setupDayGraph();
       this.setupPeopleGraph();
-      this.imena = this.formattingService.vrniImena(this.data)
+      this.vodi = this.sheetService.vrniVode(this.data)
       this.prisotnostPoLjudeh = this.formattingService.prisotnostPoLjudeh(this.data, this.sheetService.getHeader())
+      this.prisotnostPoVodih = this.formattingService.prisotnostPoVodih(this.data, this.sheetService.getHeader())
       this.prisotnostPoLjudehMax = this.formattingService.steviloIzvedenihSrecanj(this.data, this.sheetService.getHeader())
     })
   }

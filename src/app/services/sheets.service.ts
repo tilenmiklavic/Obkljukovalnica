@@ -1,12 +1,9 @@
 import {
   HttpClient,
-  HttpHeaders,
-  HttpParams,
-  HttpClientModule,
+  HttpHeaders
 } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { SHRAMBA_BRSKALNIKA } from '../classes/shramba';
 import { AlertService } from './alert.service';
 import { FormattingService } from './formatting.service';
 import { Strings } from 'src/app/classes/strings';
@@ -16,14 +13,10 @@ import { Strings } from 'src/app/classes/strings';
 })
 export class SheetsService {
   constructor(
-    @Inject(SHRAMBA_BRSKALNIKA) private shramba: Storage,
     private http: HttpClient,
     private formattingService: FormattingService,
     private alertService: AlertService
   ) {}
-  private url = environment.url;
-  private edit_url = environment.update_url;
-  private sheets_url = environment.sheets_url;
   private url_skeleton = environment.urlSkeleton;
   private header = null;
 
@@ -185,14 +178,12 @@ export class SheetsService {
 
   // convert raw data to object
   private arrayToObject(data: any) {
-    this.header = data[0];
+    this.header = data[0].map(element => {return element.toLowerCase()});
     data.shift();
 
     let udelezenci = [];
 
     data.forEach((element) => {
-
-      console.log(element)
       let foo = {};
       let id_present = false
       for (let i = 0; i < this.header.length; i++) {
@@ -202,6 +193,8 @@ export class SheetsService {
           this.header[i] == 'Ime' ||
           this.header[i] == 'id' ||
           this.header[i] == 'Id' ||
+          this.header[i] == 'Vod' ||
+          this.header[i] == 'vod' ||
           this.formattingService.jeDatum(this.header[i])
         ) {
           foo[this.header[i]] = element[i];
@@ -212,8 +205,6 @@ export class SheetsService {
         id_present = false
       }
     });
-
-    console.log(udelezenci)
     return udelezenci;
   }
 
@@ -254,6 +245,41 @@ export class SheetsService {
 
   public getHeader() {
     return this.header;
+  }
+
+  // iz podatkov vrnemo samo imena
+  public vrniImena(data): Array<String> {
+    let keyword
+
+    if (this.header.includes("Ime")) { keyword = "Ime" }
+    else if (this.header.includes("ime")) { keyword = "ime" }
+    else { return null }
+
+    let imena = []
+
+    data.forEach(element => {
+      imena.push(element[`${keyword}`])
+    });
+
+    return imena
+  }
+
+  // iz podatkov vrnemo samo vode
+  public vrniVode(data) {
+    let keyword
+
+    if (this.header.includes("Vod")) { keyword = "Vod" }
+    else if (this.header.includes("vod")) { keyword = "vod" }
+    else { return null }
+
+    let vodi = []
+
+    data.forEach(element => {
+
+      vodi.push(element[`${keyword}`])
+    });
+
+    return [...new Set(vodi)]
   }
 
   private static obdelajNapako(napaka: any): Promise<any> {

@@ -44,8 +44,8 @@
       <mat-expansion-panel-header>
         <mat-panel-title>
           Preglednica
-          <mat-icon *ngIf="povezava && izbrana_skupina" class="panel_icon check-icon">check_circle</mat-icon>
-          <mat-icon *ngIf="!povezava || !izbrana_skupina" class="panel_icon cancel-icon">cancel</mat-icon>
+          <mat-icon *ngIf="settings.povezava && settings.skupina" class="panel_icon check-icon">check_circle</mat-icon>
+          <mat-icon *ngIf="!settings.povezava || !settings.skupina" class="panel_icon cancel-icon">cancel</mat-icon>
         </mat-panel-title>
         <mat-panel-description>
           <p></p>
@@ -60,36 +60,36 @@
 
         <mat-form-field class="example-form-field w-100" appearance="outline">
           <mat-label>Povezava do tabele</mat-label>
-          <input matInput id="povezavaTabela" type="text" [(ngModel)]="povezava">
-          <button *ngIf="povezava" matSuffix mat-icon-button aria-label="Clear" (click)="povezava=''">
+          <input matInput id="povezavaTabela" type="text" [(ngModel)]="settings.povezava">
+          <button *ngIf="settings.povezava" matSuffix mat-icon-button aria-label="Clear" (click)="settings.povezava=''">
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
 
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Shranjene preglednice</mat-label>
-          <mat-select [(value)]="povezava">
+          <mat-select [(value)]="settings.povezava">
             <mat-option></mat-option>
-            <mat-option *ngFor="let preglednica of shranjene_preglednice" value="{{preglednica.povezava}}">{{preglednica.ime}}</mat-option>
+            <mat-option *ngFor="let preglednica of settings.shranjene_preglednice" value="{{preglednica.povezava}}">{{preglednica.ime}}</mat-option>
           </mat-select>
         </mat-form-field>
 
         <div class="get">
-          <button id="pridobiPreglednico" mat-raised-button color="primary" (click)="getSkupine(); ">Pridobi preglednico!</button>
+          <button id="pridobiPreglednico" mat-raised-button color="primary" (click)="pridobiPreglednico(); ">Pridobi preglednico!</button>
         </div>
 
         <p class="navodila">Spodnja nastavitev je relevantna, če imamo v preglednici več listov. V tem primeru bo v meniju možnost preklapljanja med skupinami. V nasprotnem primeru vedno izberemo prvi možnost.</p>
 
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Skupina</mat-label>
-          <mat-select id="skupinaDropdown" [(value)]="izbrana_skupina">
+          <mat-select id="skupinaDropdown" [(value)]="settings.skupina">
             <mat-option></mat-option>
             <mat-option *ngFor="let skupina of skupine" value="{{skupina.ime}}">{{skupina.ime}}</mat-option>
           </mat-select>
         </mat-form-field>
 
         <div>
-          <button id="shraniPreglednico" mat-raised-button color="primary" (click)="save()">Shrani</button>
+          <button id="shraniPreglednico" mat-raised-button color="primary" (click)="shraniNastavitve()">Shrani</button>
         </div>
       </div>
 
@@ -115,22 +115,22 @@
 
         <mat-form-field class="example-form-field w-100" appearance="outline">
           <mat-label>Znak za prisotnost</mat-label>
-          <input matInput type="text" [(ngModel)]="prisoten_symbol">
-          <button *ngIf="povezava" matSuffix mat-icon-button aria-label="Clear" (click)="prisoten_symbol=''">
+          <input matInput type="text" [(ngModel)]="settings.simboli.prisoten_symbol">
+          <button *ngIf="settings.povezava" matSuffix mat-icon-button aria-label="Clear" (click)="settings.simboli.prisoten_symbol=''">
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
         <mat-form-field class="example-form-field w-100" appearance="outline">
           <mat-label>Znak za odsotnost</mat-label>
-          <input matInput type="text" [(ngModel)]="odsoten_symbol">
-          <button *ngIf="povezava" matSuffix mat-icon-button aria-label="Clear" (click)="odsoten_symbol=''">
+          <input matInput type="text" [(ngModel)]="settings.simboli.odsoten_symbol">
+          <button *ngIf="settings.povezava" matSuffix mat-icon-button aria-label="Clear" (click)="settings.simboli.odsoten_symbol=''">
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
         <mat-form-field class="example-form-field w-100" appearance="outline">
           <mat-label>Znak za upravičeno odsotnost</mat-label>
-          <input matInput type="text" [(ngModel)]="upraviceno_odsoten_symbol">
-          <button *ngIf="povezava" matSuffix mat-icon-button aria-label="Clear" (click)="upraviceno_odsoten_symbol=''">
+          <input matInput type="text" [(ngModel)]="settings.simboli.upraviceno_odsoten_symbol">
+          <button *ngIf="settings.povezava" matSuffix mat-icon-button aria-label="Clear" (click)="settings.simboli.upraviceno_odsoten_symbol=''">
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
@@ -141,15 +141,15 @@
 
         <mat-form-field class="example-form-field w-100" appearance="outline">
           <mat-label>Minimalna prisotnost (%)</mat-label>
-          <input matInput type="text" [(ngModel)]="minimal_presence">
-          <button *ngIf="povezava" matSuffix mat-icon-button aria-label="Clear" (click)="minimal_presence=''">
+          <input matInput type="text" [(ngModel)]="settings.minimal_presence">
+          <button *ngIf="settings.povezava" matSuffix mat-icon-button aria-label="Clear" (click)="settings.minimal_presence=''">
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
         <mat-form-field class="example-form-field w-100" appearance="outline">
           <mat-label>Nizka prisotnost (%)</mat-label>
-          <input matInput type="text" [(ngModel)]="low_presence">
-          <button *ngIf="povezava" matSuffix mat-icon-button aria-label="Clear" (click)="low_presence=''">
+          <input matInput type="text" [(ngModel)]="settings.low_presence">
+          <button *ngIf="settings.povezava" matSuffix mat-icon-button aria-label="Clear" (click)="settings.low_presence=''">
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
@@ -161,7 +161,7 @@
         <span class="badge bg-warning text-dark">Coming soon</span>
 
         <div class="mt-3">
-          <button mat-raised-button color="primary" (click)="save()">Shrani</button>
+          <button mat-raised-button color="primary" (click)="shraniNastavitve()">Shrani</button>
         </div>
       </div>
     </mat-expansion-panel>

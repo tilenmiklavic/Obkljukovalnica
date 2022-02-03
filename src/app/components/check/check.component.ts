@@ -4,6 +4,8 @@ import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SheetsService } from 'src/app/services/sheets.service';
 import { Strings } from 'src/app/classes/strings';
+import { CheckService } from 'src/app/services/check.service';
+import { FormattingService } from 'src/app/services/formatting.service';
 
 @Component({
   selector: 'app-check',
@@ -14,6 +16,8 @@ export class CheckComponent implements OnInit {
 
   constructor(
     private sheetService: SheetsService,
+    private checkService: CheckService,
+    private formattingService: FormattingService,
     private _snackBar: MatSnackBar
   ) { }
 
@@ -28,37 +32,19 @@ export class CheckComponent implements OnInit {
   odsotni = 0
   today = true
   pending_date = null
+  settings = JSON.parse(localStorage.getItem('settings')) || this.formattingService.newSettings()
   color: ThemePalette = 'primary';
   mode: ProgressSpinnerMode = 'indeterminate';
-  public prisoten_symbol = localStorage.getItem("prisoten_symbol") || 'x'
-  public odsoten_symbol = localStorage.getItem("odsoten_symbol") || '/'
-  public upraviceno_odsoten_symbol = localStorage.getItem("upraviceno_odsoten_symbol") || 'o'
 
   public present(id: Number, present: number) {
 
-    let bar = this.data.map(el => {return {...el}})
-
-    for (let i = 0; i < bar.length; i++) {
-      if (bar[i].Id == id) {
-        switch(present) {
-          case 0:
-            bar[i][this.datum] = this.prisoten_symbol
-            break;
-          case 1:
-            bar[i][this.datum] = this.upraviceno_odsoten_symbol
-            break;
-          case 2:
-            bar[i][this.datum] = this.odsoten_symbol
-            break;
-        }
-      }
-    }
-
-    this.sheetService.nastaviPrisotnost(bar)
+    this.checkService.nastaviPrisotnost(id, present)
       .then((odgovor) => {
         if (odgovor) {
+
+          console.log(odgovor)
           this.today = true
-          this.data = bar
+          // this.data = bar
         }
       })
       .catch((napaka) => {
@@ -90,7 +76,6 @@ export class CheckComponent implements OnInit {
       this.pending_date = datumChanged.pendingDate
       this.datum = datumChanged.datum
     }
-
   }
 
   public clearInput() {
@@ -116,12 +101,10 @@ export class CheckComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let date = new Date()
-    let month = date.getMonth() + 1
-    this.datum = `${date.getDate()}.${month}.`
+    this.datum = this.formattingService.getDate()
 
     // get starting set of all people
-    this.sheetService.getUdelezenci(localStorage.getItem('skupina'))
+    this.checkService.getUdelezenci(this.settings.skupina)
       .then(udelezenci => {
 
         this.data = udelezenci
@@ -129,11 +112,13 @@ export class CheckComponent implements OnInit {
         this.valid_data = true
         this.prestej_prisotne()
 
+        console.log(this.data)
+
         // dobimo kot odgovor prazno tabelo
         if (this.data.length == 0) {
           this._snackBar.open(Strings.noDataErrorNotification, "Close")
         } else {
-          let odgovor: any = this.sheetService.checkTodayDate(this.data)
+          let odgovor: any = this.checkService.checkTodayDate()
           this.today = odgovor.today
 
           if (!odgovor.today) {

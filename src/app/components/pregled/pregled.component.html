@@ -31,6 +31,7 @@
       <thead>
         <tr>
           <th>Ime</th>
+          <th>Vod</th>
           <th>Prisotnosti</th>
           <th>Procent</th>
         </tr>
@@ -38,19 +39,42 @@
       <tbody>
         <tr
           [ngClass]="{'table-success': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= low_presence), 'table-warning': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= miniamal_presence) && (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 < low_presence), 'table-danger': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= 0) && (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 < miniamal_presence)}"
-          *ngFor="let element of imena; let i = index">
+          *ngFor="let element of data; let i = index">
 
-          <td class="imePrisotnega col-6">{{imena[i]}} </td>
-          <td class="steviloPrisotnosti col-4">{{prisotnostPoLjudeh[i]}}</td>
+          <td class="imePrisotnega col-6">{{element.ime}} </td>
+          <td>{{element.vod}}</td>
+          <td class="steviloPrisotnosti col-4 text-center">{{prisotnostPoLjudeh[i]}}</td>
           <td class="col-2">{{prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 | number: '1.0-0'}}%</td>
         </tr>
       </tbody>
     </table>
-    <!-- <div class="row" *ngFor="let element of imena; let i = index">
-      <span class="imePrisotnega col-6">{{imena[i]}} </span>
-      <span class="steviloPrisotnosti col-3">{{prisotnostPoLjudeh[i]}}</span>
-      <span class="col-3">{{prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 | number: '1.0-0'}}%</span>
-    </div> -->
+  </div>
+</div>
+
+<hr [hidden]="sortiranjePoVodih">
+
+<div class="container" [hidden]="sortiranjePoVodih">
+  <h2>
+    Pregled po vodih
+  </h2>
+  <div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Vod</th>
+          <th>Prisotnosti</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          [ngClass]="{'table-success': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= low_presence), 'table-warning': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= miniamal_presence) && (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 < low_presence), 'table-danger': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= 0) && (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 < miniamal_presence)}"
+          *ngFor="let element of vodi; let i = index">
+
+          <td class="imePrisotnega col-6">{{element}} </td>
+          <td class="col-2">{{prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 | number: '1.0-0'}}%</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 

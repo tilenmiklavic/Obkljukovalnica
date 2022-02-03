@@ -1,11 +1,13 @@
 import { Component, OnInit, NgZone, AfterViewInit, ViewChild } from '@angular/core';
 import { SheetsService } from 'src/app/services/sheets.service';
 import { environment } from 'src/environments/environment';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertService } from 'src/app/services/alert.service';
 import { Strings } from 'src/app/classes/strings';
 import {ThemePalette} from '@angular/material/core';
 import { OsebnoNapredovanjeService } from 'src/app/services/osebno-napredovanje.service';
+import { SettingsService } from 'src/app/services/settings.service';
+import { Settings } from 'src/app/classes/settings';
+import { FormattingService } from 'src/app/services/formatting.service';
 
 
 @Component({
@@ -17,26 +19,19 @@ import { OsebnoNapredovanjeService } from 'src/app/services/osebno-napredovanje.
 export class SettingsComponent implements OnInit, AfterViewInit {
 
   constructor(
-    private ngZone: NgZone,
     private sheetsService: SheetsService,
     private alertService: AlertService,
     private osebnoNapredovanjeService: OsebnoNapredovanjeService,
+    private settingsService: SettingsService,
+    private formattingService: FormattingService
   ) { }
 
   public profile = null
   public tabela: string = environment.url
   public ime_preglednice: string = ""
-  public shranjene_preglednice: Array<any> = JSON.parse(localStorage.getItem('shranjene_preglednice')) || []
-  public povezava: string = localStorage.getItem('povezava')
+  public settings: Settings = JSON.parse(localStorage.getItem('settings')) || this.formattingService.newSettings()
   public sekcija: string = ''
   public skupine = []
-  public izbrana_skupina: string = localStorage.getItem('skupina')
-  public izbran_stolpec: string = localStorage.getItem('stolpecImena')
-  public prisoten_symbol = localStorage.getItem('prisoten_symbol') || 'x'
-  public odsoten_symbol = localStorage.getItem('odsoten_symbol') || '/'
-  public upraviceno_odsoten_symbol = localStorage.getItem('upraviceno_odsoten_symbol') || 'o'
-  public minimal_presence = localStorage.getItem('minimal_presence') || '50'
-  public low_presence = localStorage.getItem('low_presence') || '70'
   public setup_progress = 0
   public panelOpenState = false
   public versionNumber = 'v0.4.3'
@@ -52,67 +47,72 @@ export class SettingsComponent implements OnInit, AfterViewInit {
 
   public onSuccess(googleUser) {
 
-    let profile = googleUser.getBasicProfile()
-    let access_token = googleUser.getAuthResponse().access_token
+    let googleProfile = {
+      profile: googleUser.getBasicProfile(),
+      access_token: googleUser.getAuthResponse().access_token
+    }
 
-    localStorage.setItem('profile', profile)
-    localStorage.setItem('access_token', access_token)
+    localStorage.setItem('googleProfile', JSON.stringify(googleProfile))
   }
 
   public onFailure() {
     console.log("Sign in unsuccesful")
   }
 
-  public save() {
-    if (!this.prisoten_symbol || !this.odsoten_symbol || !this.upraviceno_odsoten_symbol) {
+  public shraniNastavitve() {
+    if (!this.settings.simboli.prisoten_symbol || !this.settings.simboli.odsoten_symbol || !this.settings.simboli.upraviceno_odsoten_symbol) {
       this.alertService.openSnackBar(Strings.markingSymbolEmptyErrorNotification)
       return
     }
-    if (parseInt(this.minimal_presence) >= parseInt(this.low_presence)) {
+    if (parseInt(this.settings.minimal_presence) >= parseInt(this.settings.low_presence)) {
       this.alertService.openSnackBar(Strings.minimalPresenceLowestErrorNotification)
       return
     }
     let nova_preglednica = true
-    this.shranjene_preglednice.forEach(preglednica => {
-      if (preglednica.ime == this.ime_preglednice || preglednica.povezava == this.povezava) nova_preglednica = false
+    this.settings.shranjene_preglednice.forEach(preglednica => {
+      if (preglednica.ime == this.ime_preglednice || preglednica.povezava == this.settings.povezava) nova_preglednica = false
     })
     if (nova_preglednica) {
-      this.shranjene_preglednice.push({"ime": this.ime_preglednice, "povezava": this.povezava})
+      this.settings.shranjene_preglednice.push({"ime": this.ime_preglednice, "povezava": this.settings.povezava})
+    }
+
+    let settings = {
+      shranjene_preglednice: this.settings.shranjene_preglednice,
+      skupina: this.settings.skupina,
+      povezava: this.settings.povezava,
+      id_preglednice: this.settings.id_preglednice,
+      simboli: {
+        prisoten_symbol: this.settings.simboli.prisoten_symbol || 'x',
+        odsoten_symbol: this.settings.simboli.odsoten_symbol || '/',
+        upraviceno_odsoten_symbol: this.settings.simboli.upraviceno_odsoten_symbol || 'o'
+      },
+      minimal_presence: this.settings.minimal_presence,
+      low_presence: this.settings.low_presence
     }
 
     try {
-      localStorage.setItem('preglednica', this.tabela)
-      localStorage.setItem('shranjene_preglednice', JSON.stringify(this.shranjene_preglednice))
-      localStorage.setItem('skupina', this.izbrana_skupina)
-      localStorage.setItem('stolpecImena', this.izbran_stolpec)
-      localStorage.setItem('povezava', this.povezava)
-      localStorage.setItem('prisoten_symbol', this.prisoten_symbol)
-      localStorage.setItem('odsoten_symbol', this.odsoten_symbol)
-      localStorage.setItem('upraviceno_odsoten_symbol', this.upraviceno_odsoten_symbol)
-      localStorage.setItem('minimal_presence', this.minimal_presence)
-      localStorage.setItem('low_presence', this.low_presence)
-
+      localStorage.setItem('settings', JSON.stringify(settings))
       this.alertService.openSnackBar("Nastavitve shranjene!")
 
     } catch (error) {
-      console.log("Napaka pri shranjevanju nastavitev")
       this.alertService.openSnackBar(Strings.saveChangesErrorNotification)
     }
   }
 
-  public getSkupine() {
-    let idTabele = this.povezava.split('/')[5]
-    localStorage.setItem('idTabele', idTabele)
+  public pridobiPreglednico() {
+    let idTabele = this.settings.povezava.split('/')[5]
+    this.settings.id_preglednice = idTabele
 
     this.sheetsService.getSkupine()
     .then(odgovor => {
+      console.log(odgovor)
       this.ime_preglednice = odgovor.properties.title
       odgovor.sheets.forEach(element => {
-        let foo = {"id": element.properties.title, "ime": element.properties.title}
+        let foo = {"id": element.properties.index, "ime": element.properties.title}
         this.skupine.push(foo)
       })
       this.alertService.openSnackBar(Strings.getTableSuccessNotification)
-      this.save()
+      this.shraniNastavitve()
     })
     .catch(napaka => {
       console.log("Napaka pri pridobivanju skupin")
@@ -135,7 +135,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
 
       let nova_preglednica = true
       this.ONShranjenePreglednice.forEach(preglednica => {
-        if (preglednica.ime == title || preglednica.povezava == this.povezava) nova_preglednica = false
+        if (preglednica.ime == title || preglednica.povezava == this.settings.povezava) nova_preglednica = false
       })
       if (nova_preglednica) {
         this.ONShranjenePreglednice.push({"ime": title, "povezava": this.ONPreglednicaUrl, "skupina": skupina})
@@ -152,13 +152,13 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   }
 
   public profileCheck() {
-    if (!this.profile && localStorage.getItem('access_token')) {
+    if (this.formattingService.getProfile().access_token) {
       this.profile = true
     }
   }
 
   ngOnInit(): void {
-    this.sheetsService.getSkupine()
+    this.settingsService.getSkupine()
       .then(odgovor => {
         odgovor.sheets.forEach(element => {
           let foo = {"id": element.properties.sheetId, "ime": element.properties.title}
@@ -183,19 +183,6 @@ export class SettingsComponent implements OnInit, AfterViewInit {
       'onsuccess': this.onSuccess,
       'onfailure': this.onFailure
     })
-
-    // this.ngZone.run(() => {
-    //   // example to render login button
-    //   gapi.signin2.render('my-signin2', {
-    //     'scope': 'profile email https://www.googleapis.com/auth/spreadsheets',
-    //     'width': 240,
-    //     'height': 50,
-    //     'longtitle': true,
-    //     'theme': 'outline',
-    //     'onsuccess': this.onSuccess,
-    //     'onfailure': this.onFailure
-    //   })
-    // });
 
     this.profileCheck()
   }
