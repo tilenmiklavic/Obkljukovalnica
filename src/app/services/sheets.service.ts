@@ -20,46 +20,6 @@ export class SheetsService {
   private url_skeleton = environment.urlSkeleton;
   private header = null;
 
-  public getSkupine(): Promise<any> {
-    const apiKey = environment.apiKey;
-
-    const HttpParams = {
-      key: apiKey,
-    };
-
-    let url = this.url_skeleton + localStorage.getItem('idTabele');
-
-    return this.http
-      .get(url, { params: HttpParams })
-      .toPromise()
-      .then((data) => data as any)
-      .catch(SheetsService.obdelajNapako);
-  }
-
-  // get raw data from excel sheet
-  public getUdelezenci(skupina): Promise<any[]> {
-    const apiKey = environment.apiKey;
-
-    const HttpParams = {
-      key: apiKey,
-    };
-
-    let new_url =
-      this.url_skeleton +
-      localStorage.getItem('idTabele') +
-      '/values/' +
-      skupina;
-
-    return this.http
-      .get(new_url, { params: HttpParams })
-      .toPromise()
-      .then((udelezenci) => {
-        let temp: any = udelezenci;
-        return this.arrayToObject(temp.values);
-      })
-      .catch(SheetsService.obdelajNapako);
-  }
-
   // update raw data to excel sheet
   public updateData(data: any) {
     const apiKey = environment.apiKey;
@@ -241,45 +201,6 @@ export class SheetsService {
     }
 
     return { today: today, header: this.header };
-  }
-
-  public getHeader() {
-    return this.header;
-  }
-
-  // iz podatkov vrnemo samo imena
-  public vrniImena(data): Array<String> {
-    let keyword
-
-    if (this.header.includes("Ime")) { keyword = "Ime" }
-    else if (this.header.includes("ime")) { keyword = "ime" }
-    else { return null }
-
-    let imena = []
-
-    data.forEach(element => {
-      imena.push(element[`${keyword}`])
-    });
-
-    return imena
-  }
-
-  // iz podatkov vrnemo samo vode
-  public vrniVode(data) {
-    let keyword
-
-    if (this.header.includes("Vod")) { keyword = "Vod" }
-    else if (this.header.includes("vod")) { keyword = "vod" }
-    else { return null }
-
-    let vodi = []
-
-    data.forEach(element => {
-
-      vodi.push(element[`${keyword}`])
-    });
-
-    return [...new Set(vodi)]
   }
 
   private static obdelajNapako(napaka: any): Promise<any> {

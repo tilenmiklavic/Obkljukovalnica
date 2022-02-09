@@ -112,8 +112,6 @@ export class CheckComponent implements OnInit {
         this.valid_data = true
         this.prestej_prisotne()
 
-        console.log(this.data)
-
         // dobimo kot odgovor prazno tabelo
         if (this.data.length == 0) {
           this._snackBar.open(Strings.noDataErrorNotification, "Close")

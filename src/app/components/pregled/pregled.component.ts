@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { FormattingService } from 'src/app/services/formatting.service';
-import { SheetsService } from 'src/app/services/sheets.service';
+import { PregledService } from 'src/app/services/pregled.service';
 
 @Component({
   selector: 'app-pregled',
@@ -12,8 +12,8 @@ import { SheetsService } from 'src/app/services/sheets.service';
 export class PregledComponent implements OnInit {
 
   constructor(
-    private sheetService: SheetsService,
-    private formattingService: FormattingService
+    private formattingService: FormattingService,
+    private pregledService: PregledService
   ) { }
 
   datum = '12.6.'
@@ -27,10 +27,9 @@ export class PregledComponent implements OnInit {
   skupine = []
   prisotni = 0
   odsotni = 0
+  settings = JSON.parse(localStorage.getItem('settings')) || this.formattingService.newSettings()
   color: ThemePalette = 'primary';
   mode: ProgressSpinnerMode = 'indeterminate';
-  public miniamal_presence = parseInt(localStorage.getItem("minimal_presence")) || 50
-  public low_presence = parseInt(localStorage.getItem("low_presence")) || 70
   public sortiranjePoVodih = false
 
   dayGraphType = ''
@@ -43,30 +42,36 @@ export class PregledComponent implements OnInit {
   peopleGraphOptions = {}
   peopleGraphLabels = []
 
-  private setupDayGraph() {
+  private async setupDayGraph() {
 
-    this.dayGraphLabels = this.formattingService.vrniDatume(this.sheetService.getHeader())
-    this.dayGraphPodatki = this.formattingService.pregledPrisotnih(this.data, this.dayGraphLabels)
+    this.dayGraphLabels = this.pregledService.vrniDatume()
+    this.pregledService.pregledPrisotnih(this.settings.skupina, this.dayGraphLabels)
+      .then(dayGraphPodatki => {
 
-    this.dayGraphType = 'bar';
-    this.dayGraphPodatki = {
-      labels: this.dayGraphLabels,
-      datasets: [
-        {
-          label: "Pregled po osebah",
-          data: this.dayGraphPodatki
-        }
-      ]
-    };
-    this.dayGraphOptions = {
-      responsive: true,
-      maintainAspectRatio: false,
-      aspectRatio: 1.2
-    };
+        console.log(dayGraphPodatki)
+
+        this.dayGraphPodatki = dayGraphPodatki
+
+        this.dayGraphType = 'bar';
+        this.dayGraphPodatki = {
+          labels: this.dayGraphLabels,
+          datasets: [
+            {
+              label: "Pregled po osebah",
+              data: this.dayGraphPodatki
+            }
+          ]
+        };
+        this.dayGraphOptions = {
+          responsive: true,
+          maintainAspectRatio: false,
+          aspectRatio: 1.2
+        };
+      })
   }
 
   private setupPeopleGraph() {
-    this.peopleGraphLabels = this.sheetService.vrniImena(this.data)
+    this.peopleGraphLabels = this.pregledService.vrniImena(this.settings.skupina)
     this.peopleGraphPodatki = this.formattingService.prisotnostPoLjudeh(this.data, this.dayGraphLabels)
 
     this.peopleGraphType = 'bar';
@@ -88,22 +93,22 @@ export class PregledComponent implements OnInit {
 
   ngOnInit(): void {
     // set date for correct querying
-    let date = new Date()
-    let month = date.getMonth() + 1
-    this.datum = `${date.getDate()}.${month}.`
+    this.datum = this.formattingService.getDate()
 
-    this.sheetService.getUdelezenci(localStorage.getItem('skupina'))
+    this.pregledService.getUdelezenci(this.settings.skupina)
     .then(udelezenci => {
       this.data = udelezenci
       this.loaded = true
     })
     .finally(() => {
       this.setupDayGraph();
-      this.setupPeopleGraph();
-      this.vodi = this.sheetService.vrniVode(this.data)
-      this.prisotnostPoLjudeh = this.formattingService.prisotnostPoLjudeh(this.data, this.sheetService.getHeader())
-      this.prisotnostPoVodih = this.formattingService.prisotnostPoVodih(this.data, this.sheetService.getHeader())
-      this.prisotnostPoLjudehMax = this.formattingService.steviloIzvedenihSrecanj(this.data, this.sheetService.getHeader())
+      // this.setupPeopleGraph();
+      this.vodi = this.pregledService.getVodi()
+
+
+      // this.prisotnostPoLjudeh = this.pregledService.prisotnostPoLjudeh(this.settings.skupina)
+      // this.prisotnostPoVodih = this.pregledService.prisotnostPoVodih(this.settings.skupina)
+      // this.prisotnostPoLjudehMax = this.pregledService.steviloIzvedenihSrecanj(this.data, this.sheetService.getHeader())
     })
   }
 }

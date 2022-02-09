@@ -120,6 +120,25 @@ export class RepositoryService {
   }
 
 
+  // gets vodi
+  public getVodi() {
+    let keyword
+
+    if (this.header.includes("Vod")) { keyword = "Vod" }
+    else if (this.header.includes("vod")) { keyword = "vod" }
+    else { return null }
+
+    let vodi = []
+
+    this.data.forEach(element => {
+
+      vodi.push(element[`${keyword}`])
+    });
+
+    return [...new Set(vodi)]
+  }
+
+
   // returns local header
   public getHeader(): Array<any> {
     if (this.header != undefined && this.header.length > 0) { return this.header }

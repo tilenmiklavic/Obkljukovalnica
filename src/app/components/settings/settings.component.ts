@@ -103,7 +103,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     let idTabele = this.settings.povezava.split('/')[5]
     this.settings.id_preglednice = idTabele
 
-    this.sheetsService.getSkupine()
+    this.settingsService.getSkupine()
     .then(odgovor => {
       console.log(odgovor)
       this.ime_preglednice = odgovor.properties.title

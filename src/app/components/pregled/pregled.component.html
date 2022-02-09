@@ -38,7 +38,7 @@
       </thead>
       <tbody>
         <tr
-          [ngClass]="{'table-success': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= low_presence), 'table-warning': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= miniamal_presence) && (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 < low_presence), 'table-danger': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= 0) && (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 < miniamal_presence)}"
+          [ngClass]="{'table-success': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= settings.low_presence), 'table-warning': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= settings.minimal_presence) && (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 < settings.low_presence), 'table-danger': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= 0) && (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 < settings.minimal_presence)}"
           *ngFor="let element of data; let i = index">
 
           <td class="imePrisotnega col-6">{{element.ime}} </td>
@@ -67,7 +67,7 @@
       </thead>
       <tbody>
         <tr
-          [ngClass]="{'table-success': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= low_presence), 'table-warning': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= miniamal_presence) && (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 < low_presence), 'table-danger': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= 0) && (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 < miniamal_presence)}"
+          [ngClass]="{'table-success': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= settings.low_presence), 'table-warning': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= settings.minimal_presence) && (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 < settings.low_presence), 'table-danger': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= 0) && (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 < settings.minimal_presence)}"
           *ngFor="let element of vodi; let i = index">
 
           <td class="imePrisotnega col-6">{{element}} </td>

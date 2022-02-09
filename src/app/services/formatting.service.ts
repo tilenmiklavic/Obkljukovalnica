@@ -10,7 +10,6 @@ export class FormattingService {
 
   constructor(
     private alertService: AlertService,
-    private mappingService: MappingService
   ) { }
 
 
@@ -53,8 +52,6 @@ export class FormattingService {
   }
 
 
-
-
   public jeDatum(datum: string): Boolean {
     var re = new RegExp("([0-9][0-9]?.[0-9][0-9]?.*)")
     if (re.test(datum)) {
@@ -88,7 +85,6 @@ export class FormattingService {
     });
     return prisotni
   }
-
 
   public prisotnostPoLjudeh(data, header): Array<Number> {
     let osebe = new Array(data.length).fill(0)
