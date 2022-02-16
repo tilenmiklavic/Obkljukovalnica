@@ -38,6 +38,8 @@ export class CheckService {
         let uporabnik = data.find(x => x.id == id)
         let udelezba = uporabnik.udelezbe.find(x => x.datum == datum)
 
+        console.log(udelezba)
+
         switch(present) {
           case 0:
             udelezba.prisotnost = settings.simboli.prisoten_symbol
@@ -50,6 +52,8 @@ export class CheckService {
             break;
         }
 
+        console.log(data)
+
         if (
           !googleProfile.access_token ||
           googleProfile.access_token == 'undefined'
@@ -61,19 +65,26 @@ export class CheckService {
         let updated_data = [];
         let header = this.repositoryService.getHeader()
 
-        console.log(data)
+        console.log(header)
 
         data.forEach((element) => {
           let foo = [];
           header.forEach((naslov) => {
-            if (element[naslov] == undefined) {
-              foo.push("")
+            if (element[naslov] != undefined) {                     // updejt informativnega polja
+              foo.push(element[naslov])
             } else {
-              foo.push(element[naslov]);
+              element.udelezbe.some(udelezba => {
+                if (udelezba.datum == naslov) {
+                  foo.push(udelezba.prisotnost)
+                }
+                return udelezba.datum == naslov
+              })
             }
           });
           updated_data.push(foo);
         });
+
+        console.log(updated_data)
 
         updated_data.unshift(header);
 

@@ -57,7 +57,6 @@ export class FormattingService {
     if (re.test(datum)) {
       return true
     }
-
     return false
   }
 
