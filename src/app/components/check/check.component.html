@@ -31,13 +31,20 @@
   </div>
 
   <!-- Izbira datuma -->
-  <div class='date_picker d-flex justify-content-center mb-4' *ngIf="valid_data">
+  <mat-form-field appearance="fill">
+    <mat-label>Choose a date</mat-label>
+    <input matInput [matDatepicker]="picker" [formControl]="izbranDatum">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <!-- <div class='date_picker d-flex justify-content-center mb-4' *ngIf="valid_data">
     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
       <button type="button" class="btn btn-secondary arrow" (click)='changeDate(false)'><mat-icon class="arrowIcon">keyboard_arrow_left</mat-icon></button>
       <button type="button" class="btn btn-secondary datum" disabled>{{datum}}</button>
       <button type="button" class="btn btn-secondary arrow" (click)='changeDate(true)'><mat-icon class="arrowIcon">keyboard_arrow_right</mat-icon></button>
     </div>
-  </div>
+  </div> -->
 
   <!-- Seznam udelezencev -->
   <div *ngFor="let udelezenec of data" class="udelezenec row d-flex" [ngStyle]="{'background-color': (udelezenec[datum]==prisoten_symbol) ? '#4CAF50' : ((udelezenec[datum]==odsoten_symbol) ? '#9E9E9E' : ((udelezenec[datum]==upraviceno_odsoten_symbol) ? '#9E9E9E' : '#ffffff'))}">

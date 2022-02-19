@@ -4,6 +4,7 @@ import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SheetsService } from 'src/app/services/sheets.service';
 import { Strings } from 'src/app/classes/strings';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-check',
@@ -27,6 +28,7 @@ export class CheckComponent implements OnInit {
   prisotni = 0
   odsotni = 0
   today = true
+  izbranDatum = new FormControl(new Date())
   pending_date = null
   color: ThemePalette = 'primary';
   mode: ProgressSpinnerMode = 'indeterminate';
@@ -80,10 +82,7 @@ export class CheckComponent implements OnInit {
   }
 
   public changeDate(future: boolean) {
-
     let datumChanged = this.sheetService.changeDate(future, this.pending_date, this.datum, this.today)
-
-    console.log(datumChanged)
 
     if (datumChanged) {
       this.today = datumChanged.today
