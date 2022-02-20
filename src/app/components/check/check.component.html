@@ -1,5 +1,5 @@
 <div class="appbar">
-  <h1 class="naslov"><span class="check_naslov" matBadge="{{data.length - prisotni - odsotni}}" matBadgePosition="after" matBadgeOverlap="false">Obkljukovalnica</span></h1>
+  <h1 class="naslov" style="font-size: xx-large; font-weight: 700;"><span class="check_naslov" matBadge="{{data.length - prisotni - odsotni}}" matBadgePosition="after" matBadgeOverlap="false">Obkljukovalnica</span></h1>
 </div>
 
 <div class='spinner d-flex justify-content-center'>
@@ -12,31 +12,31 @@
 </div>
 
 
-
+<!-- Opozorilo za manjkajoc datum -->
 <div class="container udelezenci">
   <div class="empty_state" *ngIf="loaded && data.length == 0">
     <img src="../../../assets/images/empty_state.png" alt="" style="width: 100%;">
   </div>
-  <div class="alert alert-warning container" role="alert" [hidden]='today'>
-    <h2 class="alert-heading"><i class="fas fa-exclamation-triangle"></i> Manjkajoč datum</h2>
-    <table>
-      <td>
-        Stolpec bo avtomatsko dodan! <br>
-        Če v tabeli obstajajo dodatni stolpci (skupaj, formule,...) bodo lahko zamaknjeni ali pokvarjeni.
-      </td>
-      <td>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </td>
-    </table>
+  <div class="alert alert-warning container" role="alert" [hidden]='izbranDatumIsValid'>
+    <div class="row h-100">
+      <div class="col my-auto">
+        <span class="alert-heading"><i class="fas fa-exclamation-triangle"></i> Manjkajoč datum</span>
+      </div>
+      <div class="col-3 my-auto">
+        <!-- <button class="btn btn-primary">Dodaj</button> -->
+        <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+      </div>
+    </div>
   </div>
 
   <!-- Izbira datuma -->
-  <div class='date_picker d-flex justify-content-center mb-4' *ngIf="valid_data">
-    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-      <button type="button" class="btn btn-secondary arrow" (click)='changeDate(false)'><mat-icon class="arrowIcon">keyboard_arrow_left</mat-icon></button>
-      <button type="button" class="btn btn-secondary datum" disabled>{{datum}}</button>
-      <button type="button" class="btn btn-secondary arrow" (click)='changeDate(true)'><mat-icon class="arrowIcon">keyboard_arrow_right</mat-icon></button>
-    </div>
+  <div *ngIf="loaded" class="text-center">
+    <mat-form-field appearance="fill">
+      <mat-label>Choose a date</mat-label>
+      <input matInput [matDatepicker]="picker" [formControl]="izbranDatum" (dateChange)="dateChange()">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker [dateClass]="dateClass" touchUi #picker></mat-datepicker>
+    </mat-form-field>
   </div>
 
   <!-- Seznam udelezencev -->
@@ -44,21 +44,21 @@
     <div class="ime col-6 justify-content-center align-self-center">{{udelezenec.Ime}}</div>
     <div class="ikone col-6 row d-flex">
       <div class="accept col-4 align-self-center">
-        <button mat-mini-fab color="accent" (click)="present(udelezenec.Id, 0)">
+        <button mat-mini-fab color="accent" (click)="present(udelezenec.Id, 0)" [disabled]="!izbranDatumIsValid">
           <mat-icon class="material-icons-outlined color_blue">
             done
           </mat-icon>
         </button>
       </div>
       <div class="accept col-4 align-self-center">
-        <button mat-mini-fab color="accent" (click)="present(udelezenec.Id, 1)">
+        <button mat-mini-fab color="accent" (click)="present(udelezenec.Id, 1)" [disabled]="!izbranDatumIsValid">
           <mat-icon class="material-icons-outlined color_blue">
             radio_button_unchecked
           </mat-icon>
         </button>
       </div>
       <div class="reject col-4 align-self-center">
-        <button mat-mini-fab color="accent" (click)="present(udelezenec.Id, 2)">
+        <button mat-mini-fab color="accent" (click)="present(udelezenec.Id, 2)" [disabled]="!izbranDatumIsValid">
           <mat-icon class="material-icons-outlined color_blue">
             close
           </mat-icon>

@@ -54,3 +54,13 @@
 .datum {
   width: 7rem !important;
 }
+
+.alert-heading {
+  font-size: large;
+  font-weight: 500;
+}
+
+.example-custom-date-class {
+  background: orange;
+  border-radius: 100%;
+}

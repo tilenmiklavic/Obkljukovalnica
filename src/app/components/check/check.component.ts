@@ -1,19 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SheetsService } from 'src/app/services/sheets.service';
 import { Strings } from 'src/app/classes/strings';
+import { FormControl } from '@angular/forms';
+import { FormattingService } from 'src/app/services/formatting.service';
+import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-check',
   templateUrl: './check.component.html',
-  styleUrls: ['./check.component.css']
+  styleUrls: ['./check.component.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class CheckComponent implements OnInit {
 
   constructor(
     private sheetService: SheetsService,
+    private formattingService: FormattingService,
     private _snackBar: MatSnackBar
   ) { }
 
@@ -24,15 +29,32 @@ export class CheckComponent implements OnInit {
   header = []
   loaded = false
   datum = null
+  datumi = []
   prisotni = 0
   odsotni = 0
   today = true
+  izbranDatum = new FormControl(new Date())
+  izbranDatumIsValid = true
   pending_date = null
   color: ThemePalette = 'primary';
   mode: ProgressSpinnerMode = 'indeterminate';
   public prisoten_symbol = localStorage.getItem("prisoten_symbol") || 'x'
   public odsoten_symbol = localStorage.getItem("odsoten_symbol") || '/'
   public upraviceno_odsoten_symbol = localStorage.getItem("upraviceno_odsoten_symbol") || 'o'
+
+  dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
+    // Only highligh dates inside the month view.
+    // Highlight dates with existing columns
+    if (view === 'month') {
+      const date = cellDate.getDate();
+      const month = cellDate.getMonth() + 1;
+      const datum = `${date}.${month}.`
+
+      return this.datumi.includes(datum) ? 'example-custom-date-class' : '';
+    }
+
+    return '';
+  };
 
   public present(id: Number, present: number) {
 
@@ -79,18 +101,20 @@ export class CheckComponent implements OnInit {
     })
   }
 
-  public changeDate(future: boolean) {
+  public dateChange() {
+    let day = this.izbranDatum.value.getUTCDate() + 1
+    let month = this.izbranDatum.value.getUTCMonth() + 1
+    this.datum = `${day}.${month}.`
 
-    let datumChanged = this.sheetService.changeDate(future, this.pending_date, this.datum, this.today)
+    let currentDate = new Date()
+    let currentMonth = currentDate.getMonth() + 1
+    let currentDatum = `${currentDate.getDate()}.${currentMonth}.`
 
-    console.log(datumChanged)
+    if (this.datum == currentDatum) { this.today = true }
+    else { this.today = false }
 
-    if (datumChanged) {
-      this.today = datumChanged.today
-      this.pending_date = datumChanged.pendingDate
-      this.datum = datumChanged.datum
-    }
-
+    if (this.datumi.includes(this.datum)) { this.izbranDatumIsValid = true }
+    else { this.izbranDatumIsValid = false }
   }
 
   public clearInput() {
@@ -128,6 +152,15 @@ export class CheckComponent implements OnInit {
         this.loaded = true
         this.valid_data = true
         this.prestej_prisotne()
+
+        for (const [key, value] of Object.entries(this.data[0])) {
+          if (this.formattingService.jeDatum(key)) {
+            this.datumi.push(key)
+          }
+        }
+
+        if (this.datumi.includes(this.datum)) { this.izbranDatumIsValid = true }
+        else { this.izbranDatumIsValid = false }
 
         // dobimo kot odgovor prazno tabelo
         if (this.data.length == 0) {
