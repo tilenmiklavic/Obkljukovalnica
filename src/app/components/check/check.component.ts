@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SheetsService } from 'src/app/services/sheets.service';
 import { Strings } from 'src/app/classes/strings';
 import { FormControl } from '@angular/forms';
+import { FormattingService } from 'src/app/services/formatting.service';
 
 @Component({
   selector: 'app-check',
@@ -15,6 +16,7 @@ export class CheckComponent implements OnInit {
 
   constructor(
     private sheetService: SheetsService,
+    private formattingService: FormattingService,
     private _snackBar: MatSnackBar
   ) { }
 
@@ -25,10 +27,12 @@ export class CheckComponent implements OnInit {
   header = []
   loaded = false
   datum = null
+  datumi = []
   prisotni = 0
   odsotni = 0
   today = true
   izbranDatum = new FormControl(new Date())
+  izbranDatumIsValid = true
   pending_date = null
   color: ThemePalette = 'primary';
   mode: ProgressSpinnerMode = 'indeterminate';
@@ -92,6 +96,9 @@ export class CheckComponent implements OnInit {
 
     if (this.datum == currentDatum) { this.today = true }
     else { this.today = false }
+
+    if (this.datumi.includes(this.datum)) { this.izbranDatumIsValid = true }
+    else { this.izbranDatumIsValid = false }
   }
 
   public clearInput() {
@@ -129,6 +136,15 @@ export class CheckComponent implements OnInit {
         this.loaded = true
         this.valid_data = true
         this.prestej_prisotne()
+
+        for (const [key, value] of Object.entries(this.data[0])) {
+          if (this.formattingService.jeDatum(key)) {
+            this.datumi.push(key)
+          }
+        }
+
+        if (this.datumi.includes(this.datum)) { this.izbranDatumIsValid = true }
+        else { this.izbranDatumIsValid = false }
 
         // dobimo kot odgovor prazno tabelo
         if (this.data.length == 0) {

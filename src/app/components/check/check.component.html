@@ -17,17 +17,16 @@
   <div class="empty_state" *ngIf="loaded && data.length == 0">
     <img src="../../../assets/images/empty_state.png" alt="" style="width: 100%;">
   </div>
-  <div class="alert alert-warning container" role="alert" [hidden]='today'>
-    <h2 class="alert-heading"><i class="fas fa-exclamation-triangle"></i> Manjkajoč datum</h2>
-    <table>
-      <td>
-        Stolpec bo avtomatsko dodan! <br>
-        Če v tabeli obstajajo dodatni stolpci (skupaj, formule,...) bodo lahko zamaknjeni ali pokvarjeni.
-      </td>
-      <td>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </td>
-    </table>
+  <div class="alert alert-warning container" role="alert" [hidden]='izbranDatumIsValid'>
+    <div class="row h-100">
+      <div class="col my-auto">
+        <span class="alert-heading"><i class="fas fa-exclamation-triangle"></i> Manjkajoč datum</span>
+      </div>
+      <div class="col-3 my-auto">
+        <button class="btn btn-primary">Dodaj</button>
+        <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+      </div>
+    </div>
   </div>
 
   <!-- Izbira datuma -->

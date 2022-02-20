@@ -54,3 +54,8 @@
 .datum {
   width: 7rem !important;
 }
+
+.alert-heading {
+  font-size: large;
+  font-weight: 500;
+}
