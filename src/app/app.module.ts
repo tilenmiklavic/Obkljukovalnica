@@ -14,6 +14,7 @@ import {MatBadgeModule} from '@angular/material/badge';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -24,13 +25,14 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OgrodjeComponent } from './components/ogrodje/ogrodje.component';
 import { HttpClientModule } from "@angular/common/http";
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PregledComponent } from './components/pregled/pregled.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { ChartModule } from 'angular2-chartjs';
 import { OsebnoNapredovanjeCheckComponent } from './components/osebno-napredovanje-check/osebno-napredovanje-check.component';
 import { OsebnoNapredovanjePregledComponent } from './components/osebno-napredovanje-pregled/osebno-napredovanje-pregled.component';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 @NgModule({
@@ -57,6 +59,7 @@ import { OsebnoNapredovanjePregledComponent } from './components/osebno-napredov
     HttpClientModule,
     MatInputModule,
     FormsModule,
+    ReactiveFormsModule,
     MatProgressSpinnerModule,
     MatSelectModule,
     MatSnackBarModule,
@@ -65,6 +68,8 @@ import { OsebnoNapredovanjePregledComponent } from './components/osebno-napredov
     MatBadgeModule,
     MatSlideToggleModule,
     MatExpansionModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     ChartModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
@@ -74,7 +79,8 @@ import { OsebnoNapredovanjePregledComponent } from './components/osebno-napredov
     })
   ],
   providers: [
-    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500}}
+    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500}},
+    MatDatepickerModule
   ],
   bootstrap: [AppComponent]
 })

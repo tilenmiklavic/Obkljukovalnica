@@ -34,7 +34,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   public skupine = []
   public setup_progress = 0
   public panelOpenState = false
-  public versionNumber = 'v0.4.3'
+  public versionNumber = 'v0.4.4'
 
   // *********** OSEBNO NAPREDOVANJE ***********
   public ONPreglednicaUrl: string = localStorage.getItem('ONPreglednicaUrl')

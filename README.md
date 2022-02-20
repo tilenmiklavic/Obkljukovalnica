@@ -15,7 +15,7 @@ Preglednico ustvarimo na spletni storitvi Google Drive oz Google Spreadsheets. K
 V zavihku za deljenje preglednice omogočimo urejanje za vsakogar s povezavo do te datoteke, povezavo pa skopiramo, saj jo bomo potrebovali pri nastavljanju aplikacije.
 Polja označena z `#` predstavljajo prosta polja. Označujejo mesta, kjer lahko v preglednico dodamo poljubne vnose, brez da bi s tem omejevali pravilno delovanje aplikacije.
 
-Referenčna preglednica je dostopna na povezavi: https://docs.google.com/spreadsheets/d/1J-syYAHFtVvnre3OKZFRr4vnILgJO1trxHev-EuJqvU/edit?usp=sharing
+Referenčna preglednica je dostopna na povezavi: https://docs.google.com/spreadsheets/d/1gPrgkgPYzqI286iOyWRpIIzrVYv7ksHXznc1lx8tiOo/edit?usp=sharing
 
 ### Priprava aplikacije 
 

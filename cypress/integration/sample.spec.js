@@ -6,11 +6,11 @@ require('cypress-xpath')
 describe('Check view', () => {
 
   beforeEach(() => {
-    cy.visit('http://localhost:4200')
+    //cy.visit('http://localhost:4200')
   })
 
   it('Title is Obkljukovalnica', () => {
-    cy.visit('http://localhost:4200')
+    cy.visit('http://localhost:4200/')
     cy.contains("Obkljukovalnica")
   })
 
@@ -62,6 +62,7 @@ describe('Settings view', () => {
       .should('be.visible')
   })
 
+
   it('Nastavitve section', () => {
     cy.xpath('//mat-expansion-panel[3]').click()
     cy.contains('Nastavitve')
@@ -104,10 +105,12 @@ describe('Nastavi preglednico', () => {
     cy.xpath('//div[contains(@class, "container preglednica")]/div/button[. = "Pridobi preglednico!"]')
       .should('be.visible')
 
-    cy.xpath('//input[@id = "povezavaTabela"]').type('https://docs.google.com/spreadsheets/d/1crR7NUCd6npmSk-on1o9O6BxGuoZMog7OBaq2xTlsoI/edit#gid=0')
+    cy.xpath('//input[@id = "povezavaTabela"]').type('https://docs.google.com/spreadsheets/d/1-wmM7ocx4vdILxncq4tUtUzgXzPB6KOom7i-qnhs4Yo/edit#gid=0')
     cy.xpath('//button[@id = "pridobiPreglednico"]').click()
+    cy.wait(2000)
     cy.xpath("//mat-select[@id = 'skupinaDropdown']").click()
     cy.xpath("//mat-option[2]").click()
     cy.xpath("//button[@id = 'shraniPreglednico']").click()
+    cy.wait(2000)
   })
 })

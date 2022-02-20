@@ -6,10 +6,15 @@
     "start": "ng serve",
     "build": "ng build",
     "build:prod": "ng build --prod",
-    "test": "ng test",
+    "clean": "rimraf ./dist",
+    "test": "./node_modules/.bin/cypress run --headless",
     "lint": "ng lint",
-    "e2e": "cypress open",
-    "mobile": "ng serve --host 0.0.0.0"
+    "e2e": "concurrently \"npm run start\" \"wait-on http-get://localhost:4200 && npm run cy:run\" --kill-others --success first",
+    "e2e-gui": "concurrently \"npm run start\" \"wait-on http-get://localhost:4200 && npm run cy:open\" --kill-others --success first",
+    "mobile": "ng serve --host 0.0.0.0",
+    "build:ci": "npm run clean && npm run test && npm run build:prod",
+    "cy:open": "npx cypress open",
+    "cy:run": "npx cypress run"
   },
   "private": true,
   "dependencies": {
@@ -38,6 +43,7 @@
     "@types/jasmine": "~3.10.2",
     "@types/node": "^16.11.7",
     "codelyzer": "^6.0.2",
+    "concurrently": "^7.0.0",
     "cypress": "^8.7.0",
     "cypress-dotenv": "^2.0.0",
     "cypress-xpath": "^1.6.2",
@@ -50,8 +56,10 @@
     "karma-jasmine": "~4.0.1",
     "karma-jasmine-html-reporter": "^1.7.0",
     "protractor": "~7.0.0",
+    "puppeteer": "^13.0.1",
     "ts-node": "~10.4.0",
     "tslint": "~6.1.0",
-    "typescript": "~4.2.3"
+    "typescript": "~4.2.3",
+    "wait-on": "^6.0.0"
   }
 }
