@@ -44,13 +44,12 @@ export class CheckComponent implements OnInit {
 
   dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
     // Only highligh dates inside the month view.
+    // Highlight dates with existing columns
     if (view === 'month') {
       const date = cellDate.getDate();
       const month = cellDate.getMonth() + 1;
-
       const datum = `${date}.${month}.`
 
-      // Highlight the 1st and 20th day of each month.
       return this.datumi.includes(datum) ? 'example-custom-date-class' : '';
     }
 
