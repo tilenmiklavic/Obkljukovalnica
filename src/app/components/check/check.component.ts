@@ -81,15 +81,12 @@ export class CheckComponent implements OnInit {
     })
   }
 
-  public changeDate(future: boolean) {
-    let datumChanged = this.sheetService.changeDate(future, this.pending_date, this.datum, this.today)
+  public dateChange() {
+    let day = this.izbranDatum.value.getUTCDate() + 1
+    let month = this.izbranDatum.value.getUTCMonth() + 1
+    this.datum = `${day}.${month}.`
 
-    if (datumChanged) {
-      this.today = datumChanged.today
-      this.pending_date = datumChanged.pendingDate
-      this.datum = datumChanged.datum
-    }
-
+    console.log(this.datum)
   }
 
   public clearInput() {
