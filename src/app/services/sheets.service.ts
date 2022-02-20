@@ -137,52 +137,6 @@ export class SheetsService {
     return this.updateData(updated_data);
   }
 
-  public changeDate(future: boolean, pending_date, datum, today): any {
-    let current_index = 0;
-
-    console.log(this.header);
-    this.header.forEach((element, index) => {
-      if (element.includes(datum)) {
-        console.log(element, index);
-        current_index = index;
-      }
-    });
-
-    let new_index = current_index;
-
-    if (future) new_index++;
-    else new_index--;
-
-    if (this.formattingService.jeDatum(this.header[new_index])) {
-      if (!today) {
-        return {
-          today: true,
-          pendingDate: datum,
-          datum: this.header[new_index],
-        };
-      } else if (this.header[new_index] == pending_date) {
-        return {
-          today: false,
-          pendingDate: pending_date,
-          datum: this.header[new_index],
-        };
-      }
-
-      return {
-        today: today,
-        pendingDate: pending_date,
-        datum: this.header[new_index],
-      };
-    } else {
-      if (future) {
-        this.alertService.openSnackBar('Ne morem it bolj v prihodnost.');
-      } else {
-        this.alertService.openSnackBar('Ne morem it bolj v preteklost.');
-      }
-      return null;
-    }
-  }
-
   // convert raw data to object
   private arrayToObject(data: any) {
     this.header = data[0];
