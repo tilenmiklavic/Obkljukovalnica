@@ -86,7 +86,12 @@ export class CheckComponent implements OnInit {
     let month = this.izbranDatum.value.getUTCMonth() + 1
     this.datum = `${day}.${month}.`
 
-    console.log(this.datum)
+    let currentDate = new Date()
+    let currentMonth = currentDate.getMonth() + 1
+    let currentDatum = `${currentDate.getDate()}.${currentMonth}.`
+
+    if (this.datum == currentDatum) { this.today = true }
+    else { this.today = false }
   }
 
   public clearInput() {

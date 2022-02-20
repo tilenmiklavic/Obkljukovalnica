@@ -31,12 +31,14 @@
   </div>
 
   <!-- Izbira datuma -->
-  <mat-form-field appearance="fill">
-    <mat-label>Choose a date</mat-label>
-    <input matInput [matDatepicker]="picker" [formControl]="izbranDatum" (dateChange)="dateChange()">
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker touchUi #picker></mat-datepicker>
-  </mat-form-field>
+  <div *ngIf="loaded" class="text-center">
+    <mat-form-field appearance="fill">
+      <mat-label>Choose a date</mat-label>
+      <input matInput [matDatepicker]="picker" [formControl]="izbranDatum" (dateChange)="dateChange()">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker touchUi #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
 
   <!-- Seznam udelezencev -->
   <div *ngFor="let udelezenec of data" class="udelezenec row d-flex" [ngStyle]="{'background-color': (udelezenec[datum]==prisoten_symbol) ? '#4CAF50' : ((udelezenec[datum]==odsoten_symbol) ? '#9E9E9E' : ((udelezenec[datum]==upraviceno_odsoten_symbol) ? '#9E9E9E' : '#ffffff'))}">
