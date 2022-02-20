@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -6,11 +6,13 @@ import { SheetsService } from 'src/app/services/sheets.service';
 import { Strings } from 'src/app/classes/strings';
 import { FormControl } from '@angular/forms';
 import { FormattingService } from 'src/app/services/formatting.service';
+import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-check',
   templateUrl: './check.component.html',
-  styleUrls: ['./check.component.css']
+  styleUrls: ['./check.component.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class CheckComponent implements OnInit {
 
@@ -39,6 +41,21 @@ export class CheckComponent implements OnInit {
   public prisoten_symbol = localStorage.getItem("prisoten_symbol") || 'x'
   public odsoten_symbol = localStorage.getItem("odsoten_symbol") || '/'
   public upraviceno_odsoten_symbol = localStorage.getItem("upraviceno_odsoten_symbol") || 'o'
+
+  dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
+    // Only highligh dates inside the month view.
+    if (view === 'month') {
+      const date = cellDate.getDate();
+      const month = cellDate.getMonth() + 1;
+
+      const datum = `${date}.${month}.`
+
+      // Highlight the 1st and 20th day of each month.
+      return this.datumi.includes(datum) ? 'example-custom-date-class' : '';
+    }
+
+    return '';
+  };
 
   public present(id: Number, present: number) {
 
