@@ -186,6 +186,13 @@ export class RepositoryService {
         }
       }
       if (id_present) {
+
+        // easier angular FE display
+        udelezenec.prisotnost = new Object
+        udelezenec.udelezbe.forEach(udelezba => {
+          udelezenec.prisotnost[udelezba.datum] = udelezba.prisotnost
+        })
+
         udelezenci.push(udelezenec);
         id_present = false
       }

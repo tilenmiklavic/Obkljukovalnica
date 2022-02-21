@@ -8,6 +8,7 @@ import { CheckService } from 'src/app/services/check.service';
 import { FormattingService } from 'src/app/services/formatting.service';
 import { FormControl } from '@angular/forms';
 import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
+import { RepositoryService } from 'src/app/services/repository.service';
 
 @Component({
   selector: 'app-check',
@@ -20,20 +21,16 @@ export class CheckComponent implements OnInit {
   constructor(
     private checkService: CheckService,
     private formattingService: FormattingService,
+    private repositoryService: RepositoryService,
     private _snackBar: MatSnackBar,
     private sheetService: SheetsService
   ) { }
 
   data = []
-  imena = []
-  foo = null
   valid_data = false
-  header = []
   loaded = false
   datum = null
   datumi = []
-  prisotni = 0
-  odsotni = 0
   today = true
   izbranDatum = new FormControl(new Date())
   izbranDatumIsValid = true
@@ -61,28 +58,12 @@ export class CheckComponent implements OnInit {
     this.checkService.nastaviPrisotnost(id, present)
       .then((odgovor) => {
         if (odgovor) {
-
-          console.log(odgovor)
           this.today = true
-          // this.data = bar
         }
       })
       .catch((napaka) => {
         this._snackBar.open(Strings.noInternetConnectionError, "Zapri")
       })
-      .finally(() => {
-        this.prestej_prisotne()
-      })
-  }
-
-  public prestej_prisotne() {
-    this.prisotni = 0
-    this.odsotni = 0
-
-    this.data.forEach(element => {
-      if (element[this.datum] == 'x') { this.prisotni += 1 }
-      if (element[this.datum] == '/' || element[this.datum] == 'o') { this.odsotni += 1 }
-    })
   }
 
   public dateChange() {
@@ -118,9 +99,6 @@ export class CheckComponent implements OnInit {
       .catch((napaka) => {
         this._snackBar.open(Strings.noInternetConnectionError, "Zapri")
       })
-      .finally(() => {
-        this.prestej_prisotne()
-      })
   }
 
   ngOnInit(): void {
@@ -130,16 +108,12 @@ export class CheckComponent implements OnInit {
     this.checkService.getUdelezenci(this.settings.skupina)
       .then(udelezenci => {
 
+        console.log(udelezenci)
+
         this.data = udelezenci
         this.loaded = true
         this.valid_data = true
-        this.prestej_prisotne()
-
-        for (const [key, value] of Object.entries(this.data[0])) {
-          if (this.formattingService.jeDatum(key)) {
-            this.datumi.push(key)
-          }
-        }
+        this.datumi = this.formattingService.vrniDatume(this.repositoryService.getHeader())
 
         if (this.datumi.includes(this.datum)) { this.izbranDatumIsValid = true }
         else { this.izbranDatumIsValid = false }
@@ -147,15 +121,6 @@ export class CheckComponent implements OnInit {
         // dobimo kot odgovor prazno tabelo
         if (this.data.length == 0) {
           this._snackBar.open(Strings.noDataErrorNotification, "Close")
-        } else {
-          let odgovor: any = this.checkService.checkTodayDate()
-          this.today = odgovor.today
-
-          if (!odgovor.today) {
-            this.data.forEach(element => {
-              element[this.datum] = ''
-            })
-          }
         }
       })
       .catch(napaka => {

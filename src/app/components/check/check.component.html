@@ -1,5 +1,5 @@
 <div class="appbar">
-  <h1 class="naslov" style="font-size: xx-large; font-weight: 700;"><span class="check_naslov" matBadge="{{data.length - prisotni - odsotni}}" matBadgePosition="after" matBadgeOverlap="false">Obkljukovalnica</span></h1>
+  <h1 class="naslov" style="font-size: xx-large; font-weight: 700;"><span class="check_naslov">Obkljukovalnica</span></h1>
 </div>
 
 <div class='spinner d-flex justify-content-center'>
@@ -40,7 +40,7 @@
   </div>
 
   <!-- Seznam udelezencev -->
-  <div *ngFor="let udelezenec of data" class="udelezenec row d-flex" [ngStyle]="{'background-color': (udelezenec[datum]==settings.simboli.prisoten_symbol) ? '#4CAF50' : ((udelezenec[datum]==settings.simboli.odsoten_symbol) ? '#9E9E9E' : ((udelezenec[datum]==settings.simboli.upraviceno_odsoten_symbol) ? '#9E9E9E' : '#ffffff'))}">
+  <div *ngFor="let udelezenec of data" class="udelezenec row d-flex" [ngStyle]="{'background-color': (udelezenec.prisotnost[datum]==settings.simboli.prisoten_symbol) ? '#4CAF50' : ((udelezenec.prisotnost[datum]==settings.simboli.odsoten_symbol) ? '#9E9E9E' : ((udelezenec.prisotnost[datum]==settings.simboli.upraviceno_odsoten_symbol) ? '#9E9E9E' : '#ffffff'))}">
     <div class="ime col-6 justify-content-center align-self-center">{{udelezenec.ime}}</div>
     <div class="ikone col-6 row d-flex">
       <div class="accept col-4 align-self-center">

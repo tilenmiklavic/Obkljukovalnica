@@ -52,7 +52,6 @@ export class CheckService {
             break;
         }
 
-        console.log(data)
 
         if (
           !googleProfile.access_token ||
@@ -92,42 +91,5 @@ export class CheckService {
       })
 
       return null
-  }
-
-
-  public checkTodayDate() {
-    let date = new Date();
-    let month = date.getMonth() + 1;
-    let datum = `${date.getDate()}.${month}.`;
-    let header = this.repositoryService.getHeader();
-
-    // check is today date doesn't exist yet
-    // make it
-    let today = false;
-    header.forEach((element) => {
-      if (element.includes(datum)) {
-        today = true;
-      }
-    });
-
-    if (!today) {
-      // set date for correct querying
-      let novDatumIndex = 0;
-      let prviDatum = false;
-      header.forEach((element, index) => {
-        if (this.formattingService.jeDatum(element)) {
-          novDatumIndex = index + 1;
-          prviDatum = true;
-        } else if (!prviDatum) novDatumIndex = index + 1;
-      });
-
-      if (novDatumIndex > 0) {
-        header.splice(novDatumIndex, 0, datum);
-      } else {
-        header.push(datum);
-      }
-    }
-
-    return { today: today, header: header };
   }
 }

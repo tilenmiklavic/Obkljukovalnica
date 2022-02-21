@@ -5,4 +5,5 @@ export class Udelezenec {
   public ime: String;
   public vod: String;
   public udelezbe: Array<Udelezba>;
+  public prisotnost: Object;
 }

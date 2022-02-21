@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Settings } from '../classes/settings';
 import { AlertService } from './alert.service';
-import { MappingService } from './mapping.service';
+import { RepositoryService } from './repository.service';
 
 @Injectable({
   providedIn: 'root'
@@ -50,7 +50,6 @@ export class FormattingService {
 
     return result
   }
-
 
   public jeDatum(datum: string): Boolean {
     var re = new RegExp("([0-9][0-9]?.[0-9][0-9]?.*)")
@@ -120,15 +119,20 @@ export class FormattingService {
     return steviloSrecanj
   }
 
-
   public prisotnostPoVodih(data, header) {
     return null
   }
 
   public vrniDatume(header) {
-    return null
-  }
+    let datumi = []
 
+    header.forEach(element => {
+      if (this.jeDatum(element)) {
+        datumi.push(element)
+      }
+    })
+    return datumi
+  }
 
   public changeDate(future: boolean, header, pending_date, datum, today): any {
 
