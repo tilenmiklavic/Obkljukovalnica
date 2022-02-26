@@ -20,30 +20,26 @@ export class PregledService {
     return this.repositoryService.getVodi()
   }
 
-  public prisotnostPoLjudeh(skupina) {
-    this.repositoryService.getData(skupina)
-      .then(data => {
-        let osebe = new Array(data.length).fill(0)
-        let header = this.repositoryService.getHeader()
-
-        data.forEach((element, index) => {
-
-          header.forEach(datum => {
-            if (element[datum] == 'x') {
-              osebe[index]++
-            }
+  public prisotnostPoLjudeh(skupina): any {
+    return new Promise((resolve, reject) => {
+      this.repositoryService.getData(skupina)
+        .then(data => {
+          let osebe = new Array(data.length).fill(0)
+          let datumi = this.vrniDatume()
+          data.forEach((element, index) => {
+            datumi.forEach(datum => {
+              if (element.prisotnost[datum] == 'x') {
+                osebe[index]++
+              }
+            });
           });
-        });
-
-        return osebe
-      })
-
-      return null
+          resolve(osebe)
+        })
+    })
   }
 
   public pregledPrisotnih(skupina, header): Promise<Number[]> {
     return new Promise(resolve => {
-
       let prisotni = new Array(header.length).fill(0)
 
       this.repositoryService.getData(skupina)
@@ -101,5 +97,25 @@ export class PregledService {
 
   public prisotnostPoVodih(skupina) {
     return null
+  }
+
+  public steviloIzvedenihSrecanj(skupina): Promise<number> {
+    let srecanja = 0
+
+    return new Promise((resolve, reject) => {
+      this.repositoryService.getData(skupina)
+        .then(data => {
+          let datumi = this.vrniDatume()
+          datumi.forEach(datum => {
+            data.some(element => {
+              if (element.prisotnost[datum] && element.prisotnost[datum].length > 0) {
+                srecanja++
+              }
+              return (element.prisotnost[datum] && element.prisotnost[datum].length > 0)
+            })
+          })
+          resolve(srecanja)
+        })
+    })
   }
 }

@@ -23,7 +23,7 @@ export class PregledComponent implements OnInit {
   vodi = []
   prisotnostPoVodih = []
   prisotnostPoLjudeh = []
-  prisotnostPoLjudehMax = 1
+  steviloIzvedenihSrecanj = 1
   skupine = []
   prisotni = 0
   odsotni = 0
@@ -32,37 +32,37 @@ export class PregledComponent implements OnInit {
   mode: ProgressSpinnerMode = 'indeterminate';
   public sortiranjePoVodih = false
 
-  dayGraphType = ''
-  dayGraphPodatki = {}
-  dayGraphOptions = {}
-  dayGraphLabels = []
+  dayGraph = {
+    type: '',
+    podatki: {},
+    options: {},
+    labels: [],
+  }
 
-  peopleGraphType = ''
-  peopleGraphPodatki = {}
-  peopleGraphOptions = {}
-  peopleGraphLabels = []
+  peopleGraph = {
+    type: '',
+    podatki: {},
+    options: {},
+    labels: [],
+  }
 
   private async setupDayGraph() {
 
-    this.dayGraphLabels = this.pregledService.vrniDatume()
-    this.pregledService.pregledPrisotnih(this.settings.skupina, this.dayGraphLabels)
+    this.dayGraph.labels = this.pregledService.vrniDatume()
+    this.pregledService.pregledPrisotnih(this.settings.skupina, this.dayGraph.labels)
       .then(dayGraphPodatki => {
-
-        console.log(dayGraphPodatki)
-
-        this.dayGraphPodatki = dayGraphPodatki
-
-        this.dayGraphType = 'bar';
-        this.dayGraphPodatki = {
-          labels: this.dayGraphLabels,
+        this.dayGraph.podatki = dayGraphPodatki
+        this.dayGraph.type = 'bar';
+        this.dayGraph.podatki = {
+          labels: this.dayGraph.labels,
           datasets: [
             {
               label: "Pregled po osebah",
-              data: this.dayGraphPodatki
+              data: this.dayGraph.podatki
             }
           ]
         };
-        this.dayGraphOptions = {
+        this.dayGraph.options = {
           responsive: true,
           maintainAspectRatio: false,
           aspectRatio: 1.2
@@ -71,20 +71,20 @@ export class PregledComponent implements OnInit {
   }
 
   private setupPeopleGraph() {
-    this.peopleGraphLabels = this.pregledService.vrniImena(this.settings.skupina)
-    this.peopleGraphPodatki = this.formattingService.prisotnostPoLjudeh(this.data, this.dayGraphLabels)
+    this.peopleGraph.labels = this.pregledService.vrniImena(this.settings.skupina)
+    this.peopleGraph.podatki = this.formattingService.prisotnostPoLjudeh(this.data, this.dayGraph.labels)
 
-    this.peopleGraphType = 'bar';
-    this.peopleGraphPodatki = {
-      labels: this.peopleGraphLabels,
+    this.peopleGraph.type = 'bar';
+    this.peopleGraph.podatki = {
+      labels: this.peopleGraph.labels,
       datasets: [
         {
           label: "Pregled po dnevih",
-          data: this.peopleGraphPodatki
+          data: this.peopleGraph.podatki
         }
       ]
     };
-    this.peopleGraphOptions = {
+    this.peopleGraph.options = {
       responsive: true,
       maintainAspectRatio: false,
       aspectRatio: 1.2
@@ -103,12 +103,18 @@ export class PregledComponent implements OnInit {
     .finally(() => {
       this.setupDayGraph();
       // this.setupPeopleGraph();
-      this.vodi = this.pregledService.getVodi()
+      // this.vodi = this.pregledService.getVodi()
 
 
-      // this.prisotnostPoLjudeh = this.pregledService.prisotnostPoLjudeh(this.settings.skupina)
+      this.pregledService.prisotnostPoLjudeh(this.settings.skupina)
+        .then(odgovor => {
+          this.prisotnostPoLjudeh = odgovor
+        })
       // this.prisotnostPoVodih = this.pregledService.prisotnostPoVodih(this.settings.skupina)
-      // this.prisotnostPoLjudehMax = this.pregledService.steviloIzvedenihSrecanj(this.data, this.sheetService.getHeader())
+      this.pregledService.steviloIzvedenihSrecanj(this.settings.skupina)
+        .then(odgovor => {
+          this.steviloIzvedenihSrecanj = odgovor
+        })
     })
   }
 }

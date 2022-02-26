@@ -16,7 +16,7 @@
     Pregled po dnevih
   </h2>
   <div>
-    <chart [type]="dayGraphType" [data]="dayGraphPodatki" [options]="dayGraphOptions"></chart>
+    <chart [type]="dayGraph.type" [data]="dayGraph.podatki" [options]="dayGraph.options"></chart>
   </div>
 </div>
 
@@ -38,13 +38,13 @@
       </thead>
       <tbody>
         <tr
-          [ngClass]="{'table-success': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= settings.low_presence), 'table-warning': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= settings.minimal_presence) && (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 < settings.low_presence), 'table-danger': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= 0) && (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 < settings.minimal_presence)}"
+          [ngClass]="{'table-success': (prisotnostPoLjudeh[i] / steviloIzvedenihSrecanj * 100 >= settings.low_presence), 'table-warning': (prisotnostPoLjudeh[i] / steviloIzvedenihSrecanj * 100 >= settings.minimal_presence) && (prisotnostPoLjudeh[i] / steviloIzvedenihSrecanj * 100 < settings.low_presence), 'table-danger': (prisotnostPoLjudeh[i] / steviloIzvedenihSrecanj * 100 >= 0) && (prisotnostPoLjudeh[i] / steviloIzvedenihSrecanj * 100 < settings.minimal_presence)}"
           *ngFor="let element of data; let i = index">
 
           <td class="imePrisotnega col-6">{{element.ime}} </td>
           <td>{{element.vod}}</td>
           <td class="steviloPrisotnosti col-4 text-center">{{prisotnostPoLjudeh[i]}}</td>
-          <td class="col-2">{{prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 | number: '1.0-0'}}%</td>
+          <td class="col-2">{{prisotnostPoLjudeh[i] / steviloIzvedenihSrecanj * 100 | number: '1.0-0'}}%</td>
         </tr>
       </tbody>
     </table>
@@ -67,11 +67,11 @@
       </thead>
       <tbody>
         <tr
-          [ngClass]="{'table-success': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= settings.low_presence), 'table-warning': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= settings.minimal_presence) && (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 < settings.low_presence), 'table-danger': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= 0) && (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 < settings.minimal_presence)}"
+          [ngClass]="{'table-success': (prisotnostPoLjudeh[i] / steviloIzvedenihSrecanj * 100 >= settings.low_presence), 'table-warning': (prisotnostPoLjudeh[i] / steviloIzvedenihSrecanj * 100 >= settings.minimal_presence) && (prisotnostPoLjudeh[i] / steviloIzvedenihSrecanj * 100 < settings.low_presence), 'table-danger': (prisotnostPoLjudeh[i] / steviloIzvedenihSrecanj * 100 >= 0) && (prisotnostPoLjudeh[i] / steviloIzvedenihSrecanj * 100 < settings.minimal_presence)}"
           *ngFor="let element of vodi; let i = index">
 
           <td class="imePrisotnega col-6">{{element}} </td>
-          <td class="col-2">{{prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 | number: '1.0-0'}}%</td>
+          <td class="col-2">{{prisotnostPoLjudeh[i] / steviloIzvedenihSrecanj * 100 | number: '1.0-0'}}%</td>
         </tr>
       </tbody>
     </table>
