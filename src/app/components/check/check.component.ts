@@ -54,12 +54,10 @@ export class CheckComponent implements OnInit {
   };
 
   public present(id: Number, present: number) {
-
     this.checkService.nastaviPrisotnost(id, present)
       .then((odgovor) => {
-        if (odgovor) {
-          this.today = true
-        }
+        console.log("Odgovoree", odgovor)
+        this.data = odgovor
       })
       .catch((napaka) => {
         this._snackBar.open(Strings.noInternetConnectionError, "Zapri")
@@ -107,8 +105,6 @@ export class CheckComponent implements OnInit {
     // get starting set of all people
     this.checkService.getUdelezenci(this.settings.skupina)
       .then(udelezenci => {
-
-        console.log(udelezenci)
 
         this.data = udelezenci
         this.loaded = true

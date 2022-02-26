@@ -147,7 +147,7 @@ export class RepositoryService {
 
 
   // puts raw data into an array of objects
-  private dataToObject(rawData:any): Array<Udelezenec> {
+  public dataToObject(rawData:any): Array<Udelezenec> {
     this.header = rawData[0].map(element => {return element.toLowerCase()});
     rawData.shift();
 

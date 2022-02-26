@@ -44,21 +44,21 @@
     <div class="ime col-6 justify-content-center align-self-center">{{udelezenec.ime}}</div>
     <div class="ikone col-6 row d-flex">
       <div class="accept col-4 align-self-center">
-        <button mat-mini-fab color="accent" (click)="present(udelezenec.Id, 0)" [disabled]="!izbranDatumIsValid">
+        <button mat-mini-fab color="accent" (click)="present(udelezenec.id, 0)" [disabled]="!izbranDatumIsValid">
           <mat-icon class="material-icons-outlined color_blue">
             done
           </mat-icon>
         </button>
       </div>
       <div class="accept col-4 align-self-center">
-        <button mat-mini-fab color="accent" (click)="present(udelezenec.Id, 1)" [disabled]="!izbranDatumIsValid">
+        <button mat-mini-fab color="accent" (click)="present(udelezenec.id, 1)" [disabled]="!izbranDatumIsValid">
           <mat-icon class="material-icons-outlined color_blue">
             radio_button_unchecked
           </mat-icon>
         </button>
       </div>
       <div class="reject col-4 align-self-center">
-        <button mat-mini-fab color="accent" (click)="present(udelezenec.Id, 2)" [disabled]="!izbranDatumIsValid">
+        <button mat-mini-fab color="accent" (click)="present(udelezenec.id, 2)" [disabled]="!izbranDatumIsValid">
           <mat-icon class="material-icons-outlined color_blue">
             close
           </mat-icon>
