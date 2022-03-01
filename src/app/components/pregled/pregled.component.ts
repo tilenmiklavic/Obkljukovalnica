@@ -102,18 +102,22 @@ export class PregledComponent implements OnInit {
     })
     .finally(() => {
       this.setupDayGraph();
-      // this.setupPeopleGraph();
-      // this.vodi = this.pregledService.getVodi()
-
+      this.vodi = this.pregledService.vrniVode()
 
       this.pregledService.prisotnostPoLjudeh(this.settings.skupina)
-        .then(odgovor => {
-          this.prisotnostPoLjudeh = odgovor
+        .then(prisotnostPoLjudeh => {
+          this.prisotnostPoLjudeh = prisotnostPoLjudeh
         })
-      // this.prisotnostPoVodih = this.pregledService.prisotnostPoVodih(this.settings.skupina)
+
+
       this.pregledService.steviloIzvedenihSrecanj(this.settings.skupina)
-        .then(odgovor => {
-          this.steviloIzvedenihSrecanj = odgovor
+        .then(steviloIzvedenihSrecanj => {
+          this.steviloIzvedenihSrecanj = steviloIzvedenihSrecanj
+        })
+
+      this.pregledService.prisotnostPoVodih(this.settings.skupina)
+        .then(prisotnostPoVodih => {
+          this.prisotnostPoVodih = prisotnostPoVodih
         })
     })
   }

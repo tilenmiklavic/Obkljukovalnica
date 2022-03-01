@@ -16,7 +16,7 @@ export class PregledService {
     return this.repositoryService.getData(skupina)
   }
 
-  public getVodi() {
+  public vrniVode() {
     return this.repositoryService.getVodi()
   }
 
@@ -95,7 +95,7 @@ export class PregledService {
       return null
   }
 
-  public prisotnostPoVodih(skupina) {
+  public prisotnostPoVodih(skupina): any {
     return null
   }
 

@@ -27,7 +27,7 @@
     Pregled po osebah
   </h2>
   <div>
-    <table class="table">
+    <table class="table sortable">
       <thead>
         <tr>
           <th>Ime</th>
@@ -51,7 +51,7 @@
   </div>
 </div>
 
-<hr [hidden]="sortiranjePoVodih">
+<!-- <hr [hidden]="sortiranjePoVodih">
 
 <div class="container" [hidden]="sortiranjePoVodih">
   <h2>
@@ -66,16 +66,14 @@
         </tr>
       </thead>
       <tbody>
-        <tr
-          [ngClass]="{'table-success': (prisotnostPoLjudeh[i] / steviloIzvedenihSrecanj * 100 >= settings.low_presence), 'table-warning': (prisotnostPoLjudeh[i] / steviloIzvedenihSrecanj * 100 >= settings.minimal_presence) && (prisotnostPoLjudeh[i] / steviloIzvedenihSrecanj * 100 < settings.low_presence), 'table-danger': (prisotnostPoLjudeh[i] / steviloIzvedenihSrecanj * 100 >= 0) && (prisotnostPoLjudeh[i] / steviloIzvedenihSrecanj * 100 < settings.minimal_presence)}"
-          *ngFor="let element of vodi; let i = index">
+        <tr *ngFor="let element of vodi; let i = index">
 
           <td class="imePrisotnega col-6">{{element}} </td>
-          <td class="col-2">{{prisotnostPoLjudeh[i] / steviloIzvedenihSrecanj * 100 | number: '1.0-0'}}%</td>
+          <td class="col-2">{{prisotnostPoVodih[i] / steviloIzvedenihSrecanj * 100 | number: '1.0-0'}}%</td>
         </tr>
       </tbody>
     </table>
   </div>
-</div>
+</div> -->
 
 <div class="document_end"></div>
