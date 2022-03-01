@@ -178,7 +178,10 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <div class="row">
+      <span class="badge bg-warning text-dark">Coming soon</span>
+
+
+      <!-- <div class="row">
         <div class="col">
           <label class="mat-slide-toggle-content" for="onToggle">Omogoči osebno napredovanje!</label>
         </div>
@@ -193,9 +196,9 @@
             (change)="switchOsebnoNapredovanje()">
           </mat-slide-toggle>
         </div>
-      </div>
+      </div> -->
 
-      <h2 class="mt-3">Preglednica</h2>
+      <!-- <h2 class="mt-3">Preglednica</h2>
 
       <mat-form-field class="example-form-field w-100" appearance="outline">
         <mat-label>Povezava do tabele</mat-label>
@@ -203,19 +206,19 @@
         <button *ngIf="ONPreglednicaUrl" matSuffix mat-icon-button aria-label="Clear" (click)="ONPreglednicaUrl=''">
           <mat-icon>close</mat-icon>
         </button>
-      </mat-form-field>
+      </mat-form-field> -->
 
-      <mat-form-field class="w-100" appearance="outline">
+      <!-- <mat-form-field class="w-100" appearance="outline">
         <mat-label>Shranjene preglednice</mat-label>
         <mat-select [(value)]="ONPreglednicaUrl">
           <mat-option></mat-option>
           <mat-option *ngFor="let preglednica of ONShranjenePreglednice" value="{{preglednica.povezava}}">{{preglednica.ime}}</mat-option>
         </mat-select>
-      </mat-form-field>
+      </mat-form-field> -->
 
-    <div class="get">
+    <!-- <div class="get">
       <button mat-raised-button color="primary" (click)="getTabelaON(); ">Pridobi preglednico!</button>
-    </div>
+    </div> -->
     </mat-expansion-panel>
   </mat-accordion>
 
