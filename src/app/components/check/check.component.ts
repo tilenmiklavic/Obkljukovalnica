@@ -25,14 +25,12 @@ export class CheckComponent implements OnInit {
   ) { }
 
   data = []
-  valid_data = false
   loaded = false
   datum = null
   datumi = []
   today = true
   izbranDatum = new FormControl(new Date())
   izbranDatumIsValid = true
-  pending_date = null
   settings = JSON.parse(localStorage.getItem('settings')) || this.formattingService.newSettings()
   color: ThemePalette = 'primary';
   mode: ProgressSpinnerMode = 'indeterminate';
@@ -108,7 +106,6 @@ export class CheckComponent implements OnInit {
 
         this.data = udelezenci
         this.loaded = true
-        this.valid_data = true
         this.datumi = this.formattingService.vrniDatume(this.repositoryService.getHeader())
 
         if (this.datumi.includes(this.datum)) { this.izbranDatumIsValid = true }
