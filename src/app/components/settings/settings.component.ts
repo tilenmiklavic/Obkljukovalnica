@@ -1,5 +1,4 @@
 import { Component, OnInit, NgZone, AfterViewInit, ViewChild } from '@angular/core';
-import { SheetsService } from 'src/app/services/sheets.service';
 import { environment } from 'src/environments/environment';
 import { AlertService } from 'src/app/services/alert.service';
 import { Strings } from 'src/app/classes/strings';
@@ -19,7 +18,6 @@ import { FormattingService } from 'src/app/services/formatting.service';
 export class SettingsComponent implements OnInit, AfterViewInit {
 
   constructor(
-    private sheetsService: SheetsService,
     private alertService: AlertService,
     private osebnoNapredovanjeService: OsebnoNapredovanjeService,
     private settingsService: SettingsService,

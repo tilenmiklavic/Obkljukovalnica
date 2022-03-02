@@ -2,7 +2,6 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SheetsService } from 'src/app/services/sheets.service';
 import { Strings } from 'src/app/classes/strings';
 import { CheckService } from 'src/app/services/check.service';
 import { FormattingService } from 'src/app/services/formatting.service';
@@ -23,7 +22,6 @@ export class CheckComponent implements OnInit {
     private formattingService: FormattingService,
     private repositoryService: RepositoryService,
     private _snackBar: MatSnackBar,
-    private sheetService: SheetsService
   ) { }
 
   data = []
@@ -53,6 +51,7 @@ export class CheckComponent implements OnInit {
     return '';
   };
 
+  // nastavljanje prisotnosti
   public present(id: Number, present: number) {
     this.checkService.nastaviPrisotnost(id, present)
       .then((odgovor) => {
@@ -64,6 +63,7 @@ export class CheckComponent implements OnInit {
       })
   }
 
+  // izbira datuma v koledarju
   public dateChange() {
     let day = this.izbranDatum.value.getUTCDate() + 1
     let month = this.izbranDatum.value.getUTCMonth() + 1
@@ -80,6 +80,7 @@ export class CheckComponent implements OnInit {
     else { this.izbranDatumIsValid = false }
   }
 
+  // brisanje vseh vnosov za danasnji dan
   public clearInput() {
     let bar = this.data.map(el => {return {...el}})
 
@@ -87,11 +88,10 @@ export class CheckComponent implements OnInit {
       bar[i][this.datum] = "";
     }
 
-    this.sheetService.nastaviPrisotnost(bar)
+    this.checkService.pobrisiPrisotnosti(this.datum)
       .then((odgovor) => {
         if (odgovor) {
-          this.today = true
-          this.data = bar
+          this.data = odgovor
         }
       })
       .catch((napaka) => {
