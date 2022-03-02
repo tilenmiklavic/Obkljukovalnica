@@ -118,11 +118,6 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     })
   }
 
-  public switchOsebnoNapredovanje() {
-    console.log(this.osebnoNapredovanjeToggle)
-    localStorage.setItem('osebnoNapredovanjeEnabled', JSON.stringify(this.osebnoNapredovanjeToggle))
-  }
-
   public getTabelaON() {
     localStorage.setItem('ONPreglednicaUrl', this.ONPreglednicaUrl)
 
