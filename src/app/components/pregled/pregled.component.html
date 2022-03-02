@@ -1,7 +1,5 @@
 <div>
-
   <h1 class="naslov">Pregled</h1>
-
   <div class='spinner d-flex justify-content-center'>
     <mat-progress-spinner
             class="example-margin"
@@ -16,7 +14,7 @@
     Pregled po dnevih
   </h2>
   <div>
-    <chart [type]="dayGraphType" [data]="dayGraphPodatki" [options]="dayGraphOptions"></chart>
+    <chart [type]="dayGraph.type" [data]="dayGraph.podatki" [options]="dayGraph.options"></chart>
   </div>
 </div>
 
@@ -27,30 +25,27 @@
     Pregled po osebah
   </h2>
   <div>
-    <table class="table">
+    <table class="table sortable">
       <thead>
         <tr>
           <th>Ime</th>
+          <th>Vod</th>
           <th>Prisotnosti</th>
           <th>Procent</th>
         </tr>
       </thead>
       <tbody>
         <tr
-          [ngClass]="{'table-success': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= low_presence), 'table-warning': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= miniamal_presence) && (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 < low_presence), 'table-danger': (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 >= 0) && (prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 < miniamal_presence)}"
-          *ngFor="let element of imena; let i = index">
+          [ngClass]="{'table-success': (prisotnostPoLjudeh[i] / steviloIzvedenihSrecanj * 100 >= settings.low_presence), 'table-warning': (prisotnostPoLjudeh[i] / steviloIzvedenihSrecanj * 100 >= settings.minimal_presence) && (prisotnostPoLjudeh[i] / steviloIzvedenihSrecanj * 100 < settings.low_presence), 'table-danger': (prisotnostPoLjudeh[i] / steviloIzvedenihSrecanj * 100 >= 0) && (prisotnostPoLjudeh[i] / steviloIzvedenihSrecanj * 100 < settings.minimal_presence)}"
+          *ngFor="let element of data; let i = index">
 
-          <td class="imePrisotnega col-6">{{imena[i]}} </td>
-          <td class="steviloPrisotnosti col-4">{{prisotnostPoLjudeh[i]}}</td>
-          <td class="col-2">{{prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 | number: '1.0-0'}}%</td>
+          <td class="imePrisotnega col-6">{{element.ime}} </td>
+          <td>{{element.vod}}</td>
+          <td class="steviloPrisotnosti col-4 text-center">{{prisotnostPoLjudeh[i]}}</td>
+          <td class="col-2">{{prisotnostPoLjudeh[i] / steviloIzvedenihSrecanj * 100 | number: '1.0-0'}}%</td>
         </tr>
       </tbody>
     </table>
-    <!-- <div class="row" *ngFor="let element of imena; let i = index">
-      <span class="imePrisotnega col-6">{{imena[i]}} </span>
-      <span class="steviloPrisotnosti col-3">{{prisotnostPoLjudeh[i]}}</span>
-      <span class="col-3">{{prisotnostPoLjudeh[i] / prisotnostPoLjudehMax * 100 | number: '1.0-0'}}%</span>
-    </div> -->
   </div>
 </div>
 
