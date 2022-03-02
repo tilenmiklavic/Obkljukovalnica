@@ -71,34 +71,6 @@ export class PregledService {
     return datumi
   }
 
-  public vrniImena(skupina) {
-    let keyword
-
-    this.repositoryService.getData(skupina)
-      .then(data => {
-
-        let header = this.repositoryService.getHeader()
-
-        if (header.includes("Ime")) { keyword = "Ime" }
-        else if (header.includes("ime")) { keyword = "ime" }
-        else { return null }
-
-        let imena = []
-
-        data.forEach(element => {
-          imena.push(element[`${keyword}`])
-        });
-
-        return imena
-      })
-
-      return null
-  }
-
-  public prisotnostPoVodih(skupina): any {
-    return null
-  }
-
   public steviloIzvedenihSrecanj(skupina): Promise<number> {
     let srecanja = 0
 
