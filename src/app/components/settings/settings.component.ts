@@ -2,12 +2,9 @@ import { Component, OnInit, NgZone, AfterViewInit, ViewChild } from '@angular/co
 import { environment } from 'src/environments/environment';
 import { AlertService } from 'src/app/services/alert.service';
 import { Strings } from 'src/app/classes/strings';
-import {ThemePalette} from '@angular/material/core';
-import { OsebnoNapredovanjeService } from 'src/app/services/osebno-napredovanje.service';
 import { SettingsService } from 'src/app/services/settings.service';
 import { Settings } from 'src/app/classes/settings';
 import { FormattingService } from 'src/app/services/formatting.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 
 @Component({
@@ -20,7 +17,6 @@ export class SettingsComponent implements OnInit, AfterViewInit {
 
   constructor(
     private alertService: AlertService,
-    private osebnoNapredovanjeService: OsebnoNapredovanjeService,
     private settingsService: SettingsService,
     private formattingService: FormattingService
   ) { }
@@ -34,15 +30,6 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   public setup_progress = 0
   public panelOpenState = false
   public versionNumber = 'v0.5.1'
-
-  // *********** OSEBNO NAPREDOVANJE ***********
-  public ONPreglednicaUrl: string = localStorage.getItem('ONPreglednicaUrl')
-  public ONShranjenePreglednice: Array<any> = JSON.parse(localStorage.getItem('ONShranjenePreglednice')) || []
-  public osebnoNapredovanjeToggle = JSON.parse(localStorage.getItem('osebnoNapredovanjeEnabled'))|| false;
-  color: ThemePalette = 'accent';
-  disabled = false;
-  // *********** *********** *********** *******
-
 
   public onSuccess(googleUser) {
 
@@ -129,32 +116,6 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     }
 
     this.shraniNastavitve()
-  }
-
-  public getTabelaON() {
-    localStorage.setItem('ONPreglednicaUrl', this.ONPreglednicaUrl)
-
-    this.osebnoNapredovanjeService.getMetadata()
-    .then(odgovor => {
-      let skupina = odgovor.sheets[0].properties.title
-      let title = odgovor.properties.title
-
-      let nova_preglednica = true
-      this.ONShranjenePreglednice.forEach(preglednica => {
-        if (preglednica.ime == title || preglednica.povezava == this.settings.povezava) nova_preglednica = false
-      })
-      if (nova_preglednica) {
-        this.ONShranjenePreglednice.push({"ime": title, "povezava": this.ONPreglednicaUrl, "skupina": skupina})
-      }
-
-      this.alertService.openSnackBar(Strings.getTableSuccessNotification)
-
-      localStorage.setItem('ONShranjenePreglednice', JSON.stringify(this.ONShranjenePreglednice))
-    })
-    .catch(napaka => {
-      console.log("Napaka pri pridobivanju skupin")
-      console.error(napaka)
-    })
   }
 
   public profileCheck() {

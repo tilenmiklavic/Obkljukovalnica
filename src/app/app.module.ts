@@ -30,8 +30,6 @@ import { PregledComponent } from './components/pregled/pregled.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { ChartModule } from 'angular2-chartjs';
-import { OsebnoNapredovanjeCheckComponent } from './components/osebno-napredovanje-check/osebno-napredovanje-check.component';
-import { OsebnoNapredovanjePregledComponent } from './components/osebno-napredovanje-pregled/osebno-napredovanje-pregled.component';
 import { MatNativeDateModule } from '@angular/material/core';
 
 
@@ -43,9 +41,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     CheckComponent,
     NotFoundComponent,
     OgrodjeComponent,
-    PregledComponent,
-    OsebnoNapredovanjeCheckComponent,
-    OsebnoNapredovanjePregledComponent
+    PregledComponent
   ],
   imports: [
     BrowserModule,

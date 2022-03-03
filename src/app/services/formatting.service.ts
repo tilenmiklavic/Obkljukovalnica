@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Settings } from '../classes/settings';
 import { AlertService } from './alert.service';
-import { RepositoryService } from './repository.service';
 
 @Injectable({
   providedIn: 'root'
