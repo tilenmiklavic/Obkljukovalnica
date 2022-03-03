@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Settings } from '../classes/settings';
 import { AlertService } from './alert.service';
+import { RepositoryService } from './repository.service';
 
 @Injectable({
   providedIn: 'root'
@@ -49,37 +51,12 @@ export class FormattingService {
     return result
   }
 
-
-  public vrniDatume(header): Array<String> {
-
-    let result = []
-
-    header.forEach(element => {
-      if (this.jeDatum(element)) {
-        result.push(element)
-      }
-    });
-    return result
-  }
-
-
   public jeDatum(datum: string): Boolean {
     var re = new RegExp("([0-9][0-9]?.[0-9][0-9]?.*)")
     if (re.test(datum)) {
       return true
     }
-
     return false
-  }
-
-  public vrniImena(data): Array<String> {
-    let imena = []
-
-    data.forEach(element => {
-      imena.push(element["Ime"])
-    });
-
-    return imena
   }
 
   public prisotniNaDan(datum: string, data): number {
@@ -106,7 +83,6 @@ export class FormattingService {
     return prisotni
   }
 
-
   public prisotnostPoLjudeh(data, header): Array<Number> {
     let osebe = new Array(data.length).fill(0)
 
@@ -121,7 +97,6 @@ export class FormattingService {
 
     return osebe
   }
-
 
   public steviloIzvedenihSrecanj(data, header): number {
 
@@ -143,6 +118,20 @@ export class FormattingService {
     return steviloSrecanj
   }
 
+  public prisotnostPoVodih(data, header) {
+    return null
+  }
+
+  public vrniDatume(header) {
+    let datumi = []
+
+    header.forEach(element => {
+      if (this.jeDatum(element)) {
+        datumi.push(element)
+      }
+    })
+    return datumi
+  }
 
   public changeDate(future: boolean, header, pending_date, datum, today): any {
 
@@ -178,5 +167,70 @@ export class FormattingService {
       }
       return null
     }
+  }
+
+
+
+  // ---------- NEW CODE ---------- //
+
+  public getSettings() {
+    let settings = JSON.parse(localStorage.getItem('settings'))
+
+    if (settings == null) { throw "Settings not yet saved" }
+
+    return settings
+  }
+
+
+  public getProfile() {
+    let googleProfile = JSON.parse(localStorage.getItem('googleProfile'))
+
+    if (googleProfile == null) { throw 'User not signed in' }
+
+    return googleProfile
+  }
+
+
+  // gets today's date as a string
+  public getDate() {
+    let date = new Date()
+    let month = date.getMonth() + 1
+
+    return `${date.getDate()}.${month}.`
+  }
+
+
+  // generates new basic settings class
+  public newSettings() {
+    let newSettings: Settings = {
+      shranjene_preglednice: [],
+      skupina: null,
+      povezava: null,
+      id_preglednice: null,
+      simboli: {
+        prisoten_symbol: 'x',
+        odsoten_symbol: '/',
+        upraviceno_odsoten_symbol: 'o'
+      },
+      minimal_presence: '50',
+      low_presence: '70'
+    }
+
+    return newSettings
+  }
+
+
+  public vrniSimbol(index: number, settings: Settings) {
+
+    switch(index) {
+      case 0:
+        return settings.simboli.prisoten_symbol
+      case 1:
+        return settings.simboli.upraviceno_odsoten_symbol
+      case 2:
+        return settings.simboli.odsoten_symbol
+    }
+
+    return null;
   }
 }
