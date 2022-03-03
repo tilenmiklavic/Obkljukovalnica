@@ -19,7 +19,7 @@ export class SettingsService {
   }
 
 
-  public getSkupine() {
-    return this.repositoryService.getSkupine()
+  public getSheetInfo(idTabele) {
+    return this.repositoryService.getSheetInfo(idTabele)
   }
 }

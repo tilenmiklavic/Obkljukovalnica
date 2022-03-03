@@ -140,14 +140,14 @@ export class RepositoryService {
 
 
   // gets excel groups from excel table provided with idTabele
-  public async getSkupine() {
+  public async getSheetInfo(idTabele) {
     const apiKey = environment.apiKey;
 
     const HttpParams = {
       key: apiKey,
     };
 
-    let url = this.url_skeleton + localStorage.getItem('idTabele');
+    let url = this.url_skeleton + idTabele;
 
     try {
       const data = await this.http

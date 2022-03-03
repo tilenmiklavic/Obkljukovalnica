@@ -123,7 +123,7 @@ export class CheckComponent implements OnInit {
     this.datum = this.formattingService.getDate()
 
     // get starting set of all people
-    this.checkService.getUdelezenci(this.settings.skupina)
+    this.checkService.getUdelezenci(this.settings.skupina, true)
       .then(udelezenci => {
 
         this.data = udelezenci
