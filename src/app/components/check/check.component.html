@@ -30,7 +30,7 @@
   </div>
 
   <!-- Izbira datuma -->
-  <div *ngIf="loaded" class="text-center">
+  <div *ngIf="loaded && !!data.length" class="text-center">
     <mat-form-field appearance="fill">
       <mat-label>Choose a date</mat-label>
       <input matInput [matDatepicker]="picker" [formControl]="izbranDatum" (dateChange)="dateChange()">
@@ -67,7 +67,7 @@
     </div>
   </div>
 
-  <div class="d-grid mt-3" *ngIf="loaded">
+  <div class="d-grid mt-3" *ngIf="loaded && !!data.length">
     <button (click)='clearInput()' type="button" class="btn btn-danger clearButton">
       <i id="clearIcon" class="far fa-trash-alt"></i>
     </button>
