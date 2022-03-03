@@ -59,7 +59,6 @@ export class FormattingService {
     return false
   }
 
-
   public prisotniNaDan(datum: string, data): number {
     let prisotni = 0
 
@@ -218,5 +217,20 @@ export class FormattingService {
     }
 
     return newSettings
+  }
+
+
+  public vrniSimbol(index: number, settings: Settings) {
+
+    switch(index) {
+      case 0:
+        return settings.simboli.prisoten_symbol
+      case 1:
+        return settings.simboli.upraviceno_odsoten_symbol
+      case 2:
+        return settings.simboli.odsoten_symbol
+    }
+
+    return null;
   }
 }

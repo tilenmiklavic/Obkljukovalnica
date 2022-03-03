@@ -31,25 +31,21 @@ export class CheckService {
     let settings = this.formattingService.getSettings()
     let googleProfile = this.formattingService.getProfile()
     let datum = this.formattingService.getDate()
+    let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
     return new Promise((resolve, reject) => {
       this.repositoryService.getData(settings.skupina, false)
         .then(data => {
 
+          let header = this.repositoryService.getHeader()
           let uporabnik = data.find(x => x.id == id)
           let udelezba = uporabnik.udelezbe.find(x => x.datum == datum)
-
-          switch(present) {
-            case 0:
-              udelezba.prisotnost = settings.simboli.prisoten_symbol
-              break;
-            case 1:
-              udelezba.prisotnost = settings.simboli.upraviceno_odsoten_symbol
-              break;
-            case 2:
-              udelezba.prisotnost = settings.simboli.odsoten_symbol
-              break;
-          }
+          let uporabnikForIndex = (element) => element.id == id
+          let datumForIndex = (element) => element == datum
+          let uporabnikIndex = data.findIndex(uporabnikForIndex);
+          let datumIndex = header.findIndex(datumForIndex);
+          let simbol = this.formattingService.vrniSimbol(present, settings)
+          udelezba.prisotnost = simbol
 
           if (
             !googleProfile.access_token ||
@@ -60,8 +56,6 @@ export class CheckService {
           }
 
           let updated_data = [];
-          let header = this.repositoryService.getHeader()
-
           data.forEach((element) => {
             let foo = [];
             header.forEach((naslov) => {
@@ -81,7 +75,7 @@ export class CheckService {
 
 
           updated_data.unshift(header);
-          this.repositoryService.updateData(updated_data)
+          this.repositoryService.updateSingleCell(`${alphabet[datumIndex]}${uporabnikIndex+2}`, simbol)
             .then((odgovor) => {
               resolve(this.repositoryService.dataToObject(updated_data))
             })
