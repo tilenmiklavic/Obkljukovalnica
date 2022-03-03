@@ -30,8 +30,13 @@ Cypress.Commands.add('loginByGoogleApi', () => {
         },
       }
 
+      let settings = {
+        access_token: access_token
+      }
+
       window.localStorage.setItem('googleCypress', JSON.stringify(userItem))
       window.localStorage.setItem('access_token', JSON.stringify(access_token))
+      window.localStorage.setItem('settings', JSON.stringify(settings))
       cy.log(window.localStorage.getItem('access_token'))
       // cy.visit('/')
     })

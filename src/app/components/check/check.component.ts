@@ -103,7 +103,6 @@ export class CheckComponent implements OnInit {
   public dodajStolpec() {
     this.checkService.dodajStolpec()
       .then(odgovor => {
-        console.log(odgovor)
         this.izbranDatumIsValid = true
         this.data = odgovor
         this.alertService.openSnackBar("Stolpec dodan")
@@ -115,8 +114,6 @@ export class CheckComponent implements OnInit {
     this.loaded = false
     this.checkService.getUdelezenci(this.settings.skupina, true)
       .then(udelezenci => {
-
-        console.log(udelezenci)
         this.data = udelezenci
         this.loaded = true
       })
@@ -128,7 +125,6 @@ export class CheckComponent implements OnInit {
     // get starting set of all people
     this.checkService.getUdelezenci(this.settings.skupina)
       .then(udelezenci => {
-        console.log(udelezenci)
 
         this.data = udelezenci
         this.loaded = true
