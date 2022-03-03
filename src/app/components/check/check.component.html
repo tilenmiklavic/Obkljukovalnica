@@ -17,13 +17,13 @@
   <div class="empty_state" *ngIf="loaded && data.length == 0">
     <img src="../../../assets/images/empty_state.png" alt="" style="width: 100%;">
   </div>
-  <div class="alert alert-warning container" role="alert" [hidden]='izbranDatumIsValid'>
+  <div class="alert alert-warning alert-container container" role="alert" [hidden]='izbranDatumIsValid'>
     <div class="row h-100">
       <div class="col my-auto">
         <span class="alert-heading"><i class="fas fa-exclamation-triangle"></i> Manjkajoč datum</span>
       </div>
       <div class="col-3 my-auto">
-        <!-- <button class="btn btn-primary">Dodaj</button> -->
+        <button class="btn btn-outline-secondary add-button" (click)="dodajStolpec()">Dodaj</button>
         <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
       </div>
     </div>

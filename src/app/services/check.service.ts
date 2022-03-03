@@ -73,8 +73,8 @@ export class CheckService {
             updated_data.push(foo);
           });
 
-
           updated_data.unshift(header);
+
           this.repositoryService.updateSingleCell(`${alphabet[datumIndex]}${uporabnikIndex+2}`, simbol)
             .then((odgovor) => {
               resolve(this.repositoryService.dataToObject(updated_data))
@@ -136,6 +136,53 @@ export class CheckService {
               resolve(this.repositoryService.dataToObject(updated_data))
             })
             .catch((napaka) => {
+              reject(napaka)
+            })
+        })
+    })
+  }
+
+
+  public dodajStolpec(): any {
+    let datum = this.formattingService.getDate()
+    let header = this.repositoryService.getHeader()
+    header.push(datum)
+
+    return new Promise((resolve, reject) => {
+      this.repositoryService.getData()
+        .then(data => {
+
+          data.forEach(uporabnik => {
+            uporabnik.prisotnost[datum] = ""
+            uporabnik.udelezbe.push( {datum: datum, prisotnost: ""} )
+          })
+
+          let updated_data = [];
+          data.forEach((element) => {
+            let foo = [];
+            header.forEach((naslov) => {
+              if (element[naslov] != undefined) {                     // updejt informativnega polja
+                foo.push(element[naslov])
+              } else {
+                element.udelezbe.some(udelezba => {
+                  if (udelezba.datum == naslov) {
+                    foo.push(udelezba.prisotnost)
+                  }
+                  return udelezba.datum == naslov
+                })
+              }
+            });
+            updated_data.push(foo);
+          });
+
+          updated_data.unshift(header);
+
+
+          this.repositoryService.updateData(updated_data)
+            .then(() => {
+              resolve(this.repositoryService.dataToObject(updated_data))
+            })
+            .catch(napaka => {
               reject(napaka)
             })
         })
