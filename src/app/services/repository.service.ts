@@ -99,6 +99,47 @@ export class RepositoryService {
   }
 
 
+  public async updateSingleCell(cell: string, value: string) {
+    console.log(cell, value)
+    const googleProfile = this.formattingService.getProfile();
+    const settings: Settings = this.formattingService.getSettings();
+    const apiKey = environment.apiKey;
+    const range = `${settings.skupina}!${cell}`
+
+    const httpLastnosti = {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${googleProfile.access_token}`,
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    let new_url =
+      this.url_skeleton +
+      settings.id_preglednice +
+      '/values/' +
+      range +
+      '?valueInputOption=RAW&key=' +
+      apiKey;
+
+    const body = {
+      majorDimension: 'DIMENSION_UNSPECIFIED',
+      range: range,
+      values: [[value]],
+    };
+
+    try {
+      const odgovor = await this.http
+        .put(new_url, body, httpLastnosti)
+        .toPromise();
+      return odgovor;
+    } catch (napaka) {
+      this.alertService.openSnackBar(Strings.noInternetConnectionError);
+      RepositoryService.obdelajNapako(napaka);
+      return null;
+    }
+  }
+
+
   // gets excel groups from excel table provided with idTabele
   public async getSkupine() {
     const apiKey = environment.apiKey;
