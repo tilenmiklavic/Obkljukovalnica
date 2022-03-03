@@ -151,4 +151,32 @@ export class CheckComponent implements OnInit {
         }
       })
   }
+
+  ngAfterViewInit(): void {
+    // var gapi: any
+
+    gapi.signin2.render('my-signin2-2', {
+      'scope': 'profile email https://www.googleapis.com/auth/spreadsheets',
+      'width': 240,
+      'height': 50,
+      'longtitle': true,
+      'theme': 'outline',
+      'onsuccess': this.onSuccess,
+      'onfailure': this.onFailure
+    })
+  }
+
+  public onSuccess(googleUser) {
+
+    let googleProfile = {
+      profile: googleUser.getBasicProfile(),
+      access_token: googleUser.getAuthResponse().access_token
+    }
+
+    localStorage.setItem('googleProfile', JSON.stringify(googleProfile))
+  }
+
+  public onFailure() {
+    console.log("Sign in unsuccesful")
+  }
 }
