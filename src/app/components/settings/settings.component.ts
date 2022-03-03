@@ -1,5 +1,4 @@
 import { Component, OnInit, NgZone, AfterViewInit, ViewChild } from '@angular/core';
-import { environment } from 'src/environments/environment';
 import { AlertService } from 'src/app/services/alert.service';
 import { Strings } from 'src/app/classes/strings';
 import { SettingsService } from 'src/app/services/settings.service';
@@ -22,13 +21,8 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   ) { }
 
   public profile = null
-  public tabela: string = environment.url
   public ime_preglednice: string = ""
   public settings: Settings = JSON.parse(localStorage.getItem('settings')) || this.formattingService.newSettings()
-  public sekcija: string = ''
-  public skupine = []
-  public setup_progress = 0
-  public panelOpenState = false
   public versionNumber = 'v0.5.1'
 
   public onSuccess(googleUser) {
