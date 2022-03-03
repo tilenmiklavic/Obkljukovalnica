@@ -8,6 +8,7 @@ import { FormattingService } from 'src/app/services/formatting.service';
 import { FormControl } from '@angular/forms';
 import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
 import { RepositoryService } from 'src/app/services/repository.service';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-check',
@@ -21,6 +22,7 @@ export class CheckComponent implements OnInit {
     private checkService: CheckService,
     private formattingService: FormattingService,
     private repositoryService: RepositoryService,
+    private alertService: AlertService,
     private _snackBar: MatSnackBar,
   ) { }
 
@@ -94,6 +96,17 @@ export class CheckComponent implements OnInit {
       })
       .catch((napaka) => {
         this._snackBar.open(Strings.noInternetConnectionError, "Zapri")
+      })
+  }
+
+  // dodajanje novega stolpca v tabelo
+  public dodajStolpec() {
+    this.checkService.dodajStolpec()
+      .then(odgovor => {
+        console.log(odgovor)
+        this.izbranDatumIsValid = true
+        this.data = odgovor
+        this.alertService.openSnackBar("Stolpec dodan")
       })
   }
 
