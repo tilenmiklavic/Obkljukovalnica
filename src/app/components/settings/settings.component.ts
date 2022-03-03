@@ -1,9 +1,6 @@
 import { Component, OnInit, NgZone, AfterViewInit, ViewChild } from '@angular/core';
-import { environment } from 'src/environments/environment';
 import { AlertService } from 'src/app/services/alert.service';
 import { Strings } from 'src/app/classes/strings';
-import {ThemePalette} from '@angular/material/core';
-import { OsebnoNapredovanjeService } from 'src/app/services/osebno-napredovanje.service';
 import { SettingsService } from 'src/app/services/settings.service';
 import { Settings } from 'src/app/classes/settings';
 import { FormattingService } from 'src/app/services/formatting.service';
@@ -19,29 +16,14 @@ export class SettingsComponent implements OnInit, AfterViewInit {
 
   constructor(
     private alertService: AlertService,
-    private osebnoNapredovanjeService: OsebnoNapredovanjeService,
     private settingsService: SettingsService,
     private formattingService: FormattingService
   ) { }
 
   public profile = null
-  public tabela: string = environment.url
   public ime_preglednice: string = ""
   public settings: Settings = JSON.parse(localStorage.getItem('settings')) || this.formattingService.newSettings()
-  public sekcija: string = ''
-  public skupine = []
-  public setup_progress = 0
-  public panelOpenState = false
-  public versionNumber = 'v0.5.0'
-
-  // *********** OSEBNO NAPREDOVANJE ***********
-  public ONPreglednicaUrl: string = localStorage.getItem('ONPreglednicaUrl')
-  public ONShranjenePreglednice: Array<any> = JSON.parse(localStorage.getItem('ONShranjenePreglednice')) || []
-  public osebnoNapredovanjeToggle = JSON.parse(localStorage.getItem('osebnoNapredovanjeEnabled'))|| false;
-  color: ThemePalette = 'accent';
-  disabled = false;
-  // *********** *********** *********** *******
-
+  public versionNumber = 'v0.5.1'
 
   public onSuccess(googleUser) {
 
@@ -66,13 +48,6 @@ export class SettingsComponent implements OnInit, AfterViewInit {
       this.alertService.openSnackBar(Strings.minimalPresenceLowestErrorNotification)
       return
     }
-    let nova_preglednica = true
-    this.settings.shranjene_preglednice.forEach(preglednica => {
-      if (preglednica.ime == this.ime_preglednice || preglednica.povezava == this.settings.povezava) nova_preglednica = false
-    })
-    if (nova_preglednica) {
-      this.settings.shranjene_preglednice.push({"ime": this.ime_preglednice, "povezava": this.settings.povezava})
-    }
 
     let settings = {
       shranjene_preglednice: this.settings.shranjene_preglednice,
@@ -88,6 +63,8 @@ export class SettingsComponent implements OnInit, AfterViewInit {
       low_presence: this.settings.low_presence
     }
 
+    console.log(settings)
+
     try {
       localStorage.setItem('settings', JSON.stringify(settings))
       this.alertService.openSnackBar("Nastavitve shranjene!")
@@ -101,47 +78,38 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     let idTabele = this.settings.povezava.split('/')[5]
     this.settings.id_preglednice = idTabele
 
-    this.settingsService.getSkupine()
-    .then(odgovor => {
-      console.log(odgovor)
-      this.ime_preglednice = odgovor.properties.title
-      odgovor.sheets.forEach(element => {
-        let foo = {"id": element.properties.index, "ime": element.properties.title}
-        this.skupine.push(foo)
+    let shranjenaPreglednica = this.settings.shranjene_preglednice.filter(element => element.id == idTabele)
+    console.log(shranjenaPreglednica)
+    console.log(this.settings.shranjene_preglednice)
+
+    if (!shranjenaPreglednica.length) {
+      this.settingsService.getSheetInfo(idTabele)
+      .then(odgovor => {
+        let preglednica = {
+          title: odgovor.properties.title,
+          id: odgovor.spreadsheetId,
+          skupina: odgovor.sheets[0].properties.title,
+          povezava: odgovor.spreadsheetUrl
+        }
+
+        console.log("Preglednica", preglednica)
+        console.log("Odgovor", odgovor)
+        this.settings.povezava = odgovor.spreadsheetUrl
+        this.settings.skupina = odgovor.sheets[0].properties.title
+        this.settings.shranjene_preglednice.push(preglednica)
+
+        this.alertService.openSnackBar(Strings.getTableSuccessNotification)
       })
-      this.alertService.openSnackBar(Strings.getTableSuccessNotification)
-      this.shraniNastavitve()
-    })
-    .catch(napaka => {
-      console.log("Napaka pri pridobivanju skupin")
-      console.error(napaka)
-    })
-  }
-
-  public getTabelaON() {
-    localStorage.setItem('ONPreglednicaUrl', this.ONPreglednicaUrl)
-
-    this.osebnoNapredovanjeService.getMetadata()
-    .then(odgovor => {
-      let skupina = odgovor.sheets[0].properties.title
-      let title = odgovor.properties.title
-
-      let nova_preglednica = true
-      this.ONShranjenePreglednice.forEach(preglednica => {
-        if (preglednica.ime == title || preglednica.povezava == this.settings.povezava) nova_preglednica = false
+      .catch(napaka => {
+        console.log("Napaka pri pridobivanju skupin")
+        console.error(napaka)
       })
-      if (nova_preglednica) {
-        this.ONShranjenePreglednice.push({"ime": title, "povezava": this.ONPreglednicaUrl, "skupina": skupina})
-      }
+    } else {
+      this.settings.povezava = shranjenaPreglednica[0].povezava
+      this.settings.skupina = shranjenaPreglednica[0].skupina
+    }
 
-      this.alertService.openSnackBar(Strings.getTableSuccessNotification)
-
-      localStorage.setItem('ONShranjenePreglednice', JSON.stringify(this.ONShranjenePreglednice))
-    })
-    .catch(napaka => {
-      console.log("Napaka pri pridobivanju skupin")
-      console.error(napaka)
-    })
+    this.shraniNastavitve()
   }
 
   public profileCheck() {
@@ -151,17 +119,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.settingsService.getSkupine()
-      .then(odgovor => {
-        odgovor.sheets.forEach(element => {
-          let foo = {"id": element.properties.sheetId, "ime": element.properties.title}
-          this.skupine.push(foo)
-        })
-      })
-      .catch(napaka => {
-        console.log("Napaka pri pridobivanju skupin")
-        console.error(napaka)
-      })
+
   }
 
   ngAfterViewInit(): void {
