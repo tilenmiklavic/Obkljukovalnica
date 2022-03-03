@@ -27,6 +27,7 @@ export class RepositoryService {
   // gets raw data
   public async getData(skupina: String = this.formattingService.getSettings().skupina, force: Boolean = false): Promise<Udelezenec[]> {
 
+    console.log(force)
     // first return array in memory
     if (!force && this.data != undefined && this.data.length > 0) { return this.data }
 
