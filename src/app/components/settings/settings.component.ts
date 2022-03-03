@@ -79,8 +79,6 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     this.settings.id_preglednice = idTabele
 
     let shranjenaPreglednica = this.settings.shranjene_preglednice.filter(element => element.id == idTabele)
-    console.log(shranjenaPreglednica)
-    console.log(this.settings.shranjene_preglednice)
 
     if (!shranjenaPreglednica.length) {
       this.settingsService.getSheetInfo(idTabele)
@@ -91,13 +89,11 @@ export class SettingsComponent implements OnInit, AfterViewInit {
           skupina: odgovor.sheets[0].properties.title,
           povezava: odgovor.spreadsheetUrl
         }
-
-        console.log("Preglednica", preglednica)
-        console.log("Odgovor", odgovor)
         this.settings.povezava = odgovor.spreadsheetUrl
         this.settings.skupina = odgovor.sheets[0].properties.title
         this.settings.shranjene_preglednice.push(preglednica)
 
+        this.shraniNastavitve()
         this.alertService.openSnackBar(Strings.getTableSuccessNotification)
       })
       .catch(napaka => {
@@ -107,9 +103,8 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     } else {
       this.settings.povezava = shranjenaPreglednica[0].povezava
       this.settings.skupina = shranjenaPreglednica[0].skupina
+      this.shraniNastavitve()
     }
-
-    this.shraniNastavitve()
   }
 
   public profileCheck() {
