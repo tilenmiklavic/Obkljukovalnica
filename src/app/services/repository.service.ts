@@ -27,7 +27,6 @@ export class RepositoryService {
   // gets raw data
   public async getData(skupina: String = this.formattingService.getSettings().skupina, force: Boolean = false): Promise<Udelezenec[]> {
 
-    console.log(force)
     // first return array in memory
     if (!force && this.data != undefined && this.data.length > 0) { return this.data }
 
@@ -101,7 +100,6 @@ export class RepositoryService {
 
 
   public async updateSingleCell(cell: string, value: string) {
-    console.log(cell, value)
     const googleProfile = this.formattingService.getProfile();
     const settings: Settings = this.formattingService.getSettings();
     const apiKey = environment.apiKey;

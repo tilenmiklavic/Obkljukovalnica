@@ -6,7 +6,7 @@ require('cypress-xpath')
 describe('Check view', () => {
 
   beforeEach(() => {
-    //cy.visit('http://localhost:4200')
+    // cy.visit('http://localhost:4200')
   })
 
   it('Title is Obkljukovalnica', () => {
@@ -75,7 +75,7 @@ describe('Settings view', () => {
   it('ON section', () => {
     cy.xpath('//mat-expansion-panel[4]').click()
     cy.contains('Osebno napredovanje')
-    cy.contains('Omogoči osebno napredovanje!')
+    // cy.contains('Omogoči osebno napredovanje!')
     cy.contains('Preglednica')
 
     cy.xpath('//span[text() = "Sign in with Google"]')
@@ -90,27 +90,27 @@ describe('Settings view', () => {
     })
 
   it('google login', () => {
-    cy.loginByGoogleApi()
-    console.log(window.localStorage.getItem('access_token'))
+    //cy.loginByGoogleApi()
+    //console.log(window.localStorage.getItem('access_token'))
   })
 })
 
 // user logged in
-describe('Nastavi preglednico', () => {
-  it('Navigacija', () => {
-    cy.xpath('//mat-expansion-panel[2]').click()
-    cy.contains('Preglednica')
-    cy.xpath('//div[contains(@class, "container preglednica")]')
-      .should('be.visible')
-    cy.xpath('//div[contains(@class, "container preglednica")]/div/button[. = "Pridobi preglednico!"]')
-      .should('be.visible')
+// describe('Nastavi preglednico', () => {
+//   it('Navigacija', () => {
+//     cy.xpath('//mat-expansion-panel[2]').click()
+//     cy.contains('Preglednica')
+//     cy.xpath('//div[contains(@class, "container preglednica")]')
+//       .should('be.visible')
+//     cy.xpath('//div[contains(@class, "container preglednica")]/div/button[. = "Pridobi preglednico!"]')
+//       .should('be.visible')
 
-    cy.xpath('//input[@id = "povezavaTabela"]').type('https://docs.google.com/spreadsheets/d/1-wmM7ocx4vdILxncq4tUtUzgXzPB6KOom7i-qnhs4Yo/edit#gid=0')
-    cy.xpath('//button[@id = "pridobiPreglednico"]').click()
-    cy.wait(2000)
-    cy.xpath("//mat-select[@id = 'skupinaDropdown']").click()
-    cy.xpath("//mat-option[2]").click()
-    cy.xpath("//button[@id = 'shraniPreglednico']").click()
-    cy.wait(2000)
-  })
-})
+//     cy.xpath('//input[@id = "povezavaTabela"]').type('https://docs.google.com/spreadsheets/d/1-wmM7ocx4vdILxncq4tUtUzgXzPB6KOom7i-qnhs4Yo/edit#gid=0')
+//     cy.xpath('//button[@id = "pridobiPreglednico"]').click()
+//     cy.wait(2000)
+//     cy.xpath("//mat-select[@id = 'skupinaDropdown']").click()
+//     cy.xpath("//mat-option[2]").click()
+//     cy.xpath("//button[@id = 'shraniPreglednico']").click()
+//     cy.wait(2000)
+//   })
+// })
