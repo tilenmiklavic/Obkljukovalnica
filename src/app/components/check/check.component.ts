@@ -110,6 +110,18 @@ export class CheckComponent implements OnInit {
       })
   }
 
+  // refresh data
+  public refresh() {
+    this.loaded = false
+    this.checkService.getUdelezenci(this.settings.skupina, true)
+      .then(udelezenci => {
+
+        console.log(udelezenci)
+        this.data = udelezenci
+        this.loaded = true
+      })
+  }
+
   ngOnInit(): void {
     this.datum = this.formattingService.getDate()
 

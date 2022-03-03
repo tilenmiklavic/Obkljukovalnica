@@ -16,10 +16,8 @@ export class CheckService {
   ) { }
 
   // gets data from repository service
-  public getUdelezenci(skupina: String): Promise<Udelezenec[]> {
-
-    return this.repositoryService.getData(skupina)
-
+  public getUdelezenci(skupina: String, force: boolean = false): Promise<Udelezenec[]> {
+    return this.repositoryService.getData(skupina, force)
   }
 
 
