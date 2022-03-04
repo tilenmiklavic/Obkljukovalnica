@@ -74,6 +74,12 @@ export class PregledComponent implements OnInit {
       this.pregledService.prisotnostPoLjudeh(this.settings.skupina)
         .then(prisotnostPoLjudeh => {
           this.prisotnostPoLjudeh = prisotnostPoLjudeh
+
+          this.data.forEach((udelezenec, index) => {
+            udelezenec.graphValue = prisotnostPoLjudeh[index]
+          })
+
+          this.data.sort((a,b) => (a.vod > b.vod) ? 1 : ((b.vod > a.vod) ? -1 : 0))
         })
 
 
