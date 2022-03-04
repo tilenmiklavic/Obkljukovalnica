@@ -78,8 +78,6 @@ export class CheckComponent implements OnInit {
 
     if (this.datumi.includes(this.datum)) { this.izbranDatumIsValid = true }
     else { this.izbranDatumIsValid = false }
-
-    console.log(this.datum)
   }
 
   // brisanje vseh vnosov za danasnji dan
@@ -106,8 +104,12 @@ export class CheckComponent implements OnInit {
     this.checkService.dodajStolpec()
       .then(odgovor => {
         this.izbranDatumIsValid = true
-        this.data = odgovor
-        this.alertService.openSnackBar("Stolpec dodan")
+        this.checkService.getUdelezenci(this.settings.skupina, true)
+          .then(rezultat => {
+            this.data = rezultat
+            this.datumi.push(this.datum)
+            this.alertService.openSnackBar("Stolpec dodan")
+          })
       })
   }
 
