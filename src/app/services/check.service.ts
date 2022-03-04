@@ -24,11 +24,10 @@ export class CheckService {
   // changes current data coresponding to input
   // converts objects to raw data
   // updates data via repository service
-  public nastaviPrisotnost(id: Number, present: number): any {
+  public nastaviPrisotnost(id: Number, present: number, datum: string): any {
 
     let settings = this.formattingService.getSettings()
     let googleProfile = this.formattingService.getProfile()
-    let datum = this.formattingService.getDate()
     let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
     return new Promise((resolve, reject) => {

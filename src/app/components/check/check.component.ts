@@ -53,7 +53,7 @@ export class CheckComponent implements OnInit {
 
   // nastavljanje prisotnosti
   public present(id: Number, present: number) {
-    this.checkService.nastaviPrisotnost(id, present)
+    this.checkService.nastaviPrisotnost(id, present, this.datum)
       .then((odgovor) => {
         let uporabnik = this.data.find(x => x.id == id);
         uporabnik.prisotnost[this.datum] = this.formattingService.vrniSimbol(present, this.settings)
@@ -78,6 +78,8 @@ export class CheckComponent implements OnInit {
 
     if (this.datumi.includes(this.datum)) { this.izbranDatumIsValid = true }
     else { this.izbranDatumIsValid = false }
+
+    console.log(this.datum)
   }
 
   // brisanje vseh vnosov za danasnji dan
