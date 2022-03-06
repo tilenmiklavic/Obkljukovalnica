@@ -91,4 +91,23 @@ export class FormattingService {
 
     return null;
   }
+
+
+  public indexToColumn(index: number): string {
+    let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    let column = ""
+
+    while (true) {
+
+      if (index < alphabet.length - 1) {
+        column += alphabet[index]
+        break
+      } else {
+        column += alphabet[Math.floor(index / alphabet.length) - 1]
+        index = index - Math.floor(index / alphabet.length) * alphabet.length - 1
+      }
+    }
+
+    return column
+  }
 }
