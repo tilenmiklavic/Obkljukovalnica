@@ -25,13 +25,13 @@
     Pregled po osebah
   </h2>
   <div>
-    <table class="table sortable">
+    <table class="table sortable" id="peopleTable">
       <thead>
         <tr>
-          <th>Ime</th>
-          <th>Vod</th>
-          <th>Prisotnosti</th>
-          <th>Procent</th>
+          <th (click)="sortTable(0)">Ime</th>
+          <th (click)="sortTable(1)">Vod</th>
+          <th (click)="sortTable(2)">Prisotnosti</th>
+          <th (click)="sortTable(3)">Procent</th>
         </tr>
       </thead>
       <tbody>
