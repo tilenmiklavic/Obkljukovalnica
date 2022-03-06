@@ -28,7 +28,6 @@ export class CheckService {
 
     let settings = this.formattingService.getSettings()
     let googleProfile = this.formattingService.getProfile()
-    let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
     return new Promise((resolve, reject) => {
       this.repositoryService.getData(settings.skupina, false)
@@ -72,7 +71,7 @@ export class CheckService {
 
           updated_data.unshift(header);
 
-          this.repositoryService.updateSingleCell(`${alphabet[datumIndex]}${uporabnikIndex+2}`, simbol)
+          this.repositoryService.updateSingleCell(`${this.formattingService.indexToColumn(datumIndex)}${uporabnikIndex+2}`, simbol)
             .then((odgovor) => {
               resolve(this.repositoryService.dataToObject(updated_data))
             })
