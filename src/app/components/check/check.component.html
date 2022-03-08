@@ -23,7 +23,7 @@
   <div class="empty_state" *ngIf="loaded && data.length == 0">
     <img src="../../../assets/images/empty_state.png" alt="" style="width: 100%;">
   </div>
-  <div class="alert alert-warning alert-container container" role="alert" [hidden]='izbranDatumIsValid'>
+  <div class="alert alert-warning alert-container container" role="alert" *ngIf="loaded && !izbranDatumIsValid">
     <div class="row h-100">
       <div class="col my-auto">
         <span class="alert-heading"><i class="fas fa-exclamation-triangle"></i> Manjkajoč datum</span>
