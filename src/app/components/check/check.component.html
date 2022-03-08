@@ -58,7 +58,10 @@
   <!-- Seznam udelezencev -->
   <div *ngIf="loaded">
     <div *ngFor="let udelezenec of data" class="udelezenec row d-flex" [ngStyle]="{'background-color': (udelezenec.prisotnost[datum]==settings.simboli.prisoten_symbol) ? '#4CAF50' : ((udelezenec.prisotnost[datum]==settings.simboli.odsoten_symbol) ? '#9E9E9E' : ((udelezenec.prisotnost[datum]==settings.simboli.upraviceno_odsoten_symbol) ? '#9E9E9E' : '#ffffff'))}">
-      <div class="ime col-6 justify-content-center align-self-center">{{udelezenec.ime}}</div>
+      <div class="col-6 justify-content-center align-self-center">
+        <div class="ime">{{udelezenec.ime}}</div>
+        <div class="vod">vod: {{udelezenec.vod}}</div>
+      </div>
       <div class="ikone col-6 row d-flex">
         <div class="accept col-4 align-self-center">
           <button mat-mini-fab color="accent" (click)="present(udelezenec.id, 0)" [disabled]="!izbranDatumIsValid">
