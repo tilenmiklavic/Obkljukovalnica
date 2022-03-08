@@ -30,7 +30,7 @@ import { PregledComponent } from './components/pregled/pregled.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { ChartModule } from 'angular2-chartjs';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 
 
 @NgModule({
@@ -76,7 +76,8 @@ import { MatNativeDateModule } from '@angular/material/core';
   ],
   providers: [
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500}},
-    MatDatepickerModule
+    MatDatepickerModule,
+    {provide: MAT_DATE_LOCALE, useValue: 'sl'},
   ],
   bootstrap: [AppComponent]
 })
