@@ -1,5 +1,12 @@
 <div class="appbar">
-  <h1 class="naslov" style="font-size: xx-large; font-weight: 700;"><span class="check_naslov">Obkljukovalnica</span></h1>
+  <div class="row">
+    <div class="col">
+      <h1 class="naslov" style="font-size: xx-large; font-weight: 700;"><span class="check_naslov">Obkljukovalnica</span></h1>
+    </div>
+    <div class="col align-self-center offline-icon">
+      <mat-icon *ngIf="!networkStatus" class="material-icons-outlined color_blue">cloud_off</mat-icon>
+    </div>
+  </div>
 </div>
 
 <div class="container google" hidden>

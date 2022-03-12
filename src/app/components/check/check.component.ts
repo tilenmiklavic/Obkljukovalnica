@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy, VERSION } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -9,6 +9,8 @@ import { FormControl } from '@angular/forms';
 import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
 import { RepositoryService } from 'src/app/services/repository.service';
 import { AlertService } from 'src/app/services/alert.service';
+import { fromEvent, merge, of, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-check',
@@ -16,7 +18,7 @@ import { AlertService } from 'src/app/services/alert.service';
   styleUrls: ['./check.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class CheckComponent implements OnInit {
+export class CheckComponent implements OnInit, OnDestroy {
 
   constructor(
     private checkService: CheckService,
@@ -36,6 +38,9 @@ export class CheckComponent implements OnInit {
   settings = JSON.parse(localStorage.getItem('settings')) || this.formattingService.newSettings()
   color: ThemePalette = 'primary';
   mode: ProgressSpinnerMode = 'indeterminate';
+  networkStatus: boolean = false;
+  networkStatus$: Subscription = Subscription.EMPTY;
+
 
   dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
     // Only highligh dates inside the month view.
@@ -154,6 +159,8 @@ export class CheckComponent implements OnInit {
           this._snackBar.open(Strings.groupSelectNoticiation, "Zapri")
         }
       })
+
+    this.checkNetworkStatus();
   }
 
   ngAfterViewInit(): void {
@@ -168,6 +175,24 @@ export class CheckComponent implements OnInit {
       'onsuccess': this.onSuccess,
       'onfailure': this.onFailure
     })
+  }
+
+  ngOnDestroy(): void {
+    this.networkStatus$.unsubscribe();
+  }
+
+  checkNetworkStatus() {
+    this.networkStatus = navigator.onLine;
+    this.networkStatus$ = merge(
+      of(null),
+      fromEvent(window, 'online'),
+      fromEvent(window, 'offline')
+    )
+      .pipe(map(() => navigator.onLine))
+      .subscribe(status => {
+        console.log('status', status);
+        this.networkStatus = status;
+      });
   }
 
   public onSuccess(googleUser) {
