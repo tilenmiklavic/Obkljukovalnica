@@ -54,7 +54,7 @@ export class RepositoryService {
       let temp: any = udelezenci;
       return this.dataToObject(temp.values);
     } catch (napaka) {
-      return RepositoryService.obdelajNapako(napaka);
+      throw 'Reading from table error'
     }
   }
 
@@ -133,8 +133,9 @@ export class RepositoryService {
       return odgovor;
     } catch (napaka) {
       this.alertService.openSnackBar(Strings.noInternetConnectionError);
-      RepositoryService.obdelajNapako(napaka);
-      return null;
+      throw "Writing to table error"
+      // RepositoryService.obdelajNapako(napaka);
+      // return null;
     }
   }
 

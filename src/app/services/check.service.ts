@@ -76,7 +76,7 @@ export class CheckService {
               resolve(this.repositoryService.dataToObject(updated_data))
             })
             .catch((napaka) => {
-              reject(napaka)
+              reject('Repository error')
             })
         })
     })
