@@ -1,11 +1,58 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ogrodje',
   templateUrl: './ogrodje.component.html',
-  styleUrls: ['./ogrodje.component.css']
+  styleUrls: ['./ogrodje.component.css'],
+  animations: [
+    trigger('icon1', [
+      state('0', style({
+        scale: 1.5
+      })),
+      state('1', style({
+        scale: 1
+      })),
+      state('2', style({
+        scale: 1
+      })),
+      transition('0 => 1', animate('100ms ease-out')),
+      transition('0 => 2', animate('100ms ease-out')),
+      transition('1 => 0', animate('50ms ease-in')),
+      transition('2 => 0', animate('50ms ease-in'))
+    ]),
+    trigger('icon2', [
+      state('0', style({
+        scale: 1
+      })),
+      state('1', style({
+        scale: 1.5
+      })),
+      state('2', style({
+        scale: 1
+      })),
+      transition('1 => 0', animate('100ms ease-out')),
+      transition('1 => 2', animate('100ms ease-out')),
+      transition('0 => 1', animate('50ms ease-in')),
+      transition('2 => 1', animate('50ms ease-in'))
+    ]),
+    trigger('icon3', [
+      state('0', style({
+        scale: 1
+      })),
+      state('1', style({
+        scale: 1
+      })),
+      state('2', style({
+        scale: 1.5
+      })),
+      transition('2 => 0', animate('100ms ease-out')),
+      transition('2 => 1', animate('100ms ease-out')),
+      transition('0 => 2', animate('50ms ease-in')),
+      transition('1 => 2', animate('50ms ease-in'))
+    ])
+  ]
 })
 export class OgrodjeComponent implements OnInit {
 
@@ -13,48 +60,39 @@ export class OgrodjeComponent implements OnInit {
     private router: Router
   ) { }
 
+
+  page = "0"
   tab = 2
-  scale1 = 'scale(1)'
-  scale2 = 'scale(1)'
-  scale3 = 'scale(1)'
 
   public osebnoNapredovanje = false
 
   public navigate(index: number) {
     this.tab = index
-    this.scale1 = 'scale(1)'
-    this.scale2 = 'scale(1)'
-    this.scale3 = 'scale(1)'
+    this.page = index.toString()
     this.refresh()
 
     if (this.osebnoNapredovanje) {
       switch(index) {
         case 0:
           this.router.navigate(['osebno-napredovanje']);
-          this.scale1 = 'scale(1.5)'
           break;
         case 1:
           this.router.navigate(['osebno-napredovanje/pregled']);
-          this.scale2 = 'scale(1.5)'
           break;
         case 2:
           this.router.navigate(['settings']);
-          this.scale3 = 'scale(1.5)'
           break;
       }
     } else {
       switch(index) {
         case 0:
           this.router.navigate(['/']);
-          this.scale1 = 'scale(1.5)'
           break;
         case 1:
           this.router.navigate(['pregled']);
-          this.scale2 = 'scale(1.5)'
           break;
         case 2:
           this.router.navigate(['settings']);
-          this.scale3 = 'scale(1.5)'
           break;
       }
     }

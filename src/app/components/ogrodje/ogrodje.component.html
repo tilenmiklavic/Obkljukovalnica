@@ -1,19 +1,19 @@
 <mat-toolbar class="toolbarNav">
 
-  <button mat-icon-button color="accent">
-    <mat-icon class="material-icons color_blue" [style.transform]="scale1" (click)="navigate(0)">
+  <button mat-icon-button color="accent" (click)="navigate(0)">
+    <mat-icon [@icon1]="page" class="material-icons color_blue nav-icon-1">
         fact_check
     </mat-icon>
   </button>
 
-  <button mat-icon-button color="accent">
-    <mat-icon class="material-icons-outlined color_blue" [style.transform]="scale2" (click)="navigate(1)">
+  <button mat-icon-button color="accent" (click)="navigate(1)">
+    <mat-icon [@icon2]="page"  class="material-icons-outlined color_blue nav-icon-2">
       person
     </mat-icon>
   </button>
 
-  <button mat-icon-button color="accent">
-    <mat-icon class="material-icons-outlined color_blue" [style.transform]="scale3" (click)="navigate(2)">
+  <button mat-icon-button color="accent" (click)="navigate(2)">
+    <mat-icon [@icon3]="page" class="material-icons-outlined color_blue nav-icon-3">
       settings
     </mat-icon>
   </button>
