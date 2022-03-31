@@ -10,5 +10,8 @@ export class Settings {
   };
   minimal_presence: string;             // used in pregled
   low_presence: string;                 // used in pregled
+  potniNalog: {
+    enabled: boolean                    // enable screen
+  }
 }
 

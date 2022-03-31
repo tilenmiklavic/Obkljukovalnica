@@ -4,6 +4,7 @@ import { Strings } from 'src/app/classes/strings';
 import { SettingsService } from 'src/app/services/settings.service';
 import { Settings } from 'src/app/classes/settings';
 import { FormattingService } from 'src/app/services/formatting.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 
 @Component({
@@ -13,12 +14,18 @@ import { FormattingService } from 'src/app/services/formatting.service';
 })
 
 export class SettingsComponent implements OnInit, AfterViewInit {
+  formGroup: FormGroup
 
   constructor(
     private alertService: AlertService,
     private settingsService: SettingsService,
-    private formattingService: FormattingService
-  ) { }
+    private formattingService: FormattingService,
+    formBuilder: FormBuilder
+  ) {
+    this.formGroup = formBuilder.group({
+      enablePotni: this.settings.potniNalog.enabled || false
+    })
+  }
 
   public profile = null
   public ime_preglednice: string = ""
@@ -40,6 +47,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   }
 
   public shraniNastavitve() {
+    console.log(this.formGroup)
     if (!this.settings.simboli.prisoten_symbol || !this.settings.simboli.odsoten_symbol || !this.settings.simboli.upraviceno_odsoten_symbol) {
       this.alertService.openSnackBar(Strings.markingSymbolEmptyErrorNotification)
       return
@@ -60,10 +68,11 @@ export class SettingsComponent implements OnInit, AfterViewInit {
         upraviceno_odsoten_symbol: this.settings.simboli.upraviceno_odsoten_symbol || 'o'
       },
       minimal_presence: this.settings.minimal_presence,
-      low_presence: this.settings.low_presence
+      low_presence: this.settings.low_presence,
+      potniNalog: {
+        enabled: this.formGroup.value.enablePotni || false
+      }
     }
-
-    console.log(settings)
 
     try {
       localStorage.setItem('settings', JSON.stringify(settings))
@@ -111,6 +120,10 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     if (this.formattingService.getProfile().access_token) {
       this.profile = true
     }
+  }
+
+  public potniToggleChanged() {
+    this.shraniNastavitve()
   }
 
   ngOnInit(): void {

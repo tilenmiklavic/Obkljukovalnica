@@ -206,6 +206,34 @@
       <button mat-raised-button color="primary" (click)="getTabelaON(); ">Pridobi preglednico!</button>
     </div> -->
     </mat-expansion-panel>
+
+    <!-- Potni stroški -->
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Potni nalog
+        </mat-panel-title>
+        <mat-panel-description>
+          <p></p>
+          <mat-icon>directions_car</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div class="row">
+        <div class="col">
+          <span>Vklopi okno za vpis potnih stroškov</span>
+        </div>
+        <div class="col-3">
+          <form [formGroup]="formGroup" ngNativeValidate>
+            <mat-slide-toggle
+              formControlName="enablePotni"
+              (change)="shraniNastavitve()">
+            </mat-slide-toggle>
+          </form>
+        </div>
+      </div>
+
+    </mat-expansion-panel>
   </mat-accordion>
 
   <div class="document_end"></div>
