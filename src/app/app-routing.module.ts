@@ -4,6 +4,7 @@ import { CheckComponent } from './components/check/check.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { PregledComponent } from './components/pregled/pregled.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { PotniComponent } from './potni/potni.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,10 @@ const routes: Routes = [
   {
     path: 'pregled',
     component: PregledComponent
+  },
+  {
+    path: 'potni',
+    component: PotniComponent
   },
   {
     path: '',

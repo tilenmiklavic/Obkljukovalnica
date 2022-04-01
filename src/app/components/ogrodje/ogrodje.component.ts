@@ -1,6 +1,8 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Settings } from 'src/app/classes/settings';
+import { DataService } from 'src/app/services/data.service';
+import { FormattingService } from 'src/app/services/formatting.service';
 
 @Component({
   selector: 'app-ogrodje',
@@ -8,23 +10,30 @@ import { Router } from '@angular/router';
   styleUrls: ['./ogrodje.component.css']
 })
 export class OgrodjeComponent implements OnInit {
+  public settings: Settings = JSON.parse(localStorage.getItem('settings')) || this.formattingService.newSettings()
+  private message: string
 
   constructor(
-    private router: Router
+    private router: Router,
+    private formattingService: FormattingService,
+    private dataService: DataService
   ) { }
 
   tab = 2
   scale1 = 'scale(1)'
   scale2 = 'scale(1)'
   scale3 = 'scale(1)'
+  scale4 = 'scale(1)'
 
   public osebnoNapredovanje = false
+  public potniEnabled = false
 
   public navigate(index: number) {
     this.tab = index
     this.scale1 = 'scale(1)'
     this.scale2 = 'scale(1)'
     this.scale3 = 'scale(1)'
+    this.scale4 = 'scale(1)'
     this.refresh()
 
     if (this.osebnoNapredovanje) {
@@ -41,6 +50,10 @@ export class OgrodjeComponent implements OnInit {
           this.router.navigate(['settings']);
           this.scale3 = 'scale(1.5)'
           break;
+        case 3:
+          this.router.navigate(['potni']);
+          this.scale4 = 'scale(1.5)'
+          break;
       }
     } else {
       switch(index) {
@@ -56,12 +69,17 @@ export class OgrodjeComponent implements OnInit {
           this.router.navigate(['settings']);
           this.scale3 = 'scale(1.5)'
           break;
+        case 3:
+          this.router.navigate(['potni']);
+          this.scale4 = 'scale(1.5)'
+          break;
       }
     }
   }
 
   public refresh() {
-    this.osebnoNapredovanje = JSON.parse(localStorage.getItem('osebnoNapredovanjeEnabled')) || false
+    this.osebnoNapredovanje = false
+    this.potniEnabled = this.settings.potniNalog.enabled
   }
 
   private checkCorrectRouting() {
@@ -69,7 +87,13 @@ export class OgrodjeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dataService.currentMessage.subscribe(message => {
+      message === "potniEnabled" ? this.potniEnabled = true : this.potniEnabled = false
+      console.log("Message revieved")
+    })
     this.refresh()
     this.checkCorrectRouting()
+
+    this.settings.potniNalog.enabled ? this.potniEnabled = true : this.potniEnabled = false
   }
 }

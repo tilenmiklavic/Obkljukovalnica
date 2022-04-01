@@ -12,6 +12,12 @@
     </mat-icon>
   </button>
 
+  <button *ngIf="potniEnabled" mat-icon-button color="accent">
+    <mat-icon class="material-icons-outlined color_blue" [style.transform]="scale4" (click)="navigate(3)">
+      directions_car
+    </mat-icon>
+  </button>
+
   <button mat-icon-button color="accent">
     <mat-icon class="material-icons-outlined color_blue" [style.transform]="scale3" (click)="navigate(2)">
       settings

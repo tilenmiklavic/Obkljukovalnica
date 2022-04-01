@@ -1,10 +1,11 @@
-import { Component, OnInit, NgZone, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { AlertService } from 'src/app/services/alert.service';
 import { Strings } from 'src/app/classes/strings';
 import { SettingsService } from 'src/app/services/settings.service';
 import { Settings } from 'src/app/classes/settings';
-import { FormattingService } from 'src/app/services/formatting.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormattingService } from 'src/app/services/formatting.service';
+import { DataService } from 'src/app/services/data.service';
 
 
 @Component({
@@ -15,13 +16,16 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 
 export class SettingsComponent implements OnInit, AfterViewInit {
   formGroup: FormGroup
+  message: string
 
   constructor(
     private alertService: AlertService,
     private settingsService: SettingsService,
     private formattingService: FormattingService,
+    private dataService: DataService,
     formBuilder: FormBuilder
   ) {
+    this.dataService.currentMessage.subscribe(message => this.message = message)
     this.formGroup = formBuilder.group({
       enablePotni: this.settings.potniNalog.enabled || false
     })
@@ -46,7 +50,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     console.log("Sign in unsuccesful")
   }
 
-  public shraniNastavitve() {
+  public shraniNastavitve(notification = true) {
     console.log(this.formGroup)
     if (!this.settings.simboli.prisoten_symbol || !this.settings.simboli.odsoten_symbol || !this.settings.simboli.upraviceno_odsoten_symbol) {
       this.alertService.openSnackBar(Strings.markingSymbolEmptyErrorNotification)
@@ -76,8 +80,8 @@ export class SettingsComponent implements OnInit, AfterViewInit {
 
     try {
       localStorage.setItem('settings', JSON.stringify(settings))
-      this.alertService.openSnackBar("Nastavitve shranjene!")
-
+      if (notification)
+        this.alertService.openSnackBar("Nastavitve shranjene!")
     } catch (error) {
       this.alertService.openSnackBar(Strings.saveChangesErrorNotification)
     }
@@ -123,16 +127,21 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   }
 
   public potniToggleChanged() {
-    this.shraniNastavitve()
+    this.shraniNastavitve(false)
+    console.log("Here")
+    if (this.formGroup.value.enablePotni) {
+      this.dataService.changeMessage("potniEnabled")
+    } else {
+      this.dataService.changeMessage("potniDisabled")
+    }
   }
 
   ngOnInit(): void {
-
+    this.dataService.currentMessage.subscribe(message => this.message = message)
   }
 
   ngAfterViewInit(): void {
     // var gapi: any
-
     gapi.signin2.render('my-signin2', {
       'scope': 'profile email https://www.googleapis.com/auth/spreadsheets',
       'width': 240,
@@ -142,7 +151,6 @@ export class SettingsComponent implements OnInit, AfterViewInit {
       'onsuccess': this.onSuccess,
       'onfailure': this.onFailure
     })
-
     this.profileCheck()
   }
 }
