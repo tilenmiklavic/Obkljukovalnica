@@ -128,7 +128,6 @@ export class SettingsComponent implements OnInit, AfterViewInit {
 
   public potniToggleChanged() {
     this.shraniNastavitve(false)
-    console.log("Here")
     if (this.formGroup.value.enablePotni) {
       this.dataService.changeMessage("potniEnabled")
     } else {
@@ -138,10 +137,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.dataService.currentMessage.subscribe(message => this.message = message)
-  }
 
-  ngAfterViewInit(): void {
-    // var gapi: any
     gapi.signin2.render('my-signin2', {
       'scope': 'profile email https://www.googleapis.com/auth/spreadsheets',
       'width': 240,
@@ -152,5 +148,9 @@ export class SettingsComponent implements OnInit, AfterViewInit {
       'onfailure': this.onFailure
     })
     this.profileCheck()
+  }
+
+  ngAfterViewInit(): void {
+    // var gapi: any
   }
 }
