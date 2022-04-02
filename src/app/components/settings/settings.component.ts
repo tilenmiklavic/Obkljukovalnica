@@ -22,6 +22,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   potniForm = new FormGroup({
     ime: new FormControl(this.settings.potniNalog.ime, [Validators.required]),
     priimek: new FormControl(this.settings.potniNalog.priimek, [Validators.required]),
+    naslov: new FormControl(this.settings.potniNalog.naslov, [Validators.required]),
     tarifa: new FormControl(this.settings.potniNalog.tarifa, [Validators.required, Validators.min(0), Validators.max(1)])
   })
 
@@ -81,6 +82,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
         enabled: this.formGroup.value.enablePotni || false,
         ime: this.potniForm.value.ime || "",
         priimek: this.potniForm.value.priimek || "",
+        naslov: this.potniForm.value.naslov || "",
         tarifa: this.potniForm.value.tarifa || 0,
         poti: this.settings.potniNalog.poti
       }
