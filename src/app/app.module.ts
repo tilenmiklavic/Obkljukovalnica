@@ -31,7 +31,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { ChartModule } from 'angular2-chartjs';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
-import { PotniComponent } from './potni/potni.component';
+import { PotniComponent } from './components/potni/potni.component';
 
 
 @NgModule({

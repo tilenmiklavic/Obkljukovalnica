@@ -3,7 +3,7 @@ import { AlertService } from 'src/app/services/alert.service';
 import { Strings } from 'src/app/classes/strings';
 import { SettingsService } from 'src/app/services/settings.service';
 import { Settings } from 'src/app/classes/settings';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormattingService } from 'src/app/services/formatting.service';
 import { DataService } from 'src/app/services/data.service';
 
@@ -15,8 +15,15 @@ import { DataService } from 'src/app/services/data.service';
 })
 
 export class SettingsComponent implements OnInit, AfterViewInit {
+  public settings: Settings = JSON.parse(localStorage.getItem('settings')) || this.formattingService.newSettings()
+
   formGroup: FormGroup
   message: string
+  potniForm = new FormGroup({
+    ime: new FormControl(this.settings.potniNalog.ime, [Validators.required]),
+    priimek: new FormControl(this.settings.potniNalog.priimek, [Validators.required]),
+    tarifa: new FormControl(this.settings.potniNalog.tarifa, [Validators.required, Validators.min(0), Validators.max(1)])
+  })
 
   constructor(
     private alertService: AlertService,
@@ -33,7 +40,6 @@ export class SettingsComponent implements OnInit, AfterViewInit {
 
   public profile = null
   public ime_preglednice: string = ""
-  public settings: Settings = JSON.parse(localStorage.getItem('settings')) || this.formattingService.newSettings()
   public versionNumber = 'v0.5.6'
 
   public onSuccess(googleUser) {
@@ -42,7 +48,6 @@ export class SettingsComponent implements OnInit, AfterViewInit {
       profile: googleUser.getBasicProfile(),
       access_token: googleUser.getAuthResponse().access_token
     }
-
     localStorage.setItem('googleProfile', JSON.stringify(googleProfile))
   }
 
@@ -51,7 +56,6 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   }
 
   public shraniNastavitve(notification = true) {
-    console.log(this.formGroup)
     if (!this.settings.simboli.prisoten_symbol || !this.settings.simboli.odsoten_symbol || !this.settings.simboli.upraviceno_odsoten_symbol) {
       this.alertService.openSnackBar(Strings.markingSymbolEmptyErrorNotification)
       return
@@ -74,7 +78,11 @@ export class SettingsComponent implements OnInit, AfterViewInit {
       minimal_presence: this.settings.minimal_presence,
       low_presence: this.settings.low_presence,
       potniNalog: {
-        enabled: this.formGroup.value.enablePotni || false
+        enabled: this.formGroup.value.enablePotni || false,
+        ime: this.potniForm.value.ime || "",
+        priimek: this.potniForm.value.priimek || "",
+        tarifa: this.potniForm.value.tarifa || 0,
+        poti: this.settings.potniNalog.poti
       }
     }
 
@@ -126,6 +134,8 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     }
   }
 
+  // logika pri vklopu potnega naloga
+  // nova ikona v meniju
   public potniToggleChanged() {
     this.shraniNastavitve(false)
     if (this.formGroup.value.enablePotni) {

@@ -89,7 +89,6 @@ export class OgrodjeComponent implements OnInit {
   ngOnInit(): void {
     this.dataService.currentMessage.subscribe(message => {
       message === "potniEnabled" ? this.potniEnabled = true : this.potniEnabled = false
-      console.log("Message revieved")
     })
     this.refresh()
     this.checkCorrectRouting()

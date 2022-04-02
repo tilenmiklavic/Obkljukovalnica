@@ -73,7 +73,11 @@ export class FormattingService {
       minimal_presence: '50',
       low_presence: '70',
       potniNalog: {
-        enabled: false
+        enabled: false,
+        ime: "",
+        priimek: "",
+        tarifa: 0,
+        poti: []
       }
     }
 

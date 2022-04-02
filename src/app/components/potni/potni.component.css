@@ -1,0 +1,15 @@
+.naslov {
+  font-size: xx-large;
+  font-weight: 700;
+  padding: 2rem 0rem 2rem 2rem;
+}
+
+.potniForm {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.fullWidth {
+  width: 100%;
+}

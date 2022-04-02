@@ -11,17 +11,13 @@
     </div>
   </div>
 
-  <!-- <div class="progress">
-    <div class="progress-bar" role="progressbar" [style.width]="setup_progress + '%'" area-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{setup_progress}}%</div>
-  </div> -->
-
   <mat-accordion class="example-headers-align">
 
     <!-- Prijava -->
     <mat-expansion-panel (closed)="profileCheck()" hideToggle>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Prijava
+          <b>Prijava</b>
           <mat-icon *ngIf="profile" class="panel_icon check-icon">check_circle</mat-icon>
           <mat-icon *ngIf="!profile" class="panel_icon cancel-icon">cancel</mat-icon>
         </mat-panel-title>
@@ -43,7 +39,7 @@
     <mat-expansion-panel hideToggle>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Preglednica
+          <b>Preglednica</b>
           <mat-icon *ngIf="settings.povezava && settings.skupina" class="panel_icon check-icon">check_circle</mat-icon>
           <mat-icon *ngIf="!settings.povezava || !settings.skupina" class="panel_icon cancel-icon">cancel</mat-icon>
         </mat-panel-title>
@@ -85,7 +81,7 @@
     <mat-expansion-panel hideToggle>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Splošne nastavitve
+          <b>Splošne nastavitve</b>
         </mat-panel-title>
         <mat-panel-description>
           <p></p>
@@ -156,7 +152,7 @@
     <mat-expansion-panel hideToggle>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Osebno napredovanje
+          <b>Osebno napredovanje</b>
         </mat-panel-title>
         <mat-panel-description>
           <p></p>
@@ -211,7 +207,7 @@
     <mat-expansion-panel hideToggle>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Potni nalog
+          <b>Potni nalog</b>
         </mat-panel-title>
         <mat-panel-description>
           <p></p>
@@ -219,19 +215,46 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <div class="row">
-        <div class="col">
-          <span>Vklopi okno za vpis potnih stroškov</span>
+      <div class="container">
+        <div class="row mt-1">
+          <div class="col">
+            <span>Vklopi okno za vpis potnih stroškov</span>
+          </div>
+          <div class="col-3">
+            <form [formGroup]="formGroup" ngNativeValidate>
+              <mat-slide-toggle
+                formControlName="enablePotni"
+                (change)="potniToggleChanged()">
+              </mat-slide-toggle>
+            </form>
+          </div>
         </div>
-        <div class="col-3">
-          <form [formGroup]="formGroup" ngNativeValidate>
-            <mat-slide-toggle
-              formControlName="enablePotni"
-              (change)="potniToggleChanged()">
-            </mat-slide-toggle>
-          </form>
-        </div>
+
+        <form class="potniPodatki" *ngIf="formGroup.value.enablePotni" [formGroup]="potniForm" (ngSubmit)="shraniNastavitve()">
+          <div class="row">
+            <mat-form-field appearance="fill">
+              <mat-label>Ime</mat-label>
+              <input formControlName="ime" matInput>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field appearance="fill">
+              <mat-label>Priimek</mat-label>
+              <input formControlName="priimek" matInput>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field appearance="fill" floatLabel="always">
+              <mat-label>Amount</mat-label>
+              <input formControlName="tarifa" matInput type="number" class="example-right-align" placeholder="0.17">
+              <span matPrefix>€&nbsp;</span>
+            </mat-form-field>
+          </div>
+
+          <button [disabled]="!potniForm.valid" type="submit" mat-flat-button color="primary">Shrani</button>
+        </form>
       </div>
+
 
     </mat-expansion-panel>
   </mat-accordion>

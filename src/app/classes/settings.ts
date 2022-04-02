@@ -1,3 +1,5 @@
+import { PotniNalog } from "./potni-nalog";
+
 export class Settings {
   povezava: string;                     // URL do Google Sheets
   shranjene_preglednice: Array<any>;    // objekti shranjenih preglednic (ime + url)
@@ -12,6 +14,10 @@ export class Settings {
   low_presence: string;                 // used in pregled
   potniNalog: {
     enabled: boolean                    // enable screen
+    ime: string                         // ime voditelja
+    priimek: string                     // priimek voditelja
+    tarifa: number                      // tarifa po kateri se obracuna cena poti
+    poti: Array<PotniNalog>             // seznam vseh shranjenih poti
   }
 }
 
