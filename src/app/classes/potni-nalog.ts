@@ -6,7 +6,18 @@ export class PotniNalog {
   datumOdhoda: Date
   datumPrihoda: Date
   relacija: string
-  naloga: string
   tarifa: number
   dolzina: number
+
+  constructor(ime, priimek, naslov, vloga, datumOdhoda, datumPrihoda, relacija, tarifa, dolzina) {
+    this.ime = ime
+    this.priimek = priimek
+    this.naslov = naslov
+    this.vloga = vloga
+    this.datumOdhoda = datumOdhoda
+    this.datumPrihoda = datumPrihoda
+    this.relacija = relacija
+    this.tarifa = tarifa
+    this.dolzina = dolzina
+  }
 }

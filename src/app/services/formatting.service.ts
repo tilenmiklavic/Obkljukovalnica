@@ -76,6 +76,7 @@ export class FormattingService {
         enabled: false,
         ime: "",
         priimek: "",
+        naslov: "",
         tarifa: 0,
         poti: []
       }

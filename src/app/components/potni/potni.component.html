@@ -16,55 +16,39 @@
       Dodaj novo pot
     </h2>
     <div>
-      <form class="potniForm">
+      <form class="potniForm" [formGroup]="newPotForm" (ngSubmit)="shraniPot()">
         <div class="row">
           <mat-form-field appearance="fill">
-            <mat-label>Ime</mat-label>
-            <input matInput>
+            <mat-label>Datum</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+              <input formControlName="datumZacetka" matStartDate placeholder="Datum začetka">
+              <input formControlName="datumKonca" matEndDate placeholder="Datum konca">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
           </mat-form-field>
         </div>
         <div class="row">
           <mat-form-field appearance="fill">
-            <mat-label>Priimek</mat-label>
-            <input matInput>
+            <mat-label>Relacija</mat-label>
+            <input formControlName="relacija" placeholder="Kamno, Tolmin, Kamno" matInput>
           </mat-form-field>
         </div>
         <div class="row">
           <mat-form-field appearance="fill">
-            <mat-label>Ime</mat-label>
-            <input matInput>
+            <mat-label>Dolžila poti</mat-label>
+            <input type="number" formControlName="dolzina" placeholder="52km" matInput>
+            <span matSuffix>km&nbsp;</span>
           </mat-form-field>
         </div>
         <div class="row">
           <mat-form-field appearance="fill">
-            <mat-label>Ime</mat-label>
-            <input matInput>
+            <mat-label>Naloga</mat-label>
+            <input formControlName="vloga" placeholder="IV srečanje" matInput>
           </mat-form-field>
         </div>
-        <div class="row">
-          <mat-form-field appearance="fill">
-            <mat-label>Ime</mat-label>
-            <input matInput>
-          </mat-form-field>
-        </div>
-        <div class="row">
-          <mat-form-field appearance="fill">
-            <mat-label>Ime</mat-label>
-            <input matInput>
-          </mat-form-field>
-        </div>
-        <div class="row">
-          <mat-form-field appearance="fill">
-            <mat-label>Ime</mat-label>
-            <input matInput>
-          </mat-form-field>
-        </div>
-        <div class="row">
-          <mat-form-field appearance="fill">
-            <mat-label>Ime</mat-label>
-            <input matInput>
-          </mat-form-field>
-        </div>
+
+        <button type="submit" mat-flat-button color="primary">Shrani</button>
       </form>
     </div>
   </div>

@@ -16,6 +16,7 @@ export class Settings {
     enabled: boolean                    // enable screen
     ime: string                         // ime voditelja
     priimek: string                     // priimek voditelja
+    naslov: string
     tarifa: number                      // tarifa po kateri se obracuna cena poti
     poti: Array<PotniNalog>             // seznam vseh shranjenih poti
   }
