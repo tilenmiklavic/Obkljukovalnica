@@ -39,6 +39,9 @@ export class FormattingService {
     return settings
   }
 
+  public saveSettings(settings) {
+    localStorage.setItem('settings', JSON.stringify(settings))
+  }
 
   public getProfile() {
     let googleProfile = JSON.parse(localStorage.getItem('googleProfile'))
