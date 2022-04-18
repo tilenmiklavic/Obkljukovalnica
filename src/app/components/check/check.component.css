@@ -43,6 +43,10 @@
   font-weight: 600;
 }
 
+.vod {
+  margin-top: 0.3rem;
+}
+
 .empty_state {
   margin-top: 10rem;
 }
@@ -76,4 +80,9 @@
 .refresh {
   padding-top: 0.5rem;
   padding-left: 1.5rem;
+}
+
+.offline-icon {
+  margin-top: 0.9rem;
+  margin-left: 2rem;
 }
