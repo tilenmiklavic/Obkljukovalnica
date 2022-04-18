@@ -23,7 +23,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   public profile = null
   public ime_preglednice: string = ""
   public settings: Settings = JSON.parse(localStorage.getItem('settings')) || this.formattingService.newSettings()
-  public versionNumber = 'v0.5.6'
+  public versionNumber = 'v0.6.0'
 
   public onSuccess(googleUser) {
 
