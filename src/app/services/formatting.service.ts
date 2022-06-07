@@ -71,7 +71,12 @@ export class FormattingService {
         upraviceno_odsoten_symbol: 'o'
       },
       minimal_presence: '50',
-      low_presence: '70'
+      low_presence: '70',
+      straza: {
+        enabled: false,
+        link: null,
+        id_preglednice: null
+      }
     }
 
     return newSettings
