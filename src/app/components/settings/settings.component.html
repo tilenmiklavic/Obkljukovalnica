@@ -223,7 +223,7 @@
 
       <div class="row">
         <div class="col">
-          <label class="mat-slide-toggle-content" for="onToggle">Omogoči osebno napredovanje!</label>
+          <label class="mat-slide-toggle-content" for="onToggle">Omogoči žreb straž!</label>
         </div>
         <div class="col">
           <mat-slide-toggle
@@ -231,7 +231,7 @@
             class="example-margin"
             [checked]="settings.straza.enabled"
             [(ngModel)]="settings.straza.enabled"
-            (change)="switchOsebnoNapredovanje()">
+            (change)="switchStraze()">
           </mat-slide-toggle>
         </div>
       </div>

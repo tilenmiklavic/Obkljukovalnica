@@ -139,11 +139,13 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public switchOsebnoNapredovanje() {
-
+  public switchStraze() {
+    console.log(this.settings.straza)
+    this.shraniNastavitve()
   }
 
   ngOnInit(): void {
+    // pogledamo ce je settings struktura zastarela
     if (!this.checkSettingsStruct(this.formattingService.newSettings(), this.settings)) {
       this.settings = this.fillIncompleteSettings(this.settings, this.formattingService.newSettings())
       console.log(this.settings)
