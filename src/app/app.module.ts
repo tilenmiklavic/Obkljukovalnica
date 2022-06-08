@@ -31,6 +31,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { ChartModule } from 'angular2-chartjs';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import { StrazaComponent } from './components/straza/straza.component';
+import { StrazaPregledComponent } from './components/straza-pregled/straza-pregled.component';
 
 
 @NgModule({
@@ -41,7 +43,8 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
     CheckComponent,
     NotFoundComponent,
     OgrodjeComponent,
-    PregledComponent
+    PregledComponent,
+    StrazaComponent
   ],
   imports: [
     BrowserModule,

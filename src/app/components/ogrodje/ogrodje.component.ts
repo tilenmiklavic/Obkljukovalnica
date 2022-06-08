@@ -1,4 +1,3 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -18,7 +17,8 @@ export class OgrodjeComponent implements OnInit {
   scale2 = 'scale(1)'
   scale3 = 'scale(1)'
 
-  public osebnoNapredovanje = false
+  private osebnoNapredovanje = false
+  private straza = false
 
   public navigate(index: number) {
     this.tab = index
@@ -35,6 +35,21 @@ export class OgrodjeComponent implements OnInit {
           break;
         case 1:
           this.router.navigate(['osebno-napredovanje/pregled']);
+          this.scale2 = 'scale(1.5)'
+          break;
+        case 2:
+          this.router.navigate(['settings']);
+          this.scale3 = 'scale(1.5)'
+          break;
+      }
+    } else if (this.straza) {
+      switch(index) {
+        case 0:
+          this.router.navigate(['straza']);
+          this.scale1 = 'scale(1.5)'
+          break;
+        case 1:
+          this.router.navigate(['straza/pregled']);
           this.scale2 = 'scale(1.5)'
           break;
         case 2:
