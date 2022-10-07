@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { StrazaService } from 'src/app/services/straza.service';
 
 @Component({
   selector: 'app-straza',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StrazaComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private strazaService: StrazaService
+  ) { }
 
   ngOnInit(): void {
+    this.strazaService.getImena()
+      .then(odgovor => {
+        console.log(odgovor)
+      })
   }
-
 }

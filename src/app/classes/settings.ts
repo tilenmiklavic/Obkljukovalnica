@@ -12,8 +12,11 @@ export class Settings {
   low_presence: string;                 // used in pregled
   straza: {
     enabled: boolean                    // used in settings
-    link: string
-    id_preglednice: string
+    preglednica: {
+      link: string
+      id_preglednice: string
+      skupina: string
+    }
   }
 }
 

@@ -133,15 +133,47 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public profileCheck() {
-    if (this.formattingService.getProfile().access_token) {
-      this.profile = true
-    }
+  // #region straza
+
+  public pridobiImenaStraze() {
+    let idTabele = this.settings.straza.link.split('/')[5]
+    this.settings.straza.id_preglednice = idTabele
+
+    // let shranjenaPreglednica = this.settings.shranjene_preglednice.filter(element => element.id == idTabele)
+
+
+    this.settingsService.getSheetInfo(idTabele)
+    .then(odgovor => {
+      let preglednica = {
+        title: odgovor.properties.title,
+        id: odgovor.spreadsheetId,
+        skupina: odgovor.sheets[0].properties.title,
+        povezava: odgovor.spreadsheetUrl
+      }
+      this.settings.povezava = odgovor.spreadsheetUrl
+      this.settings.skupina = odgovor.sheets[0].properties.title
+      this.settings.shranjene_preglednice.push(preglednica)
+
+      this.shraniNastavitve()
+      this.alertService.openSnackBar(Strings.getTableSuccessNotification)
+    })
+    .catch(napaka => {
+      console.log("Napaka pri pridobivanju skupin")
+      console.error(napaka)
+    })
   }
 
   public switchStraze() {
     console.log(this.settings.straza)
     this.shraniNastavitve()
+  }
+
+  // #endregion
+
+  public profileCheck() {
+    if (this.formattingService.getProfile().access_token) {
+      this.profile = true
+    }
   }
 
   ngOnInit(): void {

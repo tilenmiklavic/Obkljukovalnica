@@ -13,7 +13,7 @@ export class OgrodjeComponent implements OnInit {
   ) { }
 
   tab = 2
-  scale1 = 'scale(1)'
+  scale1 = 'scale(1.5)'
   scale2 = 'scale(1)'
   scale3 = 'scale(1)'
 
@@ -76,11 +76,15 @@ export class OgrodjeComponent implements OnInit {
   }
 
   public refresh() {
-    this.osebnoNapredovanje = JSON.parse(localStorage.getItem('osebnoNapredovanjeEnabled')) || false
+    let settings = JSON.parse(localStorage.getItem('settings'))
+
+    this.osebnoNapredovanje = settings.osebnoNapredovanje?.enabled || false
+    this.straza = settings.straza?.enabled || false
   }
 
   private checkCorrectRouting() {
     if (this.osebnoNapredovanje) this.router.navigate(['osebno-napredovanje'])
+    if (this.straza) this.router.navigate(['straza'])
   }
 
   ngOnInit(): void {

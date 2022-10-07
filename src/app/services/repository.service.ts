@@ -25,7 +25,7 @@ export class RepositoryService {
 
 
   // gets raw data
-  public async getData(skupina: String = this.formattingService.getSettings().skupina, force: Boolean = false): Promise<Udelezenec[]> {
+  public async getData(id_preglednice: string = null, skupina: String = this.formattingService.getSettings().skupina, force: Boolean = false): Promise<any[]> {
 
     // first return array in memory
     if (!force && this.data != undefined && this.data.length > 0) { return this.data }
@@ -33,8 +33,12 @@ export class RepositoryService {
     const apiKey = environment.apiKey;
     const settings: Settings = this.formattingService.getSettings() || this.formattingService.newSettings()
 
-    if (settings == null || settings.id_preglednice == null) {
-      throw 'Table URL not provided';
+    if (id_preglednice == null) {
+      if (settings == null || settings.id_preglednice == null) {
+        throw 'Table URL not provided';
+      }
+
+      id_preglednice = settings.id_preglednice
     }
 
     const HttpParams = {
@@ -43,7 +47,7 @@ export class RepositoryService {
 
     let new_url =
       this.url_skeleton +
-      settings.id_preglednice +
+      id_preglednice +
       '/values/' +
       skupina;
 

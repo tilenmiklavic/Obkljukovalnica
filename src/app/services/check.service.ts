@@ -17,7 +17,7 @@ export class CheckService {
 
   // gets data from repository service
   public getUdelezenci(skupina: String, force: boolean = false): Promise<Udelezenec[]> {
-    return this.repositoryService.getData(skupina, force)
+    return this.repositoryService.getData(null, skupina, force)
   }
 
 
@@ -30,7 +30,7 @@ export class CheckService {
     let googleProfile = this.formattingService.getProfile()
 
     return new Promise((resolve, reject) => {
-      this.repositoryService.getData(settings.skupina, false)
+      this.repositoryService.getData(null, settings.skupina, false)
         .then(data => {
 
           let header = this.repositoryService.getHeader()
@@ -89,7 +89,7 @@ export class CheckService {
     //let datum = this.formattingService.getDate()
 
     return new Promise((resolve, reject) => {
-      this.repositoryService.getData(settings.skupina, false)
+      this.repositoryService.getData(null, settings.skupina, false)
         .then(data => {
 
           data.forEach(uporabnik => {
