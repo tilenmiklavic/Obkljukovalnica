@@ -218,6 +218,13 @@ export class RepositoryService {
           this.header[i] == 'vod')
         {
           udelezenec.vod = element[i]
+        } else if (
+          this.header[i] == 'Gruča' ||
+          this.header[i] == 'gruča' ||
+          this.header[i] == 'Gruca' ||
+          this.header[i] == 'gruca'
+        ) {
+          udelezenec.gruca = element[i]
         } else if (this.formattingService.jeDatum(this.header[i])) {
           let udelezba = new Udelezba
           udelezba.datum = this.header[i]
