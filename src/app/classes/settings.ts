@@ -10,5 +10,13 @@ export class Settings {
   };
   minimal_presence: string;             // used in pregled
   low_presence: string;                 // used in pregled
+  straza: {
+    enabled: boolean                    // used in settings
+    preglednica: {
+      link: string
+      id_preglednice: string
+      skupina: string
+    }
+  }
 }
 
