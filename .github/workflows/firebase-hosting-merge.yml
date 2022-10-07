@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         node-verzija:
-          - 15.x
+          - 16.x
     steps: # Posamezni koraki testiranja.
       - uses: actions/checkout@v2 # Pridobimo izvorno kodo repozitorija.
       - name: Uporabi Node.js ${{ matrix.node-verzija }} # Nastavi Node.js okolje.
@@ -34,7 +34,7 @@ jobs:
       - uses: actions/checkout@master
       - uses: actions/setup-node@master
         with:
-          node-version: '18.x'
+          node-version: '16.x'
       - run: npm install
       - run: npm run build:prod
       - uses: FirebaseExtended/action-hosting-deploy@v0
