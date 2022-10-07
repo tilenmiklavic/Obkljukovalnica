@@ -134,7 +134,6 @@ export class CheckComponent implements OnInit, OnDestroy {
     // get starting set of all people
     this.checkService.getUdelezenci(this.settings.skupina, true)
       .then(udelezenci => {
-
         this.data = udelezenci
         this.loaded = true
         this.datumi = this.formattingService.vrniDatume(this.repositoryService.getHeader())
