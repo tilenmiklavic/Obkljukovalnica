@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Settings } from '../classes/settings';
 import { AlertService } from './alert.service';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +14,8 @@ export class FormattingService {
 
 
   public jeDatum(datum: string): Boolean {
-    var re = new RegExp("([0-9][0-9]?.[0-9][0-9]?.*)")
-    if (re.test(datum)) {
-      return true
-    }
+    var possibleDate = moment(datum, 'D. M. YYYY', true)
+    if (possibleDate.isValid()) { return true }
     return false
   }
 
@@ -25,7 +24,7 @@ export class FormattingService {
 
     header.forEach(element => {
       if (this.jeDatum(element)) {
-        datumi.push(element)
+        datumi.push(moment(element, 'D. M. YYYY', true))
       }
     })
     return datumi

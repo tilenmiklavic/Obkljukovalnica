@@ -11,6 +11,8 @@ import { RepositoryService } from 'src/app/services/repository.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { fromEvent, merge, of, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import * as moment from 'moment';
+
 
 @Component({
   selector: 'app-check',
@@ -129,17 +131,22 @@ export class CheckComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.datum = this.formattingService.getDate()
+    this.datum = moment();
 
     // get starting set of all people
     this.checkService.getUdelezenci(this.settings.skupina, true)
       .then(udelezenci => {
+
         this.data = udelezenci
         this.loaded = true
         this.datumi = this.formattingService.vrniDatume(this.repositoryService.getHeader())
 
-        if (this.datumi.includes(this.datum)) { this.izbranDatumIsValid = true }
-        else { this.izbranDatumIsValid = false }
+        this.izbranDatumIsValid = this.datumi.some(element => {
+          if (element.isSame(this.datum, 'day')) {
+            return true;
+          }
+          return false;
+        })
 
         // dobimo kot odgovor prazno tabelo
         if (this.data.length == 0) {
