@@ -4,6 +4,7 @@ import { AlertService } from './alert.service';
 import { FormattingService } from './formatting.service';
 import { RepositoryService } from './repository.service';
 import * as moment from 'moment';
+import { Udelezba } from '../classes/udelezba';
 
 @Injectable({
   providedIn: 'root'
@@ -145,16 +146,32 @@ export class CheckService {
   public dodajStolpec(): any {
     let datum = moment()
     let header = this.repositoryService.getHeader()
-    header.push(datum)
+
+    for (let i = 0; i < header.length; i++) {
+      var foo = moment(header[i], "D. M. YYYY")
+      var fooBack = moment(header[i-1], "D. M. YYYY")
+
+      if (foo.isValid() && foo.isAfter(datum)) {
+        header.splice(i, 0, datum.format("D. M. YYYY"))
+        break
+      } else if (!foo.isValid() && fooBack.isValid() && fooBack.isBefore(datum)) {
+        header.splice(i, 0, datum.format("D. M. YYYY"))
+        break
+      }
+    }
 
     return new Promise((resolve, reject) => {
       this.repositoryService.getData()
         .then(data => {
 
           data.forEach(uporabnik => {
-            uporabnik.prisotnost[datum.format("DD.MM.YYYY").toString()] = ""
-            uporabnik.udelezbe.push( {datum: datum, prisotnost: ""} )
+            uporabnik.prisotnost[datum.format("D. M. YYYY").toString()] = ""
+            var novaUdelezba = new Udelezba
+            novaUdelezba.datum = datum
+            novaUdelezba.prisotnost = ""
+            uporabnik.udelezbe.push( novaUdelezba )
           })
+
 
           let updated_data = [];
           data.forEach((element) => {
@@ -164,10 +181,10 @@ export class CheckService {
                 foo.push(element[naslov])
               } else {
                 element.udelezbe.some(udelezba => {
-                  if (udelezba.datum == naslov) {
+                  if (udelezba.datum.isSame(moment(naslov, "D. M. YYYY"), 'day')) {
                     foo.push(udelezba.prisotnost)
                   }
-                  return udelezba.datum == naslov
+                  return udelezba.datum.isSame(moment(naslov, "D. M. YYYY"), 'day')
                 })
               }
             });
@@ -175,7 +192,6 @@ export class CheckService {
           });
 
           updated_data.unshift(header);
-
 
           this.repositoryService.updateData(updated_data)
             .then(() => {
