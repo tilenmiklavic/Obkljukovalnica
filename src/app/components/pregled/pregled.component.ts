@@ -55,7 +55,15 @@ export class PregledComponent implements OnInit {
         this.dayGraph.options = {
           responsive: true,
           maintainAspectRatio: false,
-          aspectRatio: 1.2
+          aspectRatio: 1.2,
+          scales: {
+            yAxes: [{
+              display: true,
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          }
         };
       })
   }
@@ -84,13 +92,13 @@ export class PregledComponent implements OnInit {
         /*check if the two rows should switch place,
         based on the direction, asc or desc:*/
         if (dir == "asc") {
-          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          if (x.innerHTML > y.innerHTML) {
             //if so, mark as a switch and break the loop:
             shouldSwitch= true;
             break;
           }
         } else if (dir == "desc") {
-          if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          if (x.innerHTML < y.innerHTML) {
             //if so, mark as a switch and break the loop:
             shouldSwitch = true;
             break;
