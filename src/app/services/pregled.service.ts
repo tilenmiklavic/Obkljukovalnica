@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormattingService } from './formatting.service';
 import { RepositoryService } from './repository.service';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -47,7 +48,7 @@ export class PregledService {
           header.forEach((termin, index) => {
             data.forEach(oseba => {
               oseba.udelezbe.forEach(udelezba => {
-                if (udelezba.datum == termin && udelezba.prisotnost == 'x') {
+                if (udelezba.datum.isSame(moment(termin, "D. M. YYYY")) && udelezba.prisotnost == 'x') {
                   prisotni[index]++
                 }
               })
@@ -65,6 +66,19 @@ export class PregledService {
     header.forEach(element => {
       if (this.formattingService.jeDatum(element)) {
         datumi.push(element)
+      }
+    });
+
+    return datumi
+  }
+
+  public vrniKratkeDatume() {
+    let header = this.repositoryService.getHeader()
+    let datumi = []
+
+    header.forEach(element => {
+      if (this.formattingService.jeDatum(element)) {
+        datumi.push(moment(element, "D. M. YYYY").format("D. M."))
       }
     });
 
