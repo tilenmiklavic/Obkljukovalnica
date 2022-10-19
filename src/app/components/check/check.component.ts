@@ -48,11 +48,18 @@ export class CheckComponent implements OnInit, OnDestroy {
     // Only highligh dates inside the month view.
     // Highlight dates with existing columns
     if (view === 'month') {
-      const date = cellDate.getDate();
-      const month = cellDate.getMonth() + 1;
-      const datum = `${date}.${month}.`
+      const date = moment(cellDate)
+      // const date = cellDate.getDate();
+      // const month = cellDate.getMonth() + 1;
+      // const datum = `${date}.${month}.`
 
-      return this.datumi.includes(datum) ? 'example-custom-date-class' : '';
+      var className = '';
+      this.datumi.forEach(el => {
+        if (el.isSame(date, 'day')) {
+          className = 'example-custom-date-class'
+        }
+      })
+      return className;
     }
 
     return '';

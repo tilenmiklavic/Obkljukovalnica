@@ -65,7 +65,7 @@
 }
 
 .example-custom-date-class {
-  background: orange;
+  background: orange !important;
   border-radius: 100%;
 }
 
