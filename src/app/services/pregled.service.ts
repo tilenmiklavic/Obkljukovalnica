@@ -48,8 +48,6 @@ export class PregledService {
           header.forEach((termin, index) => {
             data.forEach(oseba => {
               oseba.udelezbe.forEach(udelezba => {
-                console.log(termin)
-                console.log(udelezba.datum)
                 if (udelezba.datum.isSame(moment(termin, "D. M. YYYY")) && udelezba.prisotnost == 'x') {
                   prisotni[index]++
                 }
@@ -68,6 +66,19 @@ export class PregledService {
     header.forEach(element => {
       if (this.formattingService.jeDatum(element)) {
         datumi.push(element)
+      }
+    });
+
+    return datumi
+  }
+
+  public vrniKratkeDatume() {
+    let header = this.repositoryService.getHeader()
+    let datumi = []
+
+    header.forEach(element => {
+      if (this.formattingService.jeDatum(element)) {
+        datumi.push(moment(element, "D. M. YYYY").format("D. M."))
       }
     });
 
