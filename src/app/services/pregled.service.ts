@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormattingService } from './formatting.service';
 import { RepositoryService } from './repository.service';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -47,7 +48,9 @@ export class PregledService {
           header.forEach((termin, index) => {
             data.forEach(oseba => {
               oseba.udelezbe.forEach(udelezba => {
-                if (udelezba.datum == termin && udelezba.prisotnost == 'x') {
+                console.log(termin)
+                console.log(udelezba.datum)
+                if (udelezba.datum.isSame(moment(termin, "D. M. YYYY")) && udelezba.prisotnost == 'x') {
                   prisotni[index]++
                 }
               })
