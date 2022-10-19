@@ -79,19 +79,19 @@ export class CheckComponent implements OnInit, OnDestroy {
 
   // izbira datuma v koledarju
   public dateChange() {
-    let day = this.izbranDatum.value.getUTCDate() + 1
-    let month = this.izbranDatum.value.getUTCMonth() + 1
-    this.datum = `${day}.${month}.`
+    this.datum = moment(this.izbranDatum.value)
 
-    let currentDate = new Date()
-    let currentMonth = currentDate.getMonth() + 1
-    let currentDatum = `${currentDate.getDate()}.${currentMonth}.`
+    let currentDate = moment()
 
-    if (this.datum == currentDatum) { this.today = true }
+    if (this.datum.isSame(currentDate, 'day')) { this.today = true }
     else { this.today = false }
 
-    if (this.datumi.includes(this.datum)) { this.izbranDatumIsValid = true }
-    else { this.izbranDatumIsValid = false }
+    this.izbranDatumIsValid = false;
+    this.datumi.forEach(el => {
+      if (el.isSame(this.datum, 'day')) {
+        this.izbranDatumIsValid = true
+      }
+    })
   }
 
   // brisanje vseh vnosov za danasnji dan
