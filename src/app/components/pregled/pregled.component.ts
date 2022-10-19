@@ -36,11 +36,13 @@ export class PregledComponent implements OnInit {
 
   private async setupDayGraph() {
 
-    this.dayGraph.labels = this.pregledService.vrniDatume()
+    this.dayGraph.labels = this.pregledService.vrniKratkeDatume()
     this.pregledService.pregledPrisotnih(this.settings.skupina, this.dayGraph.labels)
       .then(dayGraphPodatki => {
+        console.log(dayGraphPodatki)
         this.dayGraph.podatki = dayGraphPodatki
         this.dayGraph.type = 'bar';
+        console.log(this.dayGraph.labels)
         this.dayGraph.podatki = {
           labels: this.dayGraph.labels,
           datasets: [
@@ -121,6 +123,8 @@ export class PregledComponent implements OnInit {
     .then(udelezenci => {
       this.data = udelezenci
       this.loaded = true
+
+      console.log(this.data)
     })
     .finally(() => {
       this.setupDayGraph();
