@@ -63,7 +63,7 @@ export class CheckComponent implements OnInit, OnDestroy {
     this.checkService.nastaviPrisotnost(id, present, this.datum)
       .then((odgovor) => {
         let uporabnik = this.data.find(x => x.id == id);
-        uporabnik.prisotnost[this.datum] = this.formattingService.vrniSimbol(present, this.settings)
+        uporabnik.prisotnost[this.datum.format("D. M. YYYY")] = this.formattingService.vrniSimbol(present, this.settings)
       })
       .catch((napaka) => {
         this._snackBar.open(Strings.noInternetConnectionError, "Zapri")

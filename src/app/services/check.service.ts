@@ -72,6 +72,8 @@ export class CheckService {
             updated_data.push(foo);
           });
 
+          console.log(data)
+
           updated_data.unshift(header);
 
           this.repositoryService.updateSingleCell(`${this.formattingService.indexToColumn(datumIndex)}${uporabnikIndex+2}`, simbol)
