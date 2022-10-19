@@ -40,7 +40,7 @@
           *ngFor="let element of data">
 
           <td class="imePrisotnega col-6">{{element.ime}} </td>
-          <td *ngIf="element.vod">{{element.vod}}</td>
+          <td class="vod">{{element.vod}}</td>
           <td class="steviloPrisotnosti col-4 text-center">{{element.graphValue}}</td>
           <td class="col-2">{{element.graphValue / steviloIzvedenihSrecanj * 100 | number: '1.0-0'}}%</td>
         </tr>
