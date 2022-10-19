@@ -11,6 +11,8 @@ import { RepositoryService } from 'src/app/services/repository.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { fromEvent, merge, of, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import * as moment from 'moment';
+
 
 @Component({
   selector: 'app-check',
@@ -46,11 +48,18 @@ export class CheckComponent implements OnInit, OnDestroy {
     // Only highligh dates inside the month view.
     // Highlight dates with existing columns
     if (view === 'month') {
-      const date = cellDate.getDate();
-      const month = cellDate.getMonth() + 1;
-      const datum = `${date}.${month}.`
+      const date = moment(cellDate)
+      // const date = cellDate.getDate();
+      // const month = cellDate.getMonth() + 1;
+      // const datum = `${date}.${month}.`
 
-      return this.datumi.includes(datum) ? 'example-custom-date-class' : '';
+      var className = '';
+      this.datumi.forEach(el => {
+        if (el.isSame(date, 'day')) {
+          className = 'example-custom-date-class'
+        }
+      })
+      return className;
     }
 
     return '';
@@ -61,7 +70,7 @@ export class CheckComponent implements OnInit, OnDestroy {
     this.checkService.nastaviPrisotnost(id, present, this.datum)
       .then((odgovor) => {
         let uporabnik = this.data.find(x => x.id == id);
-        uporabnik.prisotnost[this.datum] = this.formattingService.vrniSimbol(present, this.settings)
+        uporabnik.prisotnost[this.datum.format("D. M. YYYY")] = this.formattingService.vrniSimbol(present, this.settings)
       })
       .catch((napaka) => {
         this._snackBar.open(Strings.noInternetConnectionError, "Zapri")
@@ -70,19 +79,19 @@ export class CheckComponent implements OnInit, OnDestroy {
 
   // izbira datuma v koledarju
   public dateChange() {
-    let day = this.izbranDatum.value.getUTCDate() + 1
-    let month = this.izbranDatum.value.getUTCMonth() + 1
-    this.datum = `${day}.${month}.`
+    this.datum = moment(this.izbranDatum.value)
 
-    let currentDate = new Date()
-    let currentMonth = currentDate.getMonth() + 1
-    let currentDatum = `${currentDate.getDate()}.${currentMonth}.`
+    let currentDate = moment()
 
-    if (this.datum == currentDatum) { this.today = true }
+    if (this.datum.isSame(currentDate, 'day')) { this.today = true }
     else { this.today = false }
 
-    if (this.datumi.includes(this.datum)) { this.izbranDatumIsValid = true }
-    else { this.izbranDatumIsValid = false }
+    this.izbranDatumIsValid = false;
+    this.datumi.forEach(el => {
+      if (el.isSame(this.datum, 'day')) {
+        this.izbranDatumIsValid = true
+      }
+    })
   }
 
   // brisanje vseh vnosov za danasnji dan
@@ -129,17 +138,22 @@ export class CheckComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.datum = this.formattingService.getDate()
+    this.datum = moment();
 
     // get starting set of all people
     this.checkService.getUdelezenci(this.settings.skupina, true)
       .then(udelezenci => {
+
         this.data = udelezenci
         this.loaded = true
         this.datumi = this.formattingService.vrniDatume(this.repositoryService.getHeader())
 
-        if (this.datumi.includes(this.datum)) { this.izbranDatumIsValid = true }
-        else { this.izbranDatumIsValid = false }
+        this.izbranDatumIsValid = this.datumi.some(element => {
+          if (element.isSame(this.datum, 'day')) {
+            return true;
+          }
+          return false;
+        })
 
         // dobimo kot odgovor prazno tabelo
         if (this.data.length == 0) {
@@ -189,7 +203,6 @@ export class CheckComponent implements OnInit, OnDestroy {
     )
       .pipe(map(() => navigator.onLine))
       .subscribe(status => {
-        console.log('status', status);
         this.networkStatus = status;
       });
   }

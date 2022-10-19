@@ -7,7 +7,7 @@ import { Udelezba } from '../classes/udelezba';
 import { Udelezenec } from '../classes/udelezenec';
 import { AlertService } from './alert.service';
 import { FormattingService } from './formatting.service';
-
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -218,27 +218,19 @@ export class RepositoryService {
           this.header[i] == 'vod')
         {
           udelezenec.vod = element[i]
-        } else if (
-          this.header[i] == 'Gruča' ||
-          this.header[i] == 'gruča' ||
-          this.header[i] == 'Gruca' ||
-          this.header[i] == 'gruca'
-        ) {
-          udelezenec.gruca = element[i]
-        } else if (this.formattingService.jeDatum(this.header[i])) {
+        } else if (moment(this.header[i], "D. M. YYYY").isValid()) {
           let udelezba = new Udelezba
-          udelezba.datum = this.header[i]
+          udelezba.datum = moment(this.header[i], "D. M. YYYY")
           udelezba.prisotnost = element[i]
 
           udelezenec.udelezbe.push(udelezba)
         }
       }
       if (id_present) {
-
         // easier angular FE display
         udelezenec.prisotnost = new Object
         udelezenec.udelezbe.forEach(udelezba => {
-          udelezenec.prisotnost[udelezba.datum] = udelezba.prisotnost
+          udelezenec.prisotnost[udelezba.datum.format("D. M. YYYY").toString()] = udelezba.prisotnost
         })
 
         udelezenci.push(udelezenec);
