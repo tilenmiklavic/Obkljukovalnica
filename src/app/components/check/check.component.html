@@ -64,7 +64,11 @@
 
   <!-- Seznam udelezencev -->
   <div *ngIf="loaded">
-    <div *ngFor="let udelezenec of data" class="udelezenec row d-flex" [ngStyle]="{'background-color': (udelezenec.prisotnost[datum]==settings.simboli.prisoten_symbol) ? '#4CAF50' : ((udelezenec.prisotnost[datum]==settings.simboli.odsoten_symbol) ? '#9E9E9E' : ((udelezenec.prisotnost[datum]==settings.simboli.upraviceno_odsoten_symbol) ? '#9E9E9E' : '#ffffff'))}">
+    <div *ngFor="let udelezenec of data" class="udelezenec row d-flex" 
+        [ngStyle]="{'background-color': (udelezenec.prisotnost[datum.format('D. M. YYYY')]==settings.simboli.prisoten_symbol) ? '#4CAF50' 
+        : ((udelezenec.prisotnost[datum.format('D. M. YYYY')]==settings.simboli.odsoten_symbol) ? '#9E9E9E' 
+        : ((udelezenec.prisotnost[datum.format('D. M. YYYY')]==settings.simboli.upraviceno_odsoten_symbol) 
+        ? '#9E9E9E' : '#ffffff'))}">
       <div class="col-6 justify-content-center align-self-center">
         <div class="ime">{{udelezenec.ime}}</div>
         <div *ngIf="udelezenec.vod" class="vod">vod: {{udelezenec.vod}}</div>

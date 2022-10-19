@@ -153,7 +153,7 @@ export class CheckService {
 
           data.forEach(uporabnik => {
             uporabnik.prisotnost[datum.format("DD.MM.YYYY").toString()] = ""
-            uporabnik.udelezbe.push( {datum: moment(datum, "DD.MM.YYYY"), prisotnost: ""} )
+            uporabnik.udelezbe.push( {datum: datum, prisotnost: ""} )
           })
 
           let updated_data = [];

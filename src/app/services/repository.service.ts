@@ -218,9 +218,9 @@ export class RepositoryService {
           this.header[i] == 'vod')
         {
           udelezenec.vod = element[i]
-        } else if (moment(this.header[i], "DD. MM. YYYY").isValid()) {
+        } else if (moment(this.header[i], "D. M. YYYY").isValid()) {
           let udelezba = new Udelezba
-          udelezba.datum = moment(this.header[i], "DD. MM. YYYY")
+          udelezba.datum = moment(this.header[i], "D. M. YYYY")
           udelezba.prisotnost = element[i]
 
           udelezenec.udelezbe.push(udelezba)
@@ -230,7 +230,7 @@ export class RepositoryService {
         // easier angular FE display
         udelezenec.prisotnost = new Object
         udelezenec.udelezbe.forEach(udelezba => {
-          udelezenec.prisotnost[udelezba.datum.format("DD.MM.YYYY").toString()] = udelezba.prisotnost
+          udelezenec.prisotnost[udelezba.datum.format("D. M. YYYY").toString()] = udelezba.prisotnost
         })
 
         udelezenci.push(udelezenec);
