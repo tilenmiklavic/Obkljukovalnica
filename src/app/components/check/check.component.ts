@@ -196,7 +196,6 @@ export class CheckComponent implements OnInit, OnDestroy {
     )
       .pipe(map(() => navigator.onLine))
       .subscribe(status => {
-        console.log('status', status);
         this.networkStatus = status;
       });
   }

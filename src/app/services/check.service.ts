@@ -72,8 +72,6 @@ export class CheckService {
             updated_data.push(foo);
           });
 
-          console.log(data)
-
           updated_data.unshift(header);
 
           this.repositoryService.updateSingleCell(`${this.formattingService.indexToColumn(datumIndex)}${uporabnikIndex+2}`, simbol)
@@ -98,7 +96,7 @@ export class CheckService {
         .then(data => {
 
           data.forEach(uporabnik => {
-            let udelezba = uporabnik.udelezbe.find(x => x.datum == datum)
+            let udelezba = uporabnik.udelezbe.find(x => x.datum.isSame(datum, 'day'))
             udelezba.prisotnost = ""
           })
 
@@ -120,7 +118,7 @@ export class CheckService {
                 foo.push(element[naslov])
               } else {
                 element.udelezbe.some(udelezba => {
-                  if (udelezba.datum == naslov) {
+                  if (udelezba.datum.isSame(moment(naslov, "D. M. YYYY"))) {
                     foo.push(udelezba.prisotnost)
                   }
                   return udelezba.datum == naslov
@@ -130,8 +128,8 @@ export class CheckService {
             updated_data.push(foo);
           });
 
-
           updated_data.unshift(header);
+
           this.repositoryService.updateData(updated_data)
             .then((odgovor) => {
               resolve(this.repositoryService.dataToObject(updated_data))
