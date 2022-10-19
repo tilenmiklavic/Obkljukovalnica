@@ -55,7 +55,15 @@ export class PregledComponent implements OnInit {
         this.dayGraph.options = {
           responsive: true,
           maintainAspectRatio: false,
-          aspectRatio: 1.2
+          aspectRatio: 1.2,
+          scales: {
+            yAxes: [{
+              display: true,
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          }
         };
       })
   }
