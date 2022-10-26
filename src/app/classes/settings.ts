@@ -8,6 +8,10 @@ export class Settings {
     odsoten_symbol: string;
     upraviceno_odsoten_symbol: string;
   };
+  osebnoNapredovanje: {
+    enabled: boolean,
+    povezava: String
+  };
   minimal_presence: string;             // used in pregled
   low_presence: string;                 // used in pregled
 }

@@ -19,6 +19,7 @@ export class FormattingService {
     return false
   }
 
+
   public vrniDatume(header) {
     let datumi = []
 
@@ -29,6 +30,7 @@ export class FormattingService {
     })
     return datumi
   }
+
 
   public getSettings() {
     let settings = JSON.parse(localStorage.getItem('settings'))
@@ -68,6 +70,10 @@ export class FormattingService {
         prisoten_symbol: 'x',
         odsoten_symbol: '/',
         upraviceno_odsoten_symbol: 'o'
+      },
+      osebnoNapredovanje: {
+        enabled: false,
+        povezava: null
       },
       minimal_presence: '50',
       low_presence: '70'

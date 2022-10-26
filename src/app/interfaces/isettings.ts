@@ -9,6 +9,10 @@ export interface ISettings {
     odsoten_symbol: String;
     upraviceno_odsoten_symbol: String;
   },
+  osebnoNapredovanje: {
+    enabled: boolean,
+    povezava: String
+  },
   minimal_presence: string;
   low_presence: string;
 }

@@ -59,6 +59,10 @@ export class SettingsComponent implements OnInit, AfterViewInit {
         odsoten_symbol: this.settings.simboli.odsoten_symbol || '/',
         upraviceno_odsoten_symbol: this.settings.simboli.upraviceno_odsoten_symbol || 'o'
       },
+      osebnoNapredovanje: {
+        enabled: this.settings.osebnoNapredovanje.enabled,
+        povezava: this.settings.osebnoNapredovanje.povezava
+      },
       minimal_presence: this.settings.minimal_presence,
       low_presence: this.settings.low_presence
     }
@@ -105,6 +109,11 @@ export class SettingsComponent implements OnInit, AfterViewInit {
       this.settings.skupina = shranjenaPreglednica[0].skupina
       this.shraniNastavitve()
     }
+  }
+
+  public switchOsebnoNapredovanje() {
+    console.log("Osebno napredovanje")
+    this.shraniNastavitve();
   }
 
   public profileCheck() {
