@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Settings } from 'src/app/classes/settings';
+import { FormattingService } from 'src/app/services/formatting.service';
 
 @Component({
   selector: 'app-ogrodje',
@@ -9,15 +11,16 @@ import { Router } from '@angular/router';
 export class OgrodjeComponent implements OnInit {
 
   constructor(
-    private router: Router
+    private router: Router,
+    private formattingService: FormattingService
   ) { }
+
+  public settings: Settings = JSON.parse(localStorage.getItem('settings')) || this.formattingService.newSettings()
 
   tab = 2
   scale1 = 'scale(1)'
   scale2 = 'scale(1)'
   scale3 = 'scale(1)'
-
-  public osebnoNapredovanje = false
 
   public navigate(index: number) {
     this.tab = index
@@ -26,7 +29,7 @@ export class OgrodjeComponent implements OnInit {
     this.scale3 = 'scale(1)'
     this.refresh()
 
-    if (this.osebnoNapredovanje) {
+    if (this.settings.osebnoNapredovanje.enabled) {
       switch(index) {
         case 0:
           this.router.navigate(['osebno-napredovanje']);
@@ -60,11 +63,11 @@ export class OgrodjeComponent implements OnInit {
   }
 
   public refresh() {
-    this.osebnoNapredovanje = JSON.parse(localStorage.getItem('osebnoNapredovanjeEnabled')) || false
+    // this.osebnoNapredovanje = JSON.parse(localStorage.getItem('osebnoNapredovanjeEnabled')) || false
   }
 
   private checkCorrectRouting() {
-    if (this.osebnoNapredovanje) this.router.navigate(['osebno-napredovanje'])
+    // if (this.osebnoNapredovanje) this.router.navigate(['osebno-napredovanje'])
   }
 
   ngOnInit(): void {
