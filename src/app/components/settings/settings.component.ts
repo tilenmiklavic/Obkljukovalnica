@@ -21,11 +21,14 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   ) { }
 
   public profile = null
+  public profilePic = 1;
   public ime_preglednice: string = ""
   public settings: Settings = JSON.parse(localStorage.getItem('settings')) || this.formattingService.newSettings()
-  public versionNumber = 'v0.6.3'
+  public versionNumber = 'v0.6.4'
 
   public onSuccess(googleUser) {
+    console.log(gapi.auth2.getAuthInstance().currentUser.get().reloadAuthResponse())
+
     let googleProfile = {
       profile: googleUser.getBasicProfile(),
       access_token: googleUser.getAuthResponse().access_token
@@ -114,7 +117,6 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-
   }
 
   ngAfterViewInit(): void {
@@ -131,6 +133,8 @@ export class SettingsComponent implements OnInit, AfterViewInit {
       'onsuccess': this.onSuccess,
       'onfailure': this.onFailure
     })
+
+    console.log(gapi.auth2.getAuthInstance().currentUser.get())
 
     this.profileCheck()
   }
