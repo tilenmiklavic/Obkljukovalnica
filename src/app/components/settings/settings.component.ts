@@ -26,7 +26,6 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   public versionNumber = 'v0.6.3'
 
   public onSuccess(googleUser) {
-
     let googleProfile = {
       profile: googleUser.getBasicProfile(),
       access_token: googleUser.getAuthResponse().access_token
@@ -37,6 +36,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
 
   public onFailure() {
     console.log("Sign in unsuccesful")
+    console.log(gapi.auth2.getAuthInstance().currentUser.get().reloadAuthResponse())
   }
 
   public shraniNastavitve() {
@@ -119,6 +119,8 @@ export class SettingsComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     // var gapi: any
+
+    //gapi.auth2.getAuthInstance().signIn()
 
     gapi.signin2.render('my-signin2', {
       'scope': 'profile email https://www.googleapis.com/auth/spreadsheets',
