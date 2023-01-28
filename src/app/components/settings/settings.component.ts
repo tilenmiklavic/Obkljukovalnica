@@ -5,7 +5,6 @@ import { SettingsService } from 'src/app/services/settings.service';
 import { Settings } from 'src/app/classes/settings';
 import { FormattingService } from 'src/app/services/formatting.service';
 
-
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
@@ -24,8 +23,10 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   public ime_preglednice: string = ""
   public settings: Settings = JSON.parse(localStorage.getItem('settings')) || this.formattingService.newSettings()
   public versionNumber = 'v0.6.3'
+  public foo = null;
 
   public onSuccess(googleUser) {
+    console.log(googleUser)
 
     let googleProfile = {
       profile: googleUser.getBasicProfile(),
@@ -62,8 +63,6 @@ export class SettingsComponent implements OnInit, AfterViewInit {
       minimal_presence: this.settings.minimal_presence,
       low_presence: this.settings.low_presence
     }
-
-    console.log(settings)
 
     try {
       localStorage.setItem('settings', JSON.stringify(settings))
@@ -113,23 +112,77 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngOnInit(): void {
+
+  ngOnInit() {
+    console.log("Here")
+    // @ts-ignore
+    // google.accounts.id.initialize({
+    //   client_id: "984083386896-88qo9mssf4gppiqp0jru9digife4beep.apps.googleusercontent.com",
+    //   callback: this.onSuccess.bind(this),
+    //   auto_select: false,
+    //   cancel_on_tap_outside: true
+    // });
+    // // @ts-ignore
+    // google.accounts.id.renderButton(
+    // // @ts-ignore
+    // document.getElementById("google-button"),
+    //   { theme: "outline", size: "large", width: "100%" }
+    // );
+    // // @ts-ignore
+    // google.accounts.id.prompt((notification: PromptMomentNotification) => {});
+
+    // google.accounts.oauth2.initCodeClient({
+    //   client_id: '984083386896-88qo9mssf4gppiqp0jru9digife4beep.apps.googleusercontent.com',
+    //   scope: 'profile email https://www.googleapis.com/auth/spreadsheets',
+    //   callback: this.onSuccess
+    // })
+
+    // google.accounts.id.initialize({
+    //   client_id: '984083386896-88qo9mssf4gppiqp0jru9digife4beep.apps.googleusercontent.com',
+    //   callback: this.onSuccess
+    // });
+    // @ts-ignore
+    // google.accounts.oauth2.prompt();
+    // requestCode();
+
+    // @ts-ignore
+    window.onGoogleLibraryLoad = () => {
+      console.log('Google\'s One-tap sign in script loaded!');
+
+      // @ts-ignore
+      // google.accounts.id.initialize({
+      //   // Ref: https://developers.google.com/identity/gsi/web/reference/js-reference#IdConfiguration
+      //   client_id: '984083386896-88qo9mssf4gppiqp0jru9digife4beep.apps.googleusercontent.com',
+      //   callback: this.handleCredentialResponse.bind(this), // Whatever function you want to trigger...
+      //   auto_select: true,
+      //   cancel_on_tap_outside: false
+      // });
+
+      const client = google.accounts.oauth2.initTokenClient({
+        client_id: '984083386896-88qo9mssf4gppiqp0jru9digife4beep.apps.googleusercontent.com',
+        scope: 'profile email https://www.googleapis.com/auth/spreadsheets',
+        ux_mode: 'redirect',
+        callback: this.handleCredentialResponse.bind(this),
+        state: "foo"
+      });
+
+      client.requestAccessToken();
+    };
 
   }
 
+  handleCredentialResponse(response) {
+    // Decoding  JWT token...
+    console.log(response)
+      let decodedToken: any | null = null;
+      try {
+        decodedToken = JSON.parse(atob(response?.access_token.split('.')[1]));
+      } catch (e) {
+        console.error('Error while trying to decode token', e);
+      }
+      console.log('decodedToken', decodedToken);
+    }
+
   ngAfterViewInit(): void {
-    // var gapi: any
-
-    gapi.signin2.render('my-signin2', {
-      'scope': 'profile email https://www.googleapis.com/auth/spreadsheets',
-      'width': 240,
-      'height': 50,
-      'longtitle': true,
-      'theme': 'outline',
-      'onsuccess': this.onSuccess,
-      'onfailure': this.onFailure
-    })
-
-    this.profileCheck()
   }
 }
