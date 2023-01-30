@@ -21,11 +21,13 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   ) { }
 
   public profile = null
+  public profilePic = 1;
   public ime_preglednice: string = ""
   public settings: Settings = JSON.parse(localStorage.getItem('settings')) || this.formattingService.newSettings()
   public versionNumber = 'v0.6.5'
 
   public onSuccess(googleUser) {
+    console.log(gapi.auth2.getAuthInstance().currentUser.get().reloadAuthResponse())
 
     let googleProfile = {
       profile: googleUser.getBasicProfile(),
@@ -37,6 +39,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
 
   public onFailure() {
     console.log("Sign in unsuccesful")
+    console.log(gapi.auth2.getAuthInstance().currentUser.get().reloadAuthResponse())
   }
 
   public shraniNastavitve() {
@@ -114,11 +117,12 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-
   }
 
   ngAfterViewInit(): void {
     // var gapi: any
+
+    //gapi.auth2.getAuthInstance().signIn()
 
     gapi.signin2.render('my-signin2', {
       'scope': 'profile email https://www.googleapis.com/auth/spreadsheets',
@@ -129,6 +133,8 @@ export class SettingsComponent implements OnInit, AfterViewInit {
       'onsuccess': this.onSuccess,
       'onfailure': this.onFailure
     })
+
+    console.log(gapi.auth2.getAuthInstance().currentUser.get())
 
     this.profileCheck()
   }
