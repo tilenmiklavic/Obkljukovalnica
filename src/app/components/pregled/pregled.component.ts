@@ -3,6 +3,7 @@ import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { FormattingService } from 'src/app/services/formatting.service';
 import { PregledService } from 'src/app/services/pregled.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-pregled',
@@ -18,7 +19,7 @@ export class PregledComponent implements OnInit {
 
   datum = '12.6.'
   loaded = false
-  data = []
+  data;
   vodi = []
   prisotnostPoVodih = []
   prisotnostPoLjudeh = []
@@ -35,19 +36,16 @@ export class PregledComponent implements OnInit {
   }
 
   private async setupDayGraph() {
-
     this.dayGraph.labels = this.pregledService.vrniKratkeDatume()
-    this.pregledService.pregledPrisotnih(this.settings.skupina, this.dayGraph.labels)
+    this.pregledService.pregledPrisotnih(this.settings.skupina, this.pregledService.vrniDatume())
       .then(dayGraphPodatki => {
-        console.log(dayGraphPodatki)
         this.dayGraph.podatki = dayGraphPodatki
         this.dayGraph.type = 'bar';
-        console.log(this.dayGraph.labels)
         this.dayGraph.podatki = {
           labels: this.dayGraph.labels,
           datasets: [
             {
-              label: "Pregled po osebah",
+              label: "Pregled po dnevih",
               data: this.dayGraph.podatki
             }
           ]
@@ -131,8 +129,6 @@ export class PregledComponent implements OnInit {
     .then(udelezenci => {
       this.data = udelezenci
       this.loaded = true
-
-      console.log(this.data)
     })
     .finally(() => {
       this.setupDayGraph();
