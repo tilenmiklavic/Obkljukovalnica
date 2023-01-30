@@ -26,7 +26,6 @@ export class RepositoryService {
 
   // gets raw data
   public async getData(skupina: String = this.formattingService.getSettings().skupina, force: Boolean = false): Promise<Udelezenec[]> {
-
     // first return array in memory
     if (!force && this.data != undefined && this.data.length > 0) { return this.data }
 
@@ -187,8 +186,28 @@ export class RepositoryService {
   }
 
 
+  private setHeader(): void {
+    for (let i = this.header.length; i >= 0; i--) {
+      if (this.header[i] == 'id' ||
+          this.header[i] == 'Id' ||
+          this.header[i] == 'ime' ||
+          this.header[i] == 'Ime' ||
+          this.header[i] == 'id' ||
+          this.header[i] == 'Id' ||
+          this.header[i] == 'Vod' ||
+          this.header[i] == 'vod' ||
+          moment(this.header[i], "D. M. YYYY").isValid()) {
+        // ok
+      } else {
+        this.header.splice(i,1)
+      }
+    }
+  }
+
+
+
   // puts raw data into an array of objects
-  public dataToObject(rawData:any): Array<Udelezenec> {
+  public dataToObject(rawData:any, raw:boolean = true): Array<Udelezenec> {
     this.header = rawData[0].map(element => {return element.toLowerCase()});
     rawData.shift();
 
@@ -201,7 +220,7 @@ export class RepositoryService {
       // we use this to see when to stop counting people
       let id_present = false
 
-      for (let i = 0; i < this.header.length; i++) {
+      for (let i = this.header.length; i >= 0; i--) {
         if ((this.header[i] == 'id' || this.header[i] == 'Id') && !isNaN(element[i]) && element[i] != "") {id_present = true}
 
         if (this.header[i] == 'ime' ||
@@ -238,6 +257,8 @@ export class RepositoryService {
       }
     });
     this.data = udelezenci
+
+    this.setHeader();
     return udelezenci;
   }
 
