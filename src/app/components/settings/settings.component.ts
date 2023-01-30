@@ -27,6 +27,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   public versionNumber = 'v0.6.4'
 
   public onSuccess(googleUser) {
+    console.log("Success")
     console.log(gapi.auth2.getAuthInstance().currentUser.get().reloadAuthResponse())
 
     let googleProfile = {
