@@ -208,7 +208,6 @@ export class CheckComponent implements OnInit, OnDestroy {
   }
 
   public onSuccess(googleUser) {
-
     let googleProfile = {
       profile: googleUser.getBasicProfile(),
       access_token: googleUser.getAuthResponse().access_token
