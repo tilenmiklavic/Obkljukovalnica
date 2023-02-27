@@ -22,10 +22,11 @@ export class RepositoryService {
   private url_skeleton = environment.urlSkeleton;
   private data: Array<Udelezenec>;
   private header: Array<any>;
+  private rawHeader: Array<any>;
 
 
   // gets raw data
-  public async getData(skupina: String = this.formattingService.getSettings().skupina, force: Boolean = false): Promise<Udelezenec[]> {
+  public async getData(skupina: String = this.formattingService.getSettings().skupina, force: boolean = false): Promise<Udelezenec[]> {
     // first return array in memory
     if (!force && this.data != undefined && this.data.length > 0) { return this.data }
 
@@ -186,6 +187,13 @@ export class RepositoryService {
   }
 
 
+  // returns local raw header
+  public getRawHeader(): Array<any> {
+    if (this.rawHeader != undefined && this.rawHeader.length > 0) { return this.rawHeader }
+    else { return null }
+  }
+
+
   private setHeader(): void {
     for (let i = this.header.length; i >= 0; i--) {
       if (this.header[i] == 'id' ||
@@ -205,9 +213,9 @@ export class RepositoryService {
   }
 
 
-
   // puts raw data into an array of objects
   public dataToObject(rawData:any, raw:boolean = true): Array<Udelezenec> {
+    raw ? this.rawHeader = rawData[0].map(element => {return element.toLowerCase()}) : null;
     this.header = rawData[0].map(element => {return element.toLowerCase()});
     rawData.shift();
 
