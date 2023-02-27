@@ -36,13 +36,13 @@ export class CheckService {
         .then(data => {
 
           let header = this.repositoryService.getHeader()
+          let rawHeader = this.repositoryService.getRawHeader()
           let uporabnik = data.find(x => x.id == id)
           let udelezba = uporabnik.udelezbe.find(x => x.datum.isSame(datum, 'day'))
           let uporabnikForIndex = (element) => element.id == id
           let datumForIndex = (element) => element == datum.format("D. M. YYYY")
           let uporabnikIndex = data.findIndex(uporabnikForIndex);
-          let datumIndex = header.findIndex(datumForIndex);
-
+          let datumIndex = rawHeader.findIndex(datumForIndex);
 
           let simbol = this.formattingService.vrniSimbol(present, settings)
           udelezba.prisotnost = simbol
@@ -77,7 +77,7 @@ export class CheckService {
 
           this.repositoryService.updateSingleCell(`${this.formattingService.indexToColumn(datumIndex)}${uporabnikIndex+2}`, simbol)
             .then((odgovor) => {
-              resolve(this.repositoryService.dataToObject(updated_data))
+              resolve(this.repositoryService.dataToObject(updated_data, false))
             })
             .catch((napaka) => {
               reject('Repository error')
