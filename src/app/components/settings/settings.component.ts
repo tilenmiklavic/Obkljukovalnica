@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { AlertService } from 'src/app/services/alert.service';
 import { Strings } from 'src/app/classes/strings';
 import { SettingsService } from 'src/app/services/settings.service';
@@ -110,6 +110,20 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     if (this.formattingService.getProfile().access_token) {
       this.profile = true
     }
+  }
+
+  public client;
+  public access_token;
+
+  public initClient() {
+    this.client = google.accounts.oauth2.initTokenClient({
+      client_id: '984083386896-88qo9mssf4gppiqp0jru9digife4beep.apps.googleusercontent.com',
+      scope: 'https://www.googleapis.com/auth/calendar.readonly \
+              https://www.googleapis.com/auth/contacts.readonly',
+      callback: (tokenResponse) => {
+        this.access_token = tokenResponse.access_token;
+      },
+    });
   }
 
 

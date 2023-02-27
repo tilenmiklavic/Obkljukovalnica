@@ -31,7 +31,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { ChartModule } from 'angular2-chartjs';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
-import { CredentialResponse, PromptMomentNotification } from 'google-one-tap';
 
 @NgModule({
   declarations: [
